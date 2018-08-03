@@ -1,8 +1,4 @@
 # metnum
-
-# Laboratorio3
-
-
 ## Git
 
 Git è un *version control system*, cioè man mano che lavori su dei file lui salva delle istantanee. È utile per poter tornare indietro in caso di pocci e per lavorare in modo condiviso sui file: le uniche modifiche che si possono condividere sono quelle già catturate in un'istantanea.
