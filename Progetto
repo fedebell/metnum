@@ -1,0 +1,14 @@
+-Introdurre il problema di definire e misuarre la tensione superficiale in un sistema di spin
+a tal proposito su internet si trova un lavoro matematico di Gavallotti (che di recente ha preso il primio Poincarè per la fisica matematica) che può essere utile. Chiaramente la tensione superficiale esiste solo nella fase a simmetria rotta (ci devono essere due fasi). Il problema è definire la tensione superficile in un modello di spin.
+Vorrei capire meglio come legare l fatto di avere condizioni periodiche o antiperiodiche possa essere barattato con avere un layer di accoppiamenti antiferromagnetici (non mi è formalmente chiaro)
+-Introdurre la variabile che volgliamo misurare il raporto del valore di aspettazione delle delta come nel'articolo.
+-Breve ripasso di algoritmo a cluster
+-Algoritmo a cluster modificato
+-Vale la pena di dire qualche cosa sule implementazioni?
+-Una cosa che pensavo di fare era scrivere il c dentro a python e di usare delle librerie per parallelizzare il montecarlo di diversi reticoli, se lo faccio vale la pena di parlarne nella presentazione.
+-presentiamo dei plot 3d di reticoli in cui si vede la superficie di separazione (ho senito parlare di roughening transition)
+-facciamo dei fit per determinare l'andamento critico della tensione superficiale
+
+In tutto questo mi sono dimenticato del modello con simmetria di gauge. La tensione superficiale e quella di stringa sovrebbero essere la stessa cosa grazie alla dualità. Ma quello che ho scritto sopra si dimentica la dualità.
+
+Volendo potremmo partire dalla misura della tensione di stringa e dire che andiamo nel modello duale ma mi sembra più pulito essere subito onesti e dire che misuriamo una tensione superficiale.
