@@ -33,9 +33,9 @@ Elenchiamo ora gli specifici comandi di `git`. Dovrebbe essere facile trovare i 
 
 Per iniziare a lavorare sulla repository bisogna clonarla. Spostarsi nella cartella dove si vuole tenere la repository ed eseguire il comando:
 
-`git clone https://github.com/fedebell/Laboratorio3.git`
+`git clone https://github.com/fedebell/metnum.git`
 
-Questo crea una cartella `Laboratorio3` nella cartella corrente. Prima di eseguire gli altri comandi, **spostarsi nella cartella `Laboratorio3`**.
+Questo crea una cartella `metnum` nella cartella corrente. Prima di eseguire gli altri comandi, **spostarsi nella cartella `metnum`**.
 
 #### Pullare e pushare
 
