@@ -8,6 +8,7 @@ Vorrei capire meglio come legare l fatto di avere condizioni periodiche o antipe
 -Una cosa che pensavo di fare era scrivere il c dentro a python e di usare delle librerie per parallelizzare il montecarlo di diversi reticoli, se lo faccio vale la pena di parlarne nella presentazione.
 -presentiamo dei plot 3d di reticoli in cui si vede la superficie di separazione (ho senito parlare di roughening transition)
 -facciamo dei fit per determinare l'andamento critico della tensione superficiale
+-per stimare gli errori possiamo usare un jacknife ma mi devo rivedere come funziona
 
 In tutto questo mi sono dimenticato del modello con simmetria di gauge. La tensione superficiale e quella di stringa sovrebbero essere la stessa cosa grazie alla dualità. Ma quello che ho scritto sopra si dimentica la dualità.
 
