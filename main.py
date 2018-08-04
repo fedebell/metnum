@@ -28,9 +28,10 @@ def singleCluster(latt, boundary, l, T, beta):
 	spin = latt[i][j][k]
 
 	cluster[i][j][k] = -1 #Cambio subito valore al primo sito
-	#Il parametro 1 indica che la funzione clusterize è stata chiamata in modalità
+	#Il parametro 1 indica che la funzione clusterize è stata chiamata in modalità cluster singolo, 0 significa che è stata chiamata in modalità surfaceCluster, la differenza è che ci sono due diverse probabilità di produrre un cluster (approfondire il perché)
 	clusterize(latt, cluster, boundary, l, T, beta, i, j, k, spin, 1)
 	
+	#Effettivo inserimento del cluster nel reticolo
 	for i in range(0, l):
 		for j in range(0, l):
 			for k in range(0, T):
@@ -54,8 +55,6 @@ def surfaceCluster(latt, boundary, l, T, beta):
 			if(cluster[i][j][T-1] == 1):
 				cluster[i][j][T-1] = -1 #Inizializza il primo elemento del cluster
 				clusterize(latt, cluster, boundary, l, T, beta, i, j, T-1, latt[i][j][T-1], 0)
-
-	#TODO: Attenzione perche cambia la probabilita.
 
 
 	#print("cluster: ", cluster)
@@ -86,15 +85,20 @@ def surfaceCluster(latt, boundary, l, T, beta):
 #TODO: Si puo ottimizzare e eliminare la variabile sheet.
 
 			
-#TODO: Implementare tutto in c all'interno di python. Costruire uno stack interno al programma per trasformare la ricorsione (lenta) in iterazione (piu veloce).
+#TODO: Implementare le routine in c all'interno di python. Costruire uno stack interno al programma per trasformare la ricorsione (lenta) in iterazione (piu veloce).
 
-#in c tutti questi passaggi di vettore dovrebbero essere implementati come puntatori, spero il python lo faccia
 #e possibile pttimizzare il codice non passando i, j, k ?? 
 #potrei ottimizzare non dovendo passare la variabile spin ma ricordando che la chiamata precedente cambia il segno a link, ma cosi facendo il codice sarebbe poco leggibile
 #perche' dovrei scrivere latt[i+1][j][k] != latt[i][j][k]
 def clusterize(latt, cluster, boundary, l , T, beta, i, j, k, spin, setting):
+
+	#TODO Questi tre blocchi di codice uguali si possono scrivere una volta sola introducendo un ciclo e un vettore coord[0], coord[1], coord[3] inizalizzato
+	#ai valori i, j, k e modificato in un ciclo sul numero di dimensioni dello spazio.
+
 	#print(i, j, k)
 	for i1 in [-1, +1]:
+
+		#Queste condizioni servondo perche lo spazio e periodico e perche alcuni accoppiamenti J possono essere antiferromagnetici.
 		bound = 1
 		i2 = i
 		if(i + i1 == l): 
@@ -148,6 +152,8 @@ def clusterize(latt, cluster, boundary, l , T, beta, i, j, k, spin, setting):
 		if (latt[i][j][k2+k1] == spin and cluster[i][j][k2+k1] == 1 and np.random.random_sample() < p):
 			cluster[i][j][k2+k1] =-1 #cambia segno
 			clusterize(latt, cluster, boundary, l , T, beta, i, j, k2+k1, spin, setting)
+
+#Funzioni autoesplicative
 
 def coldStart(latt, l, T, spin):
 	for i in range(0, l):
