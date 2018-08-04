@@ -1,7 +1,6 @@
+# coding=utf-8
 #Questo codice riproduce i risultati dell'articolo tranne quando T è piccolo. Per qualche ragione non riesce mai a flippare gli spin con il surfaceCluster (ma il risultato della magnetizzazione media è corretto). Per esempio se nell'articolo sono riportate 70 configurazioni con condizioni antiperiodiche io ne trovo 0. Questo problema si ha solo per piccoli T (circa 5) perché non appena T diventa più grande questo algoritmo prouce risultati in buon accordo con quelli dell'articolo. Ovviamente deve essere sottoposto a ottimizzazione e riscritto in c++.
 
-
-# coding=utf-8
 import numpy as np
 import random
 import sys
@@ -43,12 +42,13 @@ def singleCluster(latt, boundary, l, T, beta):
 def surfaceCluster(latt, boundary, l, T, beta):
 	#Inizializzo le varibili che tengono traccia dei cluster
 
-	cluster = np.random.rand(l, l, T)
+	cluster = np.zeros((l, l, T))
 	for i in range(0, l):
 		for j in range(0, l):
 			for k in range(0, T):
 				cluster[i][j][k] = 1
 
+	#Questo pezzo di codice non può essere più ottimizzato di così.
 	#E' molto difficile far partire i cluster in maniera randomica, perchè bisogna prendere una posizione causale su un una superficie dalla forma irregolare. Non lo implementiamo
 	#chissà se funziona comunque. FORSE NON FUNZIONA PER QUESTO
 	#for i in range(0, l):
@@ -62,6 +62,7 @@ def surfaceCluster(latt, boundary, l, T, beta):
 
 
 	#Basta settare questa a 1 per farlo ripartire
+	#Questo ciclo moralmente è un do while.
 	nonclusterized = 1
 	while(nonclusterized == 1):
 
@@ -89,28 +90,23 @@ def surfaceCluster(latt, boundary, l, T, beta):
 
 	#TODO Bisogna implementare questo controllo in maniera più efficiente
 
-	position = 0
 	sheet = 0
 	for k in range(0, T):
 		sheet = 1
 		for j in range(0, l):
 			for i in range(0, l):
-				if(cluster[i][j][k] == -1): sheet = 0 
+				if(cluster[i][j][k] == -1): 
+					sheet = 0
+					break #Risarmia di finire il ciclo su l ma non riesco a risparmiare quello su j
+			if(sheet == 0): break 
 		if(sheet ==  1): 
-			position = k
+			for i in range(0, l):
+				for j in range(0, l):
+					for s in range(k, T):
+						latt[i][j][s] = latt[i][j][s] * cluster[i][j][s]
+			boundary = boundary * (-1)
 			break
-	
-	
-	#Trovato l'errore devo invertire solo la parte di sotto del cluster
 
-	if(sheet == 1): 
-		for i in range(0, l):
-			for j in range(0, l):
-				for k in range(position, T):
-					latt[i][j][k] = latt[i][j][k] * cluster[i][j][k]
-					
-		boundary = boundary * (-1)
-	
 	return boundary
 
 
@@ -122,60 +118,30 @@ def surfaceCluster(latt, boundary, l, T, beta):
 #e possibile pttimizzare il codice non passando i, j, k ?? 
 #potrei ottimizzare non dovendo passare la variabile spin ma ricordando che la chiamata precedente cambia il segno a link, ma così facendo il codice sarebbe poco leggibile
 #perchè dovrei scrivere latt[i+1][j][k] != latt[i][j][k]
-def clusterize(latt, cluster, boundary, l , T, beta, i, j, k):
 
+def clusterize(latt, cluster, boundary, l , T, beta, i, j, k):
 	#TODO Questi tre blocchi di codice uguali si possono scrivere una volta sola introducendo un ciclo e un vettore coord[0], coord[1], coord[3] inizalizzato
 	#ai valori i, j, k e modificato in un ciclo sul numero di dimensioni dello spazio.
-
-	#print(i, j, k)
-	for i1 in [-1, +1]:
-
-		#Queste condizioni servondo perchè lo spazio e periodico e perche alcuni accoppiamenti J possono essere antiferromagnetici.
-		i2 = i
-		if(i + i1 == l): 
-			i2 = -1
-			
-		if(i + i1 == -1): 
-			i2 = l
-
-		p = 1.0-np.exp(-beta * (1.0 + latt[i][j][k]*latt[i2+i1][j][k]))
-
-		#Se la posizione considerata già non appartiene al cluster allora la inserisco
-		if (cluster[i2+i1][j][k] == 1 and np.random.random_sample() < p):
-			#print(np.random.random_sample(), 1.0 - np.exp(-2*beta))
-			#latt[i2+i1][j][k] = latt[i2+i1][j][k]*(-1) #cambia segno
-			cluster[i2+i1][j][k] = -1
-			clusterize(latt, cluster, boundary, l , T, beta, i2+i1, j, k)
-
-	for j1 in [-1, +1]:
-
-		j2 = j
-		if(j + j1 == l): 
-			j2 = -1
-		if(j + j1 == -1): 
-			j2 = l
-
-		p = 1.0-np.exp(-beta * (1.0 + latt[i][j][k]*latt[i][j2+j1][k]))
-
-		if (cluster[i][j2+j1][k] == 1 and np.random.random_sample() < p):
-			cluster[i][j2+j1][k] = -1 #cambia segno
-			clusterize(latt, cluster, boundary, l , T, beta, i, j2+j1, k)
-
-	for k1 in [-1, +1]:
-		bound = 1
-		k2 = k
-		if(k + k1 == T): 
-			k2 = -1
-			bound = boundary
-		if(k + k1 == -1): 
-			k2 = T
-			bound = boundary
-
-		p = 1.0-np.exp(-beta * (1.0 + bound *  latt[i][j][k]*latt[i][j][k2+k1]))
-
-		if (cluster[i][j][k2+k1] == 1 and np.random.random_sample() < p):
-			cluster[i][j][k2+k1] = -1 #cambia segno
-			clusterize(latt, cluster, boundary, l , T, beta, i, j, k2+k1)
+	size = np.array([l, l, T])
+	#print(size)
+	#Ci sono tre dimensioni
+	for d in range(0, 3):
+		#print(d)
+		#print(coord)
+		for a in [-1, +1]:
+			bound = 1
+			coord = np.array([i, j, k])
+			#Queste condizioni servondo perchè lo spazio e periodico e perche alcuni accoppiamenti J possono essere antiferromagnetici.
+			b = coord[d]
+			if((coord[d] + a == size[d]) or (coord[d] + a == -1)): 
+				b = size[d] - 1 - (coord[d] + a)
+				if(d == 2): bound = boundary
+			coord[d] = a+b
+			p = 1.0-np.exp(-beta * (1.0 + bound*latt[i][j][k]*latt[coord[0]][coord[1]][coord[2]]))
+			#Se la posizione considerata già non appartiene al cluster allora la inserisco
+			if (cluster[coord[0]][coord[1]][coord[2]] == 1 and np.random.random_sample() < p):
+				cluster[coord[0]][coord[1]][coord[2]] = -1
+				clusterize(latt, cluster, boundary, l , T, beta, coord[0], coord[1], coord[2])
 
 #Funzioni autoesplicative
 

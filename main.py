@@ -1,7 +1,6 @@
+# coding=utf-8
 #Questo codice riproduce i risultati dell'articolo tranne quando T è piccolo. Per qualche ragione non riesce mai a flippare gli spin con il surfaceCluster (ma il risultato della magnetizzazione media è corretto). Per esempio se nell'articolo sono riportate 70 configurazioni con condizioni antiperiodiche io ne trovo 0. Questo problema si ha solo per piccoli T (circa 5) perché non appena T diventa più grande questo algoritmo prouce risultati in buon accordo con quelli dell'articolo. Ovviamente deve essere sottoposto a ottimizzazione e riscritto in c++.
 
-
-# coding=utf-8
 import numpy as np
 import random
 import sys
@@ -84,7 +83,7 @@ def surfaceCluster(latt, boundary, l, T, beta):
 					nonclusterized = 1
 					break
 
-	#print("cluster: ", cluster)
+	print("cluster: ", cluster)
 
 
 	#TODO Bisogna implementare questo controllo in maniera più efficiente
