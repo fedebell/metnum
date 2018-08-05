@@ -11,9 +11,9 @@ sys.setrecursionlimit(200000)
 #Successione delle dimensioni spaziali
 #Beta = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
 #L = np.array([10, 20, 30, 40, 50])
-Beta = np.array([0.2391])
-L = np.array([4])
-T = 12
+Beta = np.array([0.2275])
+L = np.array([10])
+T = 10
 
 def singleCluster(latt, boundary, l, T, beta):
 	#Scelgo una posizione casuale del reticolo
@@ -166,7 +166,7 @@ for l in L:
 	for beta in Beta:
 
 		#Inizializzo le boundary condition periodiche
-		boundary = + 1
+		boundary = - 1
 		latt = np.zeros((l, l, T))
 		coldStart(latt, l, T, 1)
 		#hotStart(latt, l, T)
@@ -184,7 +184,7 @@ for l in L:
 			print(rep) 
 			
 			#print("prima:", latt)
-			boundary = surfaceCluster(latt, boundary, l, T, beta)
+			#boundary = surfaceCluster(latt, boundary, l, T, beta)
 			#print("dopo:", latt)
 
 			singleCluster(latt, boundary, l, T, beta)
@@ -198,17 +198,19 @@ for l in L:
 				magn[rep] = somma/(l*l*T)
 			else: aper += 1
 
-			
+			print(latt)
+
+		
 
 		M2 = 0.0
 		M4 = 0.0
 		for i in range(0, N):
 			M2 += magn[i]**2		
-		M2 = M2/per
+		M2 = M2/aper
 
 		for i in range(0, N):
 			M4 += magn[i]**4		
-		M4 = M4/per
+		M4 = M4/aper
 
 		
 		print(M2, per, aper)
