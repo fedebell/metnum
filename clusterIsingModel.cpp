@@ -125,7 +125,7 @@ void clusterize(int*** latt, int*** cluster, int boundary, unsigned int l , unsi
 			bound = +1;
 			coord[0] = i; coord[1] = j; coord[2] = k;
 			b = coord[d];
-			//TODO: rivedere questo controllo, perché qualcosa non va.
+
 			if((coord[d] + a == size[d]) || (coord[d] + a == -1)) { 
 				b = size[d] - 1 - (coord[d] + a);
 				if(d == 2) bound = boundary;

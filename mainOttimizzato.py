@@ -11,9 +11,9 @@ sys.setrecursionlimit(200000)
 #Successione delle dimensioni spaziali
 #Beta = np.array([0.2, 0.2, 0.2, 0.2, 0.2])
 #L = np.array([10, 20, 30, 40, 50])
-Beta = np.array([0.2275])
-L = np.array([10])
-T = 10
+Beta = np.array([0.2391])
+L = np.array([6])
+T = 18
 
 def singleCluster(latt, boundary, l, T, beta):
 	#Scelgo una posizione casuale del reticolo
@@ -23,14 +23,23 @@ def singleCluster(latt, boundary, l, T, beta):
 	for i in range(0, l):
 		for j in range(0, l):
 			for k in range(0, T):
-				cluster[i][j][k] = 1
+				cluster[i][j][k] = 0
 
+	
 	i = np.random.randint(0, l)
 	j = np.random.randint(0, l)
 	k = np.random.randint(0, T)
 
 	cluster[i][j][k] = -1 #Cambio subito valore al primo sito
 	clusterize(latt, cluster, boundary, l, T, beta, i, j, k)
+
+	for i in range(0, l):
+		for j in range(0, l):
+			for k in range(0, T):
+				if(cluster[i][j][k] == 1): cluster[i][j][k] = -1
+				if(cluster[i][j][k] == 0): cluster[i][j][k] = 1
+
+
 	
 	#Effettivo inserimento del cluster nel reticolo
 	for i in range(0, l):
@@ -41,71 +50,71 @@ def singleCluster(latt, boundary, l, T, beta):
 
 def surfaceCluster(latt, boundary, l, T, beta):
 	#Inizializzo le varibili che tengono traccia dei cluster
+	
+	flag = 0;
 
 	cluster = np.zeros((l, l, T))
 	for i in range(0, l):
 		for j in range(0, l):
 			for k in range(0, T):
-				cluster[i][j][k] = 1
+				cluster[i][j][k] = 0
 
 	#Questo pezzo di codice non può essere più ottimizzato di così.
 	#E' molto difficile far partire i cluster in maniera randomica, perchè bisogna prendere una posizione causale su un una superficie dalla forma irregolare. Non lo implementiamo
 	#chissà se funziona comunque. FORSE NON FUNZIONA PER QUESTO
-	#for i in range(0, l):
-	#	for j in range(0, l):
-	#		#Cioe se non appartiene a nessun cluster
-	#		if(cluster[i][j][T-1] == 1):
-	#			cluster[i][j][T-1] = -1 #Inizializza il primo elemento del cluster
-	#			clusterize(latt, cluster, boundary, l, T, beta, i, j, T-1)
+	for i in range(0, l):
+		for j in range(0, l):
+			#Cioe se non appartiene a nessun cluster
+			if(cluster[i][j][T-1] == 0):
+				cluster[i][j][T-1] = -1 #Inizializza il primo elemento del cluster
+				if(clusterize(latt, cluster, boundary, l, T, beta, i, j, T-1) == 1): flag = + 1
+
+	print(flag)
+	print(cluster)
+
+	if(flag == 0):
+		for i in range(0, l):
+			for j in range(0, l):
+				for k in range(0, T):
+					if(cluster[i][j][k] == 0): cluster[i][j][k] = +1
+		for i in range(0, l):
+				for j in range(0, l):
+					for s in range(0, T):
+						latt[i][j][s] = latt[i][j][s] * cluster[i][j][s]
+		boundary = boundary * (-1)
+				
+			
+		
 
 	#RANDOMIZED CLUSTER EXTRACTION
 
 
 	#Basta settare questa a 1 per farlo ripartire
 	#Questo ciclo moralmente è un do while.
-	nonclusterized = 1
+	nonclusterized = 0
 	while(nonclusterized == 1):
 
 		#Si tratta di un do while che cerca un sito non clusterizzato
 		i = np.random.randint(0, l)
 		j = np.random.randint(0, l)
-		while(cluster[i][j][T-1] == -1):
+		while(cluster[i][j][T-1] != 0):
 			i = np.random.randint(0, l)
 			j = np.random.randint(0, l)
 
 		cluster[i][j][T-1] = -1 #Inizializza il primo elemento del cluster
-		clusterize(latt, cluster, boundary, l, T, beta, i, j, T-1)
+		if(clusterize(latt, cluster, boundary, l, T, beta, i, j, T-1) == 1): flag = + 1
 
 		nonclusterized = 0
 
 		#Cerca se ce ne sono ancora
 		for i in range(0, l):
 			for j in range(0, l):
-				if(cluster[i][j][T-1] == 1): 
+				if(cluster[i][j][T-1] == 0): 
 					nonclusterized = 1
 					break
 
-	#print("cluster: ", cluster)
-
 
 	#TODO Bisogna implementare questo controllo in maniera più efficiente
-
-	sheet = 0
-	for k in range(0, T):
-		sheet = 1
-		for j in range(0, l):
-			for i in range(0, l):
-				if(cluster[i][j][k] == -1): 
-					sheet = 0
-					break #Risarmia di finire il ciclo su l ma non riesco a risparmiare quello su j
-			if(sheet == 0): break 
-		if(sheet ==  1): 
-			for i in range(0, l):
-				for j in range(0, l):
-					for s in range(k, T):
-						latt[i][j][s] = latt[i][j][s] * cluster[i][j][s]
-			boundary = boundary * (-1)
-			break
 
 	return boundary
 
@@ -123,6 +132,12 @@ def clusterize(latt, cluster, boundary, l , T, beta, i, j, k):
 	#TODO Questi tre blocchi di codice uguali si possono scrivere una volta sola introducendo un ciclo e un vettore coord[0], coord[1], coord[3] inizalizzato
 	#ai valori i, j, k e modificato in un ciclo sul numero di dimensioni dello spazio.
 	size = np.array([l, l, T])
+	
+	cross = -1
+	flag = 0
+
+	ret = 0
+
 	#print(size)
 	#Ci sono tre dimensioni
 	for d in range(0, 3):
@@ -130,18 +145,26 @@ def clusterize(latt, cluster, boundary, l , T, beta, i, j, k):
 		#print(coord)
 		for a in [-1, +1]:
 			bound = 1
+			cross = -1;
 			coord = np.array([i, j, k])
 			#Queste condizioni servondo perchè lo spazio e periodico e perche alcuni accoppiamenti J possono essere antiferromagnetici.
 			b = coord[d]
 			if((coord[d] + a == size[d]) or (coord[d] + a == -1)): 
 				b = size[d] - 1 - (coord[d] + a)
-				if(d == 2): bound = boundary
+				if(d == 2): 
+					bound = boundary
+					cross = + 1
 			coord[d] = a+b
 			p = 1.0-np.exp(-beta * (1.0 + bound*latt[i][j][k]*latt[coord[0]][coord[1]][coord[2]]))
 			#Se la posizione considerata già non appartiene al cluster allora la inserisco
-			if (cluster[coord[0]][coord[1]][coord[2]] == 1 and np.random.random_sample() < p):
-				cluster[coord[0]][coord[1]][coord[2]] = -1
-				clusterize(latt, cluster, boundary, l , T, beta, coord[0], coord[1], coord[2])
+			if(np.random.random_sample() < p): 
+				if((cluster[coord[0]][coord[1]][coord[2]] * cluster[i][j][k]) == cross): flag = +1;
+				if (cluster[coord[0]][coord[1]][coord[2]] == 0):
+					if(cross == 1):
+						cluster[coord[0]][coord[1]][coord[2]] = - cluster[i][j][k]
+					else: cluster[coord[0]][coord[1]][coord[2]] = cluster[i][j][k]
+					ret = clusterize(latt, cluster, boundary, l , T, beta, coord[0], coord[1], coord[2])
+	return flag or ret
 
 #Funzioni autoesplicative
 
@@ -166,10 +189,10 @@ for l in L:
 	for beta in Beta:
 
 		#Inizializzo le boundary condition periodiche
-		boundary = - 1
+		boundary = + 1
 		latt = np.zeros((l, l, T))
-		coldStart(latt, l, T, 1)
-		#hotStart(latt, l, T)
+		#coldStart(latt, l, T, 1)
+		hotStart(latt, l, T)
 		
 		N = 1000
 
@@ -184,7 +207,7 @@ for l in L:
 			print(rep) 
 			
 			#print("prima:", latt)
-			#boundary = surfaceCluster(latt, boundary, l, T, beta)
+			boundary = surfaceCluster(latt, boundary, l, T, beta)
 			#print("dopo:", latt)
 
 			singleCluster(latt, boundary, l, T, beta)
@@ -198,19 +221,17 @@ for l in L:
 				magn[rep] = somma/(l*l*T)
 			else: aper += 1
 
-			print(latt)
-
 		
 
 		M2 = 0.0
 		M4 = 0.0
 		for i in range(0, N):
 			M2 += magn[i]**2		
-		M2 = M2/aper
+		M2 = M2/per
 
 		for i in range(0, N):
 			M4 += magn[i]**4		
-		M4 = M4/aper
+		M4 = M4/per
 
 		
 		print(M2, per, aper)
