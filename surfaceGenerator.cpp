@@ -23,7 +23,7 @@ int main() {
 
 	//E' necessario che questi vettori siano costanti perché si possano usare come dimensione di un ordinario array di c.
 	//Questa cosa è in effetti non necessaria.	
-	const vector<long double> Beta = {0.26};
+	const vector<long double> Beta = {0.2286};
 	const vector<unsigned int> L = {10};
 	const vector<unsigned int> T = {30};
 	
@@ -75,7 +75,7 @@ int main() {
 				for(long int rep = 0; rep < N; rep++) {
 					msquare = 0.0;
 					long double somma = 0.0;
-					
+					cout << rep << endl;
 					singleCluster(latt, cluster, boundary, l, t, beta, &distr_l, &distr_t, &distribution);
 					if(rep%10 == 0) boundary = surfaceCluster(latt, cluster, boundary, l, t, beta, &distr_l, &distribution);
 					if(boundary == 1) {
@@ -89,11 +89,11 @@ int main() {
 						}
 						magn[rep] = somma/(l*l*t);
 					} else aper += 1;
-					for(int i = 0; i<N; i++) msquare += magn[i] * magn[i];
-					msquare = msquare/per;
-					//cout << "l = " << l << "---" << "t = " << t << "---"  << "beta = " << beta << endl;
-					cout << rep << "---" << msquare << string("---")  <<  string("---") << per <<  string("---") << aper << endl;	
 				}
+				for(int i = 0; i<N; i++) msquare += magn[i] * magn[i];
+				msquare = msquare/per;
+				cout << "l = " << l << "\t" << "t = " << t << "\t"  << "beta = " << beta << endl;
+				cout << msquare << string("---")  <<  string("---") << per <<  string("---") << aper << endl;	
 				
 				
 			}
@@ -245,7 +245,7 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, unsigned int l , 
 		boundary = boundary * (-1);
 	}
 
-	
+	/*
 	cout << endl;
 	cout << endl;
 	cout << "Boundary: " << ((boundary == +1) ? "periodic" : "Aperiodic") << endl;
@@ -259,7 +259,7 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, unsigned int l , 
 			cout << ((count > (l/2)) ? "o" : "-") << " ";
 		}
 		cout << endl;
-	}
+	}*/
 	
 
 	return boundary;
