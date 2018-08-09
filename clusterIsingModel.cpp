@@ -68,6 +68,22 @@ int main() {
 					msquare = msquare/per;	
 
 					cout << msquare << string("---")  <<  per <<  string("---") <<  string("---") << aper << endl;
+					
+					for(int a = 0 ; a < l ; a++) {
+						for(int b = 0; b < l; b++) {
+							free(latt[a][b]);
+						}
+						free(latt[a]);
+					}
+					free(latt);
+
+					for(int a = 0 ; a < l ; a++) {
+						for(int b = 0; b < l; b++) {
+							free(cluster[a][b]);
+						}
+						free(cluster[a]);
+					}
+					free(cluster);
 				}
 			}
 		}
