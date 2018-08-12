@@ -4,11 +4,23 @@ import pylab
 import math
 #from uncertainties import ufloat, unumpy
 
+betac = 0.221
+nu = 0.6297
+
+
+
 beta, per, aper = pylab.loadtxt("data.txt", unpack = True)
 
 ratio = aper/per
 
 free = - numpy.log(ratio)
+
+beta = (((beta - betac))/betac)**(2* nu)
+free = free
+
+
+print(beta)
+print(free)
 
 print(beta)
 print(free)
