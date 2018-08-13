@@ -5,10 +5,11 @@
 #include <cmath>
 #include <vector>
 #include <random>
+#include <ctime>
 using namespace std;
 
 //Inserire il numero di iterazioni
-#define N 100000
+#define N 10000
 
 int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, unsigned int i, unsigned int j, unsigned int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
@@ -23,9 +24,9 @@ int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	const vector<long double> Beta = {0.2391};
-	const vector<unsigned int> L1 = {4};
-	const vector<unsigned int> L2 = {4};
-	const vector<unsigned int> T = {12};
+	const vector<unsigned int> L1 = {6};
+	const vector<unsigned int> L2 = {6};
+	const vector<unsigned int> T = {18};
 	
 	int boundary = 1;
 
@@ -73,6 +74,7 @@ int main() {
 				
 					unsigned int per = 0; 
 					unsigned int aper = 0;
+					unsigned int init = clock();
 					for(long int rep = 0; rep < N; rep++) {
 						cout << rep << "\r";
 						
@@ -86,13 +88,14 @@ int main() {
 						if(boundary == 1) per += 1;
 						else aper += 1;
 					}
-					
+					unsigned int fine = clock() - init;
+
 					double Aper = double(aper);
 					double Per = double(per);
 					double td = double(t);
 					
-					cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << endl;
-					cout  << "Aper/Tot = " << Aper/(2*N) << "  " << "Aper/Per = " << Aper/Per << "  " << "F_s = " << -log(Aper) + log(Per) + log(td) << "  " << "F_si = " << log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per))) << endl;	
+					cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << endl;
+					cout  << "Aper/Tot = " << Aper/(2*N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per))) << endl;	
 					
 					for(int a = 0 ; a < l1 ; a++) {
 						for(int b = 0; b < l2; b++) {
@@ -154,7 +157,6 @@ int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsig
 		for (int j = 0; j < 4; j++) 
 			toClusterize[i][j] = -1;
 	
-	long double p = 0.0;
 	int flag = 0;
 	int bound = +1;
 	int newCross = -1;
@@ -166,18 +168,24 @@ int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsig
 		cluster[i][j][k] = precedente * (-cross);
 		for(int d = 0; d < 3; d++) {
 			for(int a = -1; a < 2; a = a + 2) {
+			
 				bound = +1;
 				newCross = -1;
 				coord[0] = i; coord[1] = j; coord[2] = k;
-				b = coord[d];
-				if((coord[d] + a == size[d]) || (coord[d] + a == -1)) { 
-					b = size[d] - 1 - (coord[d] + a);
-					if(d == 2) { bound = boundary; newCross = 1; }
+				
+				coord[d] +=  a;
+				if(coord[d] == size[d]) {
+				 coord[d] = 0;
+				 if(d == 2) { bound = boundary; newCross = 1; }
 				}
-				coord[d] = a+b;
+				
+				if(coord[d] == -1) {
+				 coord[d] = size[d] - 1;
+				 if(d == 2) { bound = boundary; newCross = 1; }
+				}
+				
 				if(cluster[coord[0]][coord[1]][coord[2]] == 0) {
-					p = 1.0 - exp(-beta * (1.0 + bound*latt[i][j][k]*latt[coord[0]][coord[1]][coord[2]]));
-					if ((*distribution)(mt) < p) {
+					if ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + bound*latt[i][j][k]*latt[coord[0]][coord[1]][coord[2]])))) {
 						for(int i = 0; i<3; i++) toClusterize[count][i] = coord[i];
 						toClusterize[count][3] = newCross;
 						count++;

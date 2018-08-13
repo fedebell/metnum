@@ -5,13 +5,14 @@
 #include <cmath>
 #include <vector>
 #include <random>
+#include <stack>
 #include <ctime>
 using namespace std;
 
 //Inserire il numero di iterazioni
 #define N 10000
 
-int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
+int clusterize(int*** latt, int*** cluster, int boundary, int* size, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
 void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
 void hotStart(int*** latt, int l1, int l2 , int t);
@@ -20,13 +21,19 @@ void coldStart(int*** latt, int l1, int l2, int t, int spin);
 random_device rd;
 mt19937 mt(rd());
 
+typedef struct site {
+	int c[3];
+	int precedente;
+	int cross;
+} site;
+
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L1 = {6};
-	const vector<int> L2 = {6};
-	const vector<int> T = {18};
+	const vector<long double> Beta = {0.224};
+	const vector<int> L1 = {14};
+	const vector<int> L2 = {14};
+	const vector<int> T = {42};
 	
 	int boundary = 1;
 
@@ -74,22 +81,22 @@ int main() {
 				
 					int per = 0; 
 					int aper = 0;
+					
 					int init = clock();
 					for(long int rep = 0; rep < N; rep++) {
 						cout << rep << "\r";
 						
 						singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
-						
 						if(boundary == 1) per += 1;
 						else aper += 1;
 						
 						boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
-						
 						if(boundary == 1) per += 1;
 						else aper += 1;
 					}
+					
 					int fine = clock() - init;
-
+					
 					double Aper = double(aper);
 					double Per = double(per);
 					double td = double(t);
@@ -147,87 +154,63 @@ void hotStart(int*** latt, int l1, int l2, int t) {
 
 }
 
-int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int precedente, int cross, int i, int j, int k, uniform_real_distribution<long double>*  distribution) {
+int clusterize(int*** latt, int*** cluster, int boundary, int* size, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution) {
 
-	int size[3] = {l1, l2, t};
-	int coord[3] = {i, j, k};
+	stack<site> stack;
 	
-	int toClusterize[6][4];
-	for(int i = 0; i < 6; i++) 
-		for (int j = 0; j < 4; j++) 
-			toClusterize[i][j] = -1;
+	site next = {{i, j, k}, -1, -1};
+	stack.push(next);
 	
-	int flag = 0;
-	int bound = +1;
-	int newCross = -1;
-	int b = 0;
-	int count = 0;
-	
-	if(cluster[i][j][k] == (cross * precedente)) return 1;
-	else if(cluster[i][j][k] == 0) {
-		cluster[i][j][k] = precedente * (-cross);
-		for(int d = 0; d < 3; d++) {
-			for(int a = -1; a < 2; a = a + 2) {
-			
-				bound = +1;
-				newCross = -1;
-				coord[0] = i; coord[1] = j; coord[2] = k;
-				
-				coord[d] +=  a;
-				if(coord[d] == size[d]) {
-				 coord[d] = 0;
-				 if(d == 2) { bound = boundary; newCross = 1; }
-				}
-				
-				if(coord[d] == -1) {
-				 coord[d] = size[d] - 1;
-				 if(d == 2) { bound = boundary; newCross = 1; }
-				}
-				
-				if(cluster[coord[0]][coord[1]][coord[2]] == 0) {
-					if ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + bound*latt[i][j][k]*latt[coord[0]][coord[1]][coord[2]])))) {
-						for(int i = 0; i<3; i++) toClusterize[count][i] = coord[i];
-						toClusterize[count][3] = newCross;
-						count++;
-					}
+	int flag = 0, value = 0, d = 0, a = 0, s = 0;
+
+	while(!stack.empty()) {
+		site current = stack.top();
+		stack.pop();
+		value = cluster[current.c[0]][current.c[1]][current.c[2]];
+		if(value == (current.cross * current.precedente)) flag = 1;
+		else if(value == 0) {
+			value =  current.precedente * (-current.cross);
+			cluster[current.c[0]][current.c[1]][current.c[2]] = value;
+			next.precedente = value;
+			for(d = 0; d < 3; d++) {
+				for(a = -1; a < 2; a = a + 2) {
+					next.cross = -1;
+					for(s = 0; s<3; s++) next.c[s] = current.c[s]; 
+					next.c[d] +=  a;
+					if(next.c[d] == size[d]) { next.c[d] = 0; if(d == 2) next.cross = 1;}
+					if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
+					if((cluster[next.c[0]][next.c[1]][next.c[2]] == 0) && ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + ((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]))))) stack.push(next);
 				}
 			}
 		}
-		for(int c = 0; c < count; c++) flag = clusterize(latt, cluster, boundary, l1, l2, t, beta, cluster[i][j][k], toClusterize[c][3], toClusterize[c][0], toClusterize[c][1], toClusterize[c][2], distribution) || flag;
 	}
-	
 	return flag;
-
 }
 
 void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution) {
 
-	for(int i = 0; i < l1; i++) {
-		for(int j = 0; j < l2; j++) {
-			for(int k = 0; k < t; k++) {
-				cluster[i][j][k] = 0;
-			}
-		}
-	}
+	int size[3] = {l1, l2, t};
 
+	for(int i = 0; i < l1; i++) 
+		for(int j = 0; j < l2; j++) 
+			for(int k = 0; k < t; k++) 
+				cluster[i][j][k] = 0;
+				
 	int i = (*distr_l1)(mt);
 	int j = (*distr_l2)(mt);
 	int k = (*distr_t)(mt);
 
-	clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, k, distribution);	
+	clusterize(latt, cluster, boundary, size, beta, i, j, k, distribution);	
 	
-	for(int i = 0; i < l1; i++) {
-		for(int j = 0; j < l2; j++) {
-			for(int k = 0; k < t; k++) {
+	for(int i = 0; i < l1; i++) 
+		for(int j = 0; j < l2; j++) 
+			for(int k = 0; k < t; k++) 
 				latt[i][j][k] = latt[i][j][k] * ((cluster[i][j][k] == 0) ? 1 : -1);
-			}
-		}
-	}	
-	
 }
 
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution) {
 
+	int size[3] = {l1, l2, t};
 	int flag = 0;
 
 	for(int i = 0; i < l1; i++) 
@@ -238,7 +221,7 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, i
 	for(int i = 0; i < l1; i++) 
 		for(int j = 0; j < l2; j++) 
 			if(cluster[i][j][t-1] == 0) 
-				if(clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, t-1, distribution) == 1) flag = + 1;
+				if(clusterize(latt, cluster, boundary, size, beta, i, j, t-1, distribution) == 1) flag = + 1;
 					
 	if(flag == 0) {
 		for(int i = 0; i < l1; i++) 
