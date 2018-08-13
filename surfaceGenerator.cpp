@@ -7,6 +7,7 @@
 #include <random>
 using namespace std;
 
+//Inserire il numero di iterazioni
 #define N 100000
 
 int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, unsigned int i, unsigned int j, unsigned int k, uniform_real_distribution<long double>*  distribution);
@@ -20,6 +21,7 @@ mt19937 mt(rd());
 
 int main() {
 	
+	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	const vector<long double> Beta = {0.2391};
 	const vector<unsigned int> L1 = {4};
 	const vector<unsigned int> L2 = {4};
@@ -39,6 +41,9 @@ int main() {
 					unsigned int l2 = L2[j];
 					unsigned int t = T[k];
 
+					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
+					//if(l1 != l2) continue;
+					
   					uniform_int_distribution<int> distr_l1(0,l1-1);
   					uniform_int_distribution<int> distr_l2(0,l2-1);
 					uniform_int_distribution<int> distr_t(0,t-1);
@@ -63,6 +68,7 @@ int main() {
 						}
 					}
 						
+					//Inserire la condizione di partenza
 					coldStart(latt, l1, l2, t, 1);
 				
 					unsigned int per = 0; 
