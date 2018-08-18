@@ -56,7 +56,7 @@ int main() {
 					file.open (beta_str.str() + "_" + l1_str.str() + "_" + l2_str.str() + "_" + t_str.str() + ".txt");
 					
 					//header file
-					file << "mag\tabs_mag\tb.c." << endl;
+					file << "#\t mag\t abs_mag\t b.c." << endl;
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
 					//if(l1 != l2) continue;
