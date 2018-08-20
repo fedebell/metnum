@@ -6,27 +6,23 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("C:\cygwin64\metnum\ciao.txt", unpack =True)
-n = range (len(mag))
-mag_per = []
-
-for i in range(len(mag)):
-	if bc[i]==1:
-		mag_per.append(mag[i])
-		
-n_per = range(len(mag_per))
-
-avg = bc.sum()/len(bc) #questa media è la stessa per tutti i dati blockati
+mag, abs_mag, bc = pylab.loadtxt("C://cygwin64//metnum//ciao.txt", unpack =True)
 
 i = 1
-c = 0
-var = []
+varb = []
 n = []
-#blocking sulla mag
-while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di eventi
+
+#riscrivo le bc in termini della delta aperiodica
+bc = (-1*bc + 1)/2
+
+avg = bc.sum()/len(bc) #questa media è la stessa per tutti i dati blockati
+print ("avg = ", avg)
+
+#blocking 
+while i < len(bc): #scorro sui posssibli divisori del numero di eventi
 	if len(bc)%i == 0: #seleziono un divisore buono
 		#creo array i cui elementi sono le medie dei blocchetti desiderati
-		n.append([i]) #salvo la dimensione dei blocchi
+		n.append(i) #salvo la dimensione dei blocchi
 		block = []
 		for j in range(len(mag)//i): #scelgo il blocco
 			temp_sum = 0
@@ -35,12 +31,33 @@ while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di even
 			temp_sum = temp_sum/i #medio la somma
 			block.append(temp_sum)			
 		#calcolo varianza nelle nuove variabili 
-		var.append(((numpy.array(block)-avg)**2).sum()/(len(block)*(len(block)-1)))
+		varb.append(((numpy.array(block)-avg)**2).sum()/(len(block)-1))
 	i += 1
-#plotto la varianza in funzione del numero di elementi nel blocchetto
-pylab.title('magnetization in markov chain')
-pylab.xlabel('N')
-pylab.ylabel('var')
+
+#print utili per vedere se funziona
+
+print ("varb = ", varb)
+print ("n = ", n)
+
+#creo variabili utili per computo tau
+
+var = varb[0] 
+
+print("var_single = ", var)
+
+#creo la 2*tau con la formula 2tau=sigma_b^2/sigma_O_i^2 * len(block)
+
+varb = numpy.array(varb)
+#n = numpy.array(n)
+
+tau = 0.5 * varb * n / var
+
+
+print ("tau = ", tau)
+
+pylab.title('tau')
+pylab.xlabel('block_length')
+pylab.ylabel('tau')
 pylab.grid(color = "gray")
-plt.plot(n, numpy.sqrt(var))
+plt.plot(n, tau)
 plt.show()

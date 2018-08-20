@@ -15,56 +15,62 @@ for i in range(len(mag)):
 		mag_per.append(mag[i])
 		
 n_per = range(len(mag_per))
-mag_per = numpy.array(mag_per)
+
 
 i = 1
+c = 0
 varb = []
 n = []
 
-avg = mag_per.sum()/len(mag_per) #questa media è la stessa per tutti i dati blockati
+#riscrivo le bc in termini della delta aperiodica
+bc = (-1*bc + 1)/2
+
+avg = bc.sum()/len(bc) #questa media è la stessa per tutti i dati blockati
 print ("avg = ", avg)
 
 #blocking 
-while i < len(mag_per): #scorro sui posssibli divisori del numero di eventi
-	if len(mag_per)%i == 0: #seleziono un divisore buono
+while i < len(bc): #scorro sui posssibli divisori del numero di eventi
+	if len(bc)%i == 0: #seleziono un divisore buono
 		#creo array i cui elementi sono le medie dei blocchetti desiderati
 		n.append(i) #salvo la dimensione dei blocchi
-		block = []
-		for j in range(len(mag_per)//i): #scelgo il blocco
-			temp_sum = 0
-			for k in range(i): #mi muovo nel blocco e metto le somme ina una variabile temporanea
-				temp_sum +=  mag_per[j*i+k] 
-			temp_sum = temp_sum/i #medio la somma
-			block.append(temp_sum)			
-		#calcolo varianza nelle nuove variabili 
-		varb.append(((numpy.array(block)-avg)**2).sum()/(len(block)-1))
 	i += 1
 
+i = 0
+varb = numpy.zeros(len(n)) #creo numpy.array di lunghezza pari al numero di tipi di blocco
+
+for i in range(len(n)):
+	for j in range(len(mag)//int(n[i])):
+		temp_sum = 0
+		for k in range(n[i]):
+			temp_sum += bc[j*n[i]+k]
+		temp_sum = temp_sum/n[i]
+		varb[i] = temp_sum
+
 #print utili per vedere se funziona
+
 
 print ("varb = ", varb)
 print ("n = ", n)
 
 #creo variabili utili per computo tau
 
-var = varb[0] 
+var = varb[0] / len(mag) 
 
 print("var_single = ", var)
 
 #creo la 2*tau con la formula 2tau=sigma_b^2/sigma_O_i^2 * len(block)
 
 varb = numpy.array(varb)
-#n = numpy.array(n)
+n = numpy.array(n)
 
 tau = 0.5 * varb * n / var
 
 
 print ("tau = ", tau)
 
-pylab.title('tau')
+pylab.title('2*tau')
 pylab.xlabel('block_length')
 pylab.ylabel('tau')
 pylab.grid(color = "gray")
 plt.plot(n, tau)
 plt.show()
-

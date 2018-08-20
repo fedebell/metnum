@@ -11,7 +11,7 @@
 using namespace std;
 
 //Inserire il numero di iterazioni
-#define N 200000
+#define N 20000
 
 int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
@@ -53,7 +53,7 @@ int main() {
 					l2_str << l2;
 					t_str << t;
 					
-					file.open (beta_str.str() + "_" + l1_str.str() + "_" + l2_str.str() + "_" + t_str.str() + ".txt");
+					file.open ("pureising.txt");
 					
 					//header file
 					file << "#\t mag\t abs_mag\t b.c." << endl;
@@ -100,11 +100,7 @@ int main() {
 						
 						cout << rep << "\r";
 						
-						if(rep % 2 == 0){
-							singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
-						}
-						else
-							boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
+						singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
 						
 						if(boundary == 1) per += 1;
 						else aper += 1;
@@ -287,4 +283,3 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, i
 
 	return boundary;
 }
-

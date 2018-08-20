@@ -8,7 +8,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 
 
-mag, abs_mag, bc = pylab.loadtxt("C:\cygwin64\metnum\ciao.txt", unpack =True)
+mag, abs_mag, bc = pylab.loadtxt("C:\cygwin64\metnum\pureising.txt", unpack =True)
 n = range (len(mag))
 mag_per = []
 
