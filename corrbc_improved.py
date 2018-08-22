@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
 import math
 import numpy
 import numpy
@@ -6,7 +9,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("C://cygwin64//metnum//ciao.txt", unpack =True)
+mag, abs_mag, bc = pylab.loadtxt("0.2391_4_4_12.txt", unpack =True)
 
 i = 1
 varb = []
@@ -23,8 +26,9 @@ while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di even
 	n.append(i) #salvo la dimensione dei blocchi
 	block = []
 	avg = totsum
+	#FIXME Non si può inserire un semplice resto della divisione invece di sta zozzeria?
 	for cnt in range(len(bc) - (len(bc)//i) * i):
-		avg -= bc[(len(bc)//i) * i + cnt] #tolgo gli elementi in eccesso ,che comunque non vengono passati dal for successivo...
+		avg -= bc[(len(bc)//i) * i + cnt] #tolgo gli elementi in eccesso, che comunque non vengono passati dal for successivo...
 	avg = avg / (i* (len(bc)//i) ) #true avg	
 	for j in range(len(bc)//i): #scelgo il blocco
 		temp_sum = 0

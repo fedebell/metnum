@@ -23,10 +23,10 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L1 = {6};
-	const vector<int> L2 = {6};
-	const vector<int> T = {18};
+	const vector<long double> Beta = {0.2391, 0.22};
+	const vector<int> L1 = {6, 10, 20};
+	const vector<int> L2 = {6, 10, 20};
+	const vector<int> T = {18, 30, 60};
 	
 	int boundary = 1;
 
@@ -43,7 +43,7 @@ int main() {
 					int t = T[k];
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
-					//if(l1 != l2) continue;
+					//if((l1 != l2) && t != 3*l1) continue;
 					
   					uniform_int_distribution<int> distr_l1(0,l1-1);
   					uniform_int_distribution<int> distr_l2(0,l2-1);
@@ -70,7 +70,7 @@ int main() {
 					}
 						
 					//Inserire la condizione di partenza
-					coldStart(latt, l1, l2, t, 1);
+					hotStart(latt, l1, l2, t);
 				
 					int per = 0; 
 					int aper = 0;
@@ -164,6 +164,7 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 	int count = 0;
 	
 	if(cluster[i][j][k] == (cross * precedente)) return 1;
+	
 	else if(cluster[i][j][k] == 0) {
 		cluster[i][j][k] = precedente * (-cross);
 		for(int d = 0; d < 3; d++) {

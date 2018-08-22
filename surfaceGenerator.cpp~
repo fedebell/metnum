@@ -11,11 +11,11 @@ using namespace std;
 //Inserire il numero di iterazioni
 #define N 10000
 
-int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, unsigned int i, unsigned int j, unsigned int k, uniform_real_distribution<long double>*  distribution);
-int surfaceCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
-void singleCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
-void hotStart(int*** latt, unsigned int l1, unsigned int l2 , unsigned int t);
-void coldStart(int*** latt, unsigned int l1, unsigned int l2, unsigned int t, int spin);
+int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
+int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
+void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
+void hotStart(int*** latt, int l1, int l2 , int t);
+void coldStart(int*** latt, int l1, int l2, int t, int spin);
 
 random_device rd;
 mt19937 mt(rd());
@@ -23,10 +23,10 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<unsigned int> L1 = {6};
-	const vector<unsigned int> L2 = {6};
-	const vector<unsigned int> T = {18};
+	const vector<long double> Beta = {0.2391, 0.22};
+	const vector<int> L1 = {6, 10, 20};
+	const vector<int> L2 = {6, 10, 20};
+	const vector<int> T = {18, 30, 60};
 	
 	int boundary = 1;
 
@@ -38,12 +38,12 @@ int main() {
 					//Questo è il posto ideale per inserire una eventuale parallelizzazione.
 					
 					long double beta = Beta[i];
-					unsigned int l1 = L1[j];
-					unsigned int l2 = L2[j];
-					unsigned int t = T[k];
+					int l1 = L1[j];
+					int l2 = L2[j];
+					int t = T[k];
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
-					//if(l1 != l2) continue;
+					//if((l1 != l2) && t != 3*l1) continue;
 					
   					uniform_int_distribution<int> distr_l1(0,l1-1);
   					uniform_int_distribution<int> distr_l2(0,l2-1);
@@ -70,11 +70,11 @@ int main() {
 					}
 						
 					//Inserire la condizione di partenza
-					coldStart(latt, l1, l2, t, 1);
+					hotStart(latt, l1, l2, t);
 				
-					unsigned int per = 0; 
-					unsigned int aper = 0;
-					unsigned int init = clock();
+					int per = 0; 
+					int aper = 0;
+					int init = clock();
 					for(long int rep = 0; rep < N; rep++) {
 						cout << rep << "\r";
 						
@@ -88,7 +88,7 @@ int main() {
 						if(boundary == 1) per += 1;
 						else aper += 1;
 					}
-					unsigned int fine = clock() - init;
+					int fine = clock() - init;
 
 					double Aper = double(aper);
 					double Per = double(per);
@@ -122,7 +122,7 @@ int main() {
 	return 0;
 }
 
-void coldStart(int*** latt, unsigned int l1, unsigned int l2, unsigned int t, int spin) {
+void coldStart(int*** latt, int l1, int l2, int t, int spin) {
 
 	for(int i = 0; i < l1; i++) 
 		for(int j = 0; j < l2; j++) 
@@ -130,7 +130,7 @@ void coldStart(int*** latt, unsigned int l1, unsigned int l2, unsigned int t, in
 				latt[i][j][k] = spin;
 }
 
-void hotStart(int*** latt, unsigned int l1, unsigned int l2, unsigned int t) {
+void hotStart(int*** latt, int l1, int l2, int t) {
 
 	random_device rd;
     	mt19937 mt(rd());
@@ -147,10 +147,10 @@ void hotStart(int*** latt, unsigned int l1, unsigned int l2, unsigned int t) {
 
 }
 
-int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, int precedente, int cross, unsigned int i, unsigned int j, unsigned int k, uniform_real_distribution<long double>*  distribution) {
+int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int precedente, int cross, int i, int j, int k, uniform_real_distribution<long double>*  distribution) {
 
-	unsigned int size[3] = {l1, l2, t};
-	unsigned int coord[3] = {i, j, k};
+	int size[3] = {l1, l2, t};
+	int coord[3] = {i, j, k};
 	
 	int toClusterize[6][4];
 	for(int i = 0; i < 6; i++) 
@@ -164,6 +164,7 @@ int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsig
 	int count = 0;
 	
 	if(cluster[i][j][k] == (cross * precedente)) return 1;
+	
 	else if(cluster[i][j][k] == 0) {
 		cluster[i][j][k] = precedente * (-cross);
 		for(int d = 0; d < 3; d++) {
@@ -200,7 +201,7 @@ int clusterize(int*** latt, int*** cluster, int boundary, unsigned int l1, unsig
 
 }
 
-void singleCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution) {
+void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution) {
 
 	for(int i = 0; i < l1; i++) {
 		for(int j = 0; j < l2; j++) {
@@ -210,9 +211,9 @@ void singleCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, 
 		}
 	}
 
-	unsigned int i = (*distr_l1)(mt);
-	unsigned int j = (*distr_l2)(mt);
-	unsigned int k = (*distr_t)(mt);
+	int i = (*distr_l1)(mt);
+	int j = (*distr_l2)(mt);
+	int k = (*distr_t)(mt);
 
 	clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, k, distribution);	
 	
@@ -226,7 +227,7 @@ void singleCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, 
 	
 }
 
-int surfaceCluster(int*** latt,  int*** cluster, int boundary, unsigned int l1, unsigned int l2, unsigned int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution) {
+int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution) {
 
 	int flag = 0;
 

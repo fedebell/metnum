@@ -30,10 +30,10 @@ typedef struct site {
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L1 = {6};
-	const vector<int> L2 = {6};
-	const vector<int> T = {18};
+	const vector<long double> Beta = {0.224};
+	const vector<int> L1 = {14};
+	const vector<int> L2 = {14};
+	const vector<int> T = {42};
 	
 	int boundary = 1;
 
@@ -86,7 +86,8 @@ int main() {
 					for(long int rep = 0; rep < N; rep++) {
 						cout << rep << "\r";
 						
-						singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
+						//singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
+						boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
 						if(boundary == 1) per += 1;
 						else aper += 1;
 						
