@@ -1,0 +1,43 @@
+#beta = 0.2391	 N = 20000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.239110	7.29288	0.0750649
+#beta = 0.22	 N = 20000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.2210	2.56944	0.0264829
+#beta = 0.2391	 N = 20000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+#beta = 0.2391	 N = 2000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+#beta = 0.2391	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+#beta = 0.2391	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.2391	10	7.28219	0.0416779
+#beta = 0.22	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.22	10	2.54079	0.0123287
+#beta = 0.2391	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.2391	10	7.41833	0.0294702
+#beta = 0.22	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.22	10	2.55068	0.0153101
+#beta = 0.2391	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.2391	10	7.30368	0.0978112
+#beta = 0.22	 N = 10000 	 frac = 5	 start = 150	 lenght = 400
+#L 	 F_mod 	 dF_mod
+0.22	10	2.61923	0.044246
+#beta = 0.2391	 N = 10000 	 frac = 5	 start = 150	 lenght = 40
+#L 	 F_mod 	 dF_mod
+0.2391	10	7.32562	0.10564
+#beta = 0.2391	 N = 100000 	 frac = 5	 start = 150	 lenght = 40
+#L 	 F_mod 	 dF_mod
+0.2391	10	7.25697	0.0332352
+#beta = 0.2391	 N = 100000 	 frac = 5	 start = 150	 lenght = 40	 step = 10
+#L 	 F_mod 	 dF_mod
+0.2391	4	2.43712	0.00751548
+0.2391	6	3.71682	0.00990871
+0.2391	8	5.32367	0.0158032
+#beta = 0.2391	 N = 100000 	 frac = 0	 start = 150	 lenght = 40	 step = 10
+#L 	 F_mod 	 dF_mod

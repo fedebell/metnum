@@ -10,7 +10,7 @@
 using namespace std;
 
 //Inserire il numero di iterazioni
-#define N 10000
+#define N 100
 
 int clusterize(int*** latt, int*** cluster, int boundary, int* size, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
@@ -31,9 +31,9 @@ int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	const vector<long double> Beta = {0.224};
-	const vector<int> L1 = {10};
-	const vector<int> L2 = {10};
-	const vector<int> T = {30};
+	const vector<int> L1 = {40};
+	const vector<int> L2 = {40};
+	const vector<int> T = {120};
 	
 	int boundary = 1;
 

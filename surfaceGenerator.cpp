@@ -9,7 +9,7 @@
 using namespace std;
 
 //Inserire il numero di iterazioni
-#define N 10000
+#define N 100000
 
 int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
@@ -23,10 +23,10 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391, 0.22};
-	const vector<int> L1 = {6, 10, 20};
-	const vector<int> L2 = {6, 10, 20};
-	const vector<int> T = {18, 30, 60};
+	const vector<long double> Beta = {0.2391};
+	const vector<int> L1 = {6};
+	const vector<int> L2 = {6};
+	const vector<int> T = {18};
 	
 	int boundary = 1;
 
@@ -78,7 +78,8 @@ int main() {
 					for(long int rep = 0; rep < N; rep++) {
 						cout << rep << "\r";
 						
-						singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
+						//singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
+						boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
 						
 						if(boundary == 1) per += 1;
 						else aper += 1;
