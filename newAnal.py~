@@ -105,9 +105,9 @@ err = numpy.array(err)
 
 #taglio i primi valori
 
-temp = numpy.delete(temp, numpy.array([6, 7]))
-surf = numpy.delete(surf, numpy.array([6, 7]))
-err = numpy.delete(err, numpy.array([6, 7]))
+#temp = numpy.delete(temp, numpy.array([6, 7]))
+#surf = numpy.delete(surf, numpy.array([6, 7]))
+#err = numpy.delete(err, numpy.array([6, 7]))
 
 pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 pylab.rc('font',size=13)
