@@ -9,7 +9,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("0.2391_3_3_3.txt", unpack = True)
+mag, abs_mag, bc = pylab.loadtxt("0.2275_18_18_54.txt", unpack = True)
 
 varb = []
 N = 500

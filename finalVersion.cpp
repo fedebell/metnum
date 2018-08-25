@@ -145,11 +145,12 @@ int main(int argc, char *argv[]) {
 			double error = 0.0;
 					
 			//Jacknife
+			cout << "********************************************************************************************" << endl;
 			error = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, td);
 					
 			int fine = (clock() - init)/CLOCKS_PER_SEC;
 			
-			cout << "********************************************************************************************" << endl;
+			
 			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
 			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;
 			

@@ -1,0 +1,12 @@
+import subprocess
+from multiprocessing import Pool
+
+# all your methods declarations above go here
+# (...)
+
+def Process(beta, l):
+	p = subprocess.Popen(["./prova", beta, l], shell = "True")
+
+Process("0.223", "10")
+Process("0.220", "15")
+  

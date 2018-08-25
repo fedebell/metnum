@@ -1,5 +1,5 @@
 /*Montecarlo per generare le superfici di separazione*/
- 
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,16 +9,20 @@
 #include <random>
 #include <stack>
 #include <ctime>
+#include <unistd.h>
+#include <cstdio>
 using namespace std;
 
 //Inserire il numero di iterazioni
 #define N 100000
 //Percentuale iniziale rimossa dalla catena di Markov perché si considera termalizzazione.
-#define frac 0
+#define frac 5
 //Variabili che controllano il jacknife
-#define start 150
-#define lenght 40
+#define start 100
+#define lenght 30
 #define step 10
+
+#define ITERATIVE
 
 typedef struct site {
 	int c[3];
@@ -28,7 +32,7 @@ typedef struct site {
 
 
 int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
-int clusterizeI(int*** latt, int*** cluster, int boundary, int* size, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
+int clusterizeI(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
 void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
 void hotStart(int*** latt, int l1, int l2 , int t);
@@ -41,8 +45,15 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L = {4};
+	//Inseririmento di parametri da riga di comando
+	
+	const vector<long double> Beta = {0.222};
+	const vector<int> L = {5, 6, 7, 8};
+	
+	vector<int> pids(Beta.size()*L.size());
+	vector<int> counts(Beta.size()*L.size());
+	
+	for (int i = 0; i < Beta.size()*L.size(); i++) { pids[i] = 0; counts[i] = 0; }
 	
 	int blockDimentions[lenght] = {0};
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
@@ -50,11 +61,6 @@ int main() {
 	int boundary = 1;
 	
 	int measure[N-(N/100)*frac] = {0}; 
-	
-	fstream file;
-		
-	//File aperto in modalità append
-	file.open ("data.txt", ios::app);
 			
 	for(int i = 0; i < Beta.size(); i++) {
 	
@@ -64,11 +70,31 @@ int main() {
 		//beta_str << beta;
 		
 		//header file
-		file << "#" << "beta = " << beta << "\t N = " << N << " \t frac = " << frac << "\t start = " << start << "\t lenght = " << lenght  << "\t step = " << step << endl;
-		file << "#L \t F_mod \t dF_mod" << endl;
+		//file << "#" << "beta = " << beta << "\t N = " << N << " \t frac = " << frac << "\t start = " << start << "\t lenght = " << lenght  << "\t step = " << step << endl;
+		//file << "#beta \t L \t F_mod \t dF_mod" << endl;
 	
 		for(int j = 0; j < L.size(); j++) {
-			//Questo è il posto ideale per inserire una eventuale parallelizzazione.
+		
+			pids[i*Beta.size() + j] = fork();
+			
+			if(pids[i*Beta.size() + j] == -1) {
+				cout << "fork() error" << endl;
+				return -1;
+			}
+			
+			if(pids[i*Beta.size() + j] != 0)  continue;
+			
+			fstream temp;
+			stringstream name;
+			name << pids[i*Beta.size() + j];
+			temp.open (".temp" + name.str() + ".txt");
+			
+			fstream file;
+		
+			//File aperto in modalità append
+			file.open ("data.txt", ios::app);
+		
+			//Questo è il posto ideale per inserire una eventuale parallelizzazione
 					
 			int l1 = L[j];
 			int l2 = L[j];
@@ -108,7 +134,8 @@ int main() {
 
 			for(int rep = 0; rep < N; rep++) {
 						
-				cout << rep  << "\r";
+				temp << rep  << "\r";
+				//fflush(temp);
 						
 				if(rep % 2 == 0){
 					singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
@@ -133,16 +160,19 @@ int main() {
 			double F_mod = log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per)));
 			double error = 0.0;
 					
-			cout << "********************************************************************************************" << endl;
+			
 			//Jacknife
 			error = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, td);
 					
 			int fine = (clock() - init)/CLOCKS_PER_SEC;
 					
-			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
-			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;
+			//This output is useless
+			/*temp << "********************************************************************************************" << endl;
+			temp << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
+			temp  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;*/
 			
 			file << beta << "\t" <<l1 << "\t" << F_mod << "\t" << error << endl;
+			//fflush(file);
 						
 			for(int a = 0 ; a < l1 ; a++) {
 				for(int b = 0; b < l2; b++) {
@@ -159,10 +189,42 @@ int main() {
 				free(cluster[a]);
 			}
 			free(cluster);
-	
+			
+			file.close();
+			return 0;
 		}
-	}	
-	file.close();		
+	}
+	
+	//Qui ci entra solo il programma principale. L'unico autorizzato a scrivere sulla console.
+	
+	vector<fstream> files(Beta.size()*L.size());
+	
+	for(int i = 0; i < Beta.size(); i++) {
+		for(int j = 0; j < L.size(); j++) {
+			stringstream name;
+			name << pids[i*Beta.size() + j];
+			files[i*Beta.size() + j].open(".temp" + name.str() + ".txt");
+		}
+	}
+			
+	for(int i = 0; i < Beta.size(); i++)
+		for(int j = 0; j < L.size(); j++)
+			files[i*Beta.size() + j] >> counts[i*Beta.size() + j];
+			
+	for(int i = 0; i < Beta.size(); i++)
+		for(int j = 0; j < L.size(); j++)
+			cout << counts[i*Beta.size() + j] << endl;
+			
+	for(int i = 0; i < Beta.size(); i++) {
+		for(int j = 0; j < L.size(); j++) {
+			stringstream name;
+			string s = ".temp" + name.str() + ".txt";
+			name << pids[i*Beta.size() + j];
+			remove(s.c_str());
+		}
+	}
+		
+	//Ciclo per la rimozione dei file temporanei.	
 	return 0;
 }
 
@@ -327,9 +389,11 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 
 }
 
-int clusterizeI(int*** latt, int*** cluster, int boundary, int* size, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution) {
+int clusterizeI(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution) {
 
 	stack<site> stack;
+	
+	int size[3] = {l1, l2, t};
 	
 	site next = {{i, j, k}, -1, -1};
 	stack.push(next);
@@ -385,9 +449,12 @@ void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, i
 	int j = (*distr_l2)(mt);
 	int k = (*distr_t)(mt);
 
-	clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, k, distribution);	
+	#ifdef ITERATIVE
 	//Versione iterativa --- non soffre della limitazione della dimensione dello stack.
-	//clusterizeI(latt, cluster, boundary, size, beta, i, j, k, distribution);	
+	clusterizeI(latt, cluster, boundary, l1, l2, t, beta, i, j, k, distribution);	
+	#else
+	clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, k, distribution);	
+	#endif
 	
 	for(int i = 0; i < l1; i++) {
 		for(int j = 0; j < l2; j++) {
@@ -411,8 +478,11 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, i
 	for(int i = 0; i < l1; i++) 
 		for(int j = 0; j < l2; j++) 
 			if(cluster[i][j][t-1] == 0) 
+				#ifdef ITERATIVE
+				if(clusterizeI(latt, cluster, boundary, l1, l2, t, beta, i, j, t-1, distribution) == 1) flag = + 1;
+				#else
 				if(clusterize(latt, cluster, boundary, l1, l2, t, beta, -1, -1, i, j, t-1, distribution) == 1) flag = + 1;
-				//if(clusterizeI(latt, cluster, boundary, size, beta, i, j, t-1, distribution) == 1) flag = + 1;
+				#endif
 				
 					
 	if(flag == 0) {
