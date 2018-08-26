@@ -45,16 +45,25 @@ int main(int argc, char *argv[]) {
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	//Inseririmento di parametri da riga di comando
 	
-	if(argc != 3) {
+	/*if(argc != 3) {
 		cout << "Non sono stati inseriti i parametri corretti." << endl;
 		return -1;
-	}
-
-	long double beta_ins = atof(argv[1]);
-	int l_ins = atoi(argv[2]);
+	}*/
 	
-	const vector<long double> Beta = {beta_ins};
-	const vector<int> L = {l_ins};
+	vector<long double> Beta;
+	vector<int> L;
+	
+	double temp = 0.0;
+	
+	for (int i = 0; i < argc - 1 ; i++) {
+		temp = atof(argv[i+1]);
+		//Devo inserire quest valori negli array Beta e L
+		if(temp < 1.0) Beta.push_back(double(temp));
+		else L.push_back(int(temp));
+	}
+		
+	/*long double beta_ins = atof(argv[1]);
+	int l_ins = atoi(argv[2]);*/
 	
 	int blockDimentions[lenght] = {0};
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
@@ -152,8 +161,7 @@ int main(int argc, char *argv[]) {
 			
 			
 			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
-			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;
-			
+			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;		
 			file << beta << "\t" << l1 << "\t" << F_mod << "\t" << error << endl;
 						
 			for(int a = 0 ; a < l1 ; a++) {

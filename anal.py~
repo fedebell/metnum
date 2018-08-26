@@ -16,7 +16,7 @@ ratio = aper/per
 free = - numpy.log(ratio)
 
 beta = (((beta - betac))/betac)**(2* nu)
-free = free/100
+free = free
 
 
 print(beta)

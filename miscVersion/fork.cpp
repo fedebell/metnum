@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 	
 	int measure[N-(N/100)*frac] = {0}; 
 	
-	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio)."
+	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio).";
 			
 	for(int i = 0; i < Beta.size(); i++) {
 	
