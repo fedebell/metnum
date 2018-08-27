@@ -2,14 +2,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
+#include <cmath>
 #include <vector>
 #include <random>
 #include <stack>
 #include <ctime>
-#include <unistd.h>
-#include <signal.h>
-#include <sys/wait.h>
-
 using namespace std;
 
 //Inserire il numero di iterazioni
@@ -20,7 +19,7 @@ using namespace std;
 #define start 100
 #define lenght 30
 #define step 10
-
+//Utilizzare versione iterativa
 #define ITERATIVE
 
 typedef struct site {
@@ -42,20 +41,17 @@ random_device rd;
 mt19937 mt(rd());
 
 int main(int argc, char *argv[]) {
+	
+	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	//Inseririmento di parametri da riga di comando
 	
-	vector<long double> Beta;
-	vector<int> L;
-	
-	double temp = 0.0;
-	
-	for (int i = 0; i < argc - 1 ; i++) {
-		temp = atof(argv[i+1]);
-		if(temp < 1.0) Beta.push_back(double(temp));
-		else L.push_back(int(temp));
-	}
-	
-	vector<pid_t> pids(Beta.size()*L.size()) = {0};
+	/*if(argc != 3) {
+		cout << "Non sono stati inseriti i parametri corretti." << endl;
+		return -1;
+	}*/
+		
+	/*long double beta_ins = atof(argv[1]);
+	int l_ins = atoi(argv[2]);*/
 	
 	int blockDimentions[lenght] = {0};
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
@@ -64,31 +60,22 @@ int main(int argc, char *argv[]) {
 	
 	int measure[N-(N/100)*frac] = {0}; 
 	
-	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio)."
+	fstream file;
+		
+	//File aperto in modalità append
+	file.open ("data.txt", ios::app);
 			
 	for(int i = 0; i < Beta.size(); i++) {
 	
 		long double beta = Beta[i];
+		
+		//header file
+		//file << "#" << "beta = " << beta << "\t N = " << N << " \t frac = " << frac << "\t start = " << start << "\t lenght = " << lenght  << "\t step = " << step << endl;
+		//file << "#beta \t L \t F_mod \t dF_mod" << endl;
 	
 		for(int j = 0; j < L.size(); j++) {
 		
-			pids[i*Beta.size() + j] = fork();
-			
-			if(pids[i*Beta.size() + j] == -1) {
-				cout << "fork() error" << endl;
-				return -1;
-			}
-			
-			
-			if(pids[i*Beta.size() + j] != 0)  {
-				//Passo 10 ms da un processo all'altro.
-				usleep(10000);
-				continue;
-			}
-			
-			fstream file;
-			//File aperto in modalità append
-			file.open ("data.txt", ios::app);
+			//Questo è il posto ideale per inserire una eventuale parallelizzazione.
 					
 			int l1 = L[j];
 			int l2 = L[j];
@@ -124,16 +111,12 @@ int main(int argc, char *argv[]) {
 				
 			int per = 0; 
 			int aper = 0;
+			
 			int init = clock();
-			
-			bool flag = false;
-			int count = 1;
-			
+
 			for(int rep = 0; rep < N; rep++) {
-				
-				if((clock() - init) > count*CLOCKS_PER_SEC*10) { flag = true; count++; }
-				if(flag) { cout << "beta = " << beta << " L = " << l1 << " rep = " << rep << endl; flag = false; }
-				fflush(stdout);
+						
+				cout << rep  << "\r";
 						
 				if(rep % 2 == 0){
 					singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
@@ -158,18 +141,16 @@ int main(int argc, char *argv[]) {
 			double F_mod = log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per)));
 			double error = 0.0;
 					
-			
 			//Jacknife
+			cout << "********************************************************************************************" << endl;
 			error = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, td);
 					
 			int fine = (clock() - init)/CLOCKS_PER_SEC;
-					
-			/*cout << "********************************************************************************************" << endl;
-			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
-			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;*/
 			
-			file << beta << "\t" <<l1 << "\t" << F_mod << "\t" << error << endl;
-			fflush(stdout);
+			
+			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
+			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;		
+			file << beta << "\t" << l1 << "\t" << F_mod << "\t" << error << endl;
 						
 			for(int a = 0 ; a < l1 ; a++) {
 				for(int b = 0; b < l2; b++) {
@@ -186,36 +167,11 @@ int main(int argc, char *argv[]) {
 				free(cluster[a]);
 			}
 			free(cluster);
-			
-			file.close();
-			return 0;
+	
 		}
 	}
-		
-	//Ciclo per la rimozione dei sottoprocessi
 	
-	int killVar = 0;
-	cin >> killVar;
-	
-	if(killVar == 1) {
-		pid_t pid = 0;
-		for(int i = 0; i < Beta.size()*L.size(); i++) {
-			pid = pids[i];
-			kill(pid, SIGTERM);
-			bool died = false;
-			for (int loop; !died && loop < 5; ++loop)
-			{
-    				int status;
-    				pid_t id;
-    				sleep(1);
-    				if (waitpid(pid, &status, WNOHANG) == pid) died = true;
-			}
-
-			if (!died) kill(pid, SIGKILL);
-		}
-			
-	}
-	
+	file.close();		
 	return 0;
 }
 
@@ -240,11 +196,11 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 	int count = 0;
 	
 	for(i = 0; i < len; i++) {
-		
+	
 		cout << i << "\r";
+		
 		//Calcolo della media in cui si escludono elementi che non apparterrano a nessun blocco.
 		Nb = size/blockDimentions[i];
-		//cout << "size = " << size << "blockDimentions = " << blockDimentions[i] << "Nb ="  << Nb << endl;
 		//Alloco dinamicamente un array di questa dimensione.
 		block = (double*) malloc (Nb * sizeof(double));
 		//Scelta del blocco da escludere
@@ -259,24 +215,17 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 				}
 				
 			}
-			//cout << "Periodic average =" << avgP << endl;
-			//cout << "AntiPeriodic average = " << avgAP << endl;
 			davgP = double(avgP);
 			davgAP = double(avgAP);
 			F_mod = t - log( 0.5 * log( (1.0 + davgAP/davgP) / (1.0 - davgAP/davgP) ));
-			
-			//cout << "F_mod = " << F_mod << endl;
 			
 			block[j] = F_mod;
 		}
 		
 		//Calcolo la varianza
-		
 		media = 0.0;
 		for(j = 0; j < Nb; j++) media += block[j];	
 		media /= Nb;
-		
-		//cout << "Media = " << media;
 		
 		sum = 0.0;
 		for(j = 0; j < Nb; j++) sum += (block[j] - media)*(block[j] - media);

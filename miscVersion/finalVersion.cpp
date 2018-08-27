@@ -45,16 +45,13 @@ int main(int argc, char *argv[]) {
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
 	//Inseririmento di parametri da riga di comando
 	
-	if(argc != 3) {
+	/*if(argc != 3) {
 		cout << "Non sono stati inseriti i parametri corretti." << endl;
 		return -1;
-	}
-
-	long double beta_ins = atof(argv[1]);
-	int l_ins = atoi(argv[2]);
-	
-	const vector<long double> Beta = {beta_ins};
-	const vector<int> L = {l_ins};
+	}*/
+		
+	/*long double beta_ins = atof(argv[1]);
+	int l_ins = atoi(argv[2]);*/
 	
 	int blockDimentions[lenght] = {0};
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;

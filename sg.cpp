@@ -55,7 +55,9 @@ int main(int argc, char *argv[]) {
 		else L.push_back(int(temp));
 	}
 	
-	vector<pid_t> pids(Beta.size()*L.size()) = {0};
+	vector<pid_t> pids(Beta.size()*L.size());
+	
+	for (int i = 0; i < Beta.size()*L.size(); i++) pids[i] = 0; 
 	
 	int blockDimentions[lenght] = {0};
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
@@ -64,7 +66,7 @@ int main(int argc, char *argv[]) {
 	
 	int measure[N-(N/100)*frac] = {0}; 
 	
-	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio)."
+	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio)." << endl;
 			
 	for(int i = 0; i < Beta.size(); i++) {
 	
@@ -81,7 +83,7 @@ int main(int argc, char *argv[]) {
 			
 			
 			if(pids[i*Beta.size() + j] != 0)  {
-				//Passo 10 ms da un processo all'altro.
+				//Aspetto 10 ms da un processo all'altro.
 				usleep(10000);
 				continue;
 			}
@@ -133,7 +135,7 @@ int main(int argc, char *argv[]) {
 				
 				if((clock() - init) > count*CLOCKS_PER_SEC*10) { flag = true; count++; }
 				if(flag) { cout << "beta = " << beta << " L = " << l1 << " rep = " << rep << endl; flag = false; }
-				fflush(stdout);
+				//fflush(stdout);
 						
 				if(rep % 2 == 0){
 					singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
@@ -169,7 +171,7 @@ int main(int argc, char *argv[]) {
 			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;*/
 			
 			file << beta << "\t" <<l1 << "\t" << F_mod << "\t" << error << endl;
-			fflush(stdout);
+			//fflush(stdout);
 						
 			for(int a = 0 ; a < l1 ; a++) {
 				for(int b = 0; b < l2; b++) {
