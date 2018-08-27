@@ -5,6 +5,7 @@ import pylab
 from scipy.optimize import curve_fit
 import math
 import scipy.stats
+#carico array di beta, dimensioni, misura free energy e relativo errore
 beta, l, F, error = pylab.loadtxt("data.txt", unpack = "True")
 
 temp = []
@@ -30,6 +31,7 @@ def search(element, array):
 		if(array[i] == element): flag = 1
 	return flag
 
+#scorro il file .txt e appendo a temp solo le beta di quelli con beta giusto
 for i in range(len(beta)):
 	if(search(beta[i], temp) == 0):
 		temp.append(beta[i])
@@ -41,6 +43,7 @@ for i in range(len(temp)):
 	l_temp = []
 	F_temp = []
 	error_temp = []
+	#riscorro tutto il .txt e metto negli array temporanei i valori di l, F, err con beta giusta 
 	for j in range(len(l)):
 		if(beta[j] == temp[i]):
 			l_temp.append(l[j])
@@ -51,7 +54,7 @@ for i in range(len(temp)):
 	F_temp = numpy.array(F_temp)
 	error_temp = numpy.array(error_temp)
 	
-	#Eseguo il grafico
+	#Eseguo il grafico per ogni temperatura, indicizzata proprio da temp
 	
 	pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 	pylab.rc('font',size=13)
@@ -61,7 +64,7 @@ for i in range(len(temp)):
 	pylab.grid(color = "gray")
 	pylab.errorbar(l_temp, F_temp, error_temp, 0, "o", color="black")
 	 
-	#Eseguo il fit
+	#Eseguo il fit per ogni temperatura
 
 	#error = unumpy.std_devs(I_D)
 	init = numpy.array([0.2, 0.3, 0.1])
@@ -77,9 +80,11 @@ for i in range(len(temp)):
 	#e = par[4]
 	#f = par[5]
 
+	#creo array surf[i] = surface tension ricavata dal fit a beta[i]
 	surf.append(a)
 	err.append(math.sqrt(cov[0][0]))
 	
+	#printo i chi^2
 	chisq = ((F_temp-freeEnergy(l_temp, a, b, c))/error_temp)**2
 	somma = sum(chisq)
 	
@@ -90,6 +95,8 @@ for i in range(len(temp)):
 	print("beta = %f, Chisquare/ndof = %f/%d" % (temp[i], somma, ndof))
 	print("p = ", p)
 	
+	
+	#plotto per ogni temperatura le funzioni di fit coi parametri ricavati
 	div = 1000
 	bucket = numpy.array([0.0 for i in range(div)])
 	retta = numpy.array([0.0 for i in range(div)])
@@ -113,6 +120,7 @@ temp = numpy.delete(temp, numpy.array([6, 7]))
 surf = numpy.delete(surf, numpy.array([6, 7]))
 err = numpy.delete(err, numpy.array([6, 7]))
 
+#plotto l'andamento in funzione di beta delle surftension fittate
 pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
 pylab.rc('font',size=13)
 pylab.title('Surface tension', fontsize = "16")
@@ -156,7 +164,7 @@ bucket = numpy.array([0.0 for i in range(div)])
 retta = numpy.array([0.0 for i in range(div)])
 inc = (temp.max()-temp.min())/div 
 for k in range(len(bucket)):
-        bucket[k]=float(k)*inc + temp.min()
+	bucket[k]=float(k)*inc + temp.min()
 	retta[k] = surfaceTension(bucket[k], par[0], par[1], par[2])
 	
 pylab.plot(bucket, retta, color = "red")
