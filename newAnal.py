@@ -19,7 +19,7 @@ def freeEnergy(l, a, b, c):
 	return c + b*(1/l)**2  + a*l**2
 	#return c + d*(1/l)**2 + b*(1/l)**4 + e*(1/l)**6 + a*l**2
 	#return c + d*(1/l)**2 + b*(1/l)**4 + e*(1/l)**6 + f*l + a*l**2
-	#return a*l**2 + c - numpy.log( 1.0 + b*(1/l)**2) 
+	#return a*l**2 + c - numpy.log( 1.0 + d*(1/l)**2) 
 	
 def surfaceTension(b, sigma_0, b_c, exp):
 	return sigma_0*numpy.float_power(abs(b - b_c)/b_c, exp)
@@ -71,7 +71,7 @@ for i in range(len(temp)):
 	#Errori tutti statistici
 	par, cov = curve_fit(freeEnergy, l_temp, F_temp, init, error_temp, absolute_sigma = "true")
 	#trattazione statistica degli errori
-	print(par, cov)
+	#print(par, cov)
 	
 	a = par[0]
 	b = par[1]
@@ -88,12 +88,12 @@ for i in range(len(temp)):
 	chisq = ((F_temp-freeEnergy(l_temp, a, b, c))/error_temp)**2
 	somma = sum(chisq)
 	
-	ndof = len(F_temp) - 4 #Tolgo due parametri estratti dal fit
+	ndof = len(F_temp) - 6 #Tolgo due parametri estratti dal fit
 	
 	p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
-	print("beta = %f, Chisquare/ndof = %f/%d" % (temp[i], somma, ndof))
-	print("p = ", p)
+	#print("beta = %f, Chisquare/ndof = %f/%d" % (temp[i], somma, ndof))
+	#print("p = ", p)
 	
 	
 	#plotto per ogni temperatura le funzioni di fit coi parametri ricavati
@@ -110,15 +110,18 @@ for i in range(len(temp)):
 	#pylab.savefig("plot" + str(temp[i]) + ".png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
 
 	#pylab.show()
+
+print("beta = ", temp)
+print("sigma = ", surf)
 	
 surf = numpy.array(surf)
 err = numpy.array(err)
 
 #taglio i primi valori
 
-temp = numpy.delete(temp, numpy.array([5, 7]))
-surf = numpy.delete(surf, numpy.array([5, 7]))
-err = numpy.delete(err, numpy.array([5, 7]))
+temp = numpy.delete(temp, numpy.array([6, 7]))
+surf = numpy.delete(surf, numpy.array([6, 7]))
+err = numpy.delete(err, numpy.array([6, 7]))
 
 #plotto l'andamento in funzione di beta delle surftension fittate
 pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
@@ -136,11 +139,11 @@ pylab.errorbar(temp, surf, err, 0, "o", color="black")
 #error = unumpy.std_devs(I_D)
 init = numpy.array([1.40, 0.22165, 2*0.629971])
 #Errori tutti statistici
-par, cov = curve_fit(surfaceTension, surf, temp, init, err, absolute_sigma = "true")
+par, cov = curve_fit(surfaceTension, temp, surf, init, err, absolute_sigma = "true")
 #trattazione statistica degli errori
 print(par, cov)
 
-par = init
+#par = init
 	
 #Di nuovo co capisco il chi quadro, non cambia nulla se cambio da true a false
 sigma_0 = par[0]
@@ -152,12 +155,16 @@ print(surfaceTension(temp, par[0], par[1], par[2]))
 chisq = ((surf - surfaceTension(temp, par[0], par[1], par[2]))/err)**2
 somma = sum(chisq)
 	
-ndof = len(temp) - 3 #Tolgo due parametri estratti dal fit
+ndof = len(temp) - 2 #Tolgo due parametri estratti dal fit
 	
 p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
 print("Chisquare/ndof = %f/%d" % (somma, ndof))
 print("p = ", p)
+
+print("Surface tension = ", sigma_0, "pm", cov[0][0])
+print("Critical beta = ", b_c, "pm", cov[1][1])
+print("Critical exponent = ", exp, "pm", cov[2][2])
 	
 div = 1000
 bucket = numpy.array([0.0 for i in range(div)])
