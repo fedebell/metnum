@@ -9,6 +9,9 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <cstring>
+#include <cmath>
+#include <sys/prctl.h>
 
 using namespace std;
 
@@ -47,9 +50,19 @@ int main(int argc, char *argv[]) {
 	vector<long double> Beta;
 	vector<int> L;
 	
+	bool parall = false;
 	double temp = 0.0;
 	
-	for (int i = 0; i < argc - 1 ; i++) {
+	//Il primo comando da leggere è se fare le cose in parallelo o sequenzialmente.
+	
+	if(strcmp(argv[1], "-s") == 0)  parall = false;
+	else if(strcmp(argv[1], "-p") == 0) parall = true;
+	else {
+		cerr << "Il primo argomento deve essere '-s' per l'esecuzione sequenziale o '-p' per l'esecuzione parallela." << endl;
+		return -1;
+	} 
+	
+	for (int i = 1; i < argc - 1 ; i++) {
 		temp = atof(argv[i+1]);
 		if(temp < 1.0) Beta.push_back(double(temp));
 		else L.push_back(int(temp));
@@ -63,10 +76,9 @@ int main(int argc, char *argv[]) {
 	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
 	
 	int boundary = 1;
-	
 	int measure[N-(N/100)*frac] = {0}; 
 	
-	cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare un tasto qualsiasi (più invio)." << endl;
+	if(parall) cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare 0 (più invio)." << endl;
 			
 	for(int i = 0; i < Beta.size(); i++) {
 	
@@ -74,28 +86,39 @@ int main(int argc, char *argv[]) {
 	
 		for(int j = 0; j < L.size(); j++) {
 		
-			pids[i*Beta.size() + j] = fork();
+			if(parall) {
+				pids[i*Beta.size() + j] = fork();
+				
+				if(pids[i*Beta.size() + j] == -1) {
+					cerr << "fork() error" << endl;
+					return -1;
+				}
 			
-			if(pids[i*Beta.size() + j] == -1) {
-				cout << "fork() error" << endl;
-				return -1;
+			
+			
+				if(pids[i*Beta.size() + j] != 0)  {
+					//Aspetto 10 ms da un processo all'altro.
+					usleep(10000);
+					continue;
+				}
 			}
 			
-			
-			if(pids[i*Beta.size() + j] != 0)  {
-				//Aspetto 10 ms da un processo all'altro.
-				usleep(10000);
-				continue;
-			}
-			
-			fstream file;
-			//File aperto in modalità append
-			file.open ("data.txt", ios::app);
-					
 			int l1 = L[j];
 			int l2 = L[j];
 			int t = 3*L[j];
+			
+			char name[20];
+			sprintf(name, "sim%Lf:%i", beta, l1);
+			if(prctl(PR_SET_NAME, name , NULL, NULL, NULL) != 0) {
+				cerr << "Error in renaming process: sim" << beta << ":" << l1 << endl;
+				return -1;
+			}	
+			
 					
+			fstream file;
+			//File aperto in modalità append
+			file.open ("data.txt", ios::app);
+			
 			//Una di queste distribuzioni è inutile
   			uniform_int_distribution<int> distr_l1(0,l1-1);
   			uniform_int_distribution<int> distr_l2(0,l2-1);
@@ -135,15 +158,11 @@ int main(int argc, char *argv[]) {
 				
 				if((clock() - init) > count*CLOCKS_PER_SEC*10) { flag = true; count++; }
 				if(flag) { cout << "beta = " << beta << " L = " << l1 << " rep = " << rep << endl; flag = false; }
-				//fflush(stdout);
 						
-				if(rep % 2 == 0){
-					singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
-					}
-				else
-					boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
+				if(rep % 2 == 0) singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
+				else boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
 				
-				
+
 				if(rep >= (N/100)*frac) {
 					
 					if(boundary == 1) per += 1;
@@ -157,11 +176,10 @@ int main(int argc, char *argv[]) {
 			double Per = double(per);
 			double td = double(t);
 					
-			double F_mod = log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per)));
-			double error = 0.0;
-					
+			double F_mod = log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per)));	
 			
 			//Jacknife
+			double error = 0.0;
 			error = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, td);
 					
 			int fine = (clock() - init)/CLOCKS_PER_SEC;
@@ -170,9 +188,8 @@ int main(int argc, char *argv[]) {
 			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << "tempo = " << fine << " s"  << endl;
 			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;*/
 			
-			file << beta << "\t" <<l1 << "\t" << F_mod << "\t" << error << endl;
-			//fflush(stdout);
-						
+			file << beta << "\t" << l1 << "\t" << F_mod << "\t" << error << endl;
+				
 			for(int a = 0 ; a < l1 ; a++) {
 				for(int b = 0; b < l2; b++) {
 					free(latt[a][b]);
@@ -190,32 +207,41 @@ int main(int argc, char *argv[]) {
 			free(cluster);
 			
 			file.close();
-			return 0;
+			
+			/*if(!(isnormal(F_mod) && isnormal(error))) {
+				if(!parall) break;
+				//FIXME: Dovrebbe fare qualcosa per ammazzare gli altri processi!!!
+				if(parall) return -1;
+			}*/
+			
+			if(parall) return 0;
 		}
 	}
 		
 	//Ciclo per la rimozione dei sottoprocessi
-	
-	int killVar = 0;
-	cin >> killVar;
-	
-	if(killVar == 1) {
-		pid_t pid = 0;
-		for(int i = 0; i < Beta.size()*L.size(); i++) {
-			pid = pids[i];
-			kill(pid, SIGTERM);
-			bool died = false;
-			for (int loop; !died && loop < 5; ++loop)
-			{
-    				int status;
-    				pid_t id;
-    				sleep(1);
-    				if (waitpid(pid, &status, WNOHANG) == pid) died = true;
-			}
-
-			if (!died) kill(pid, SIGKILL);
-		}
+	if(parall) {
+		int killVar = -1;
+		do {
+			cin >> killVar;
+			if(killVar == 1) {
+				pid_t pid = 0;
+					for(int i = 0; i < Beta.size()*L.size(); i++) {
+					pid = pids[i];
+					kill(pid, SIGTERM);
+					bool died = false;
+					for (int loop; !died && loop < 5; ++loop)
+					{
+    						int status;
+    						pid_t id;
+    						sleep(1);
+    						if (waitpid(pid, &status, WNOHANG) == pid) died = true;
+					}
+		
+					if (!died) kill(pid, SIGKILL);
+				}
 			
+			}
+		} while (killVar != 0 && killVar != 1);
 	}
 	
 	return 0;
@@ -243,7 +269,7 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 	
 	for(i = 0; i < len; i++) {
 		
-		cout << i << "\r";
+		//cout << i << "\r";
 		//Calcolo della media in cui si escludono elementi che non apparterrano a nessun blocco.
 		Nb = size/blockDimentions[i];
 		//cout << "size = " << size << "blockDimentions = " << blockDimentions[i] << "Nb ="  << Nb << endl;
@@ -419,6 +445,7 @@ int clusterizeI(int*** latt, int*** cluster, int boundary, int l1, int l2, int t
 					if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
 					
 					if((cluster[next.c[0]][next.c[1]][next.c[2]] == 0) && ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + ((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]))))) stack.push(next);
+					
 				}
 			}
 		}
