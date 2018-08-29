@@ -1,0 +1,123 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Beamer Presentation
+% LaTeX Template
+% Version 1.0 (10/11/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+%!TEX encoding = UTF-8 Unicode
+
+
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}\
+\usepackage{braket}
+\usepackage{verbatim}
+
+\mode<presentation> {
+
+\usetheme{Pittsburgh}
+
+}
+
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[]{Critical behaviour of the surface tension in the 3D Ising model} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author[]
+{
+Federico Belliardo \\
+Marco Costa
+} 
+
+\institute[] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+{
+Dipartimento di Fisica\\ % Your institution for the title page
+Università di Pisa \\
+\medskip
+}
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+\titlepage % Print the title page as the first slide
+\end{frame}
+
+%\begin{frame}
+%\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+%\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+%\end{frame}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Summary}
+\begin{center}
+
+\begin{itemize}
+\item Definition of the surface tension
+\item Algorithm for generating the Markov chain
+\item (Notes on the implementation?)
+\item Estimation of the errors
+\item Fit of the free energy
+\item Fit of the critical behaviour
+\item Conclusion
+\end{itemize}
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Definition of the surface tension}
+\begin{center}
+
+\textit{Inserire immagine}
+
+\[
+\sigma = \lim_{\substack{L \rightarrow +\infty \\  T \rightarrow +\infty}} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}}
+\]
+
+\textit{L'ordine dei due limiti T e  non dovrebbe contare. Non so se si può "dimostrare" al nostro libello di rigore fisiamo T = 3L e facciamo il limite per L}
+
+\textit{$Z_{+-}$ e $Z_{++}$ sono le funzioni di partzione quando fisso cosa devono valere i layer di spin sul pavimento e sul soffito. Inserire piccola immagine per spiegarlo.}
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Definition of the surface tension}
+\begin{center}
+
+\textit{Inserire immagine}
+
+Alternative definition of $Z_{+-}$ and $Z_{++}$ ferromagnetic and antiferromagnetic boundary condition.
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Definition of the surface tension}
+\begin{center}
+
+
+\end{center}
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 
