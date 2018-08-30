@@ -1,6 +1,5 @@
 #!/bin/bash
 #Connesione a phoenix
-set pass "feupaecaim"
 ssh fbelliardo@192.168.80.24
 expect "fbelliardo@192.168.80.24's password: "
 send "$pass"

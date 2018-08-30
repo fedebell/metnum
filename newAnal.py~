@@ -6,7 +6,7 @@ from scipy.optimize import curve_fit
 import math
 import scipy.stats
 #carico array di beta, dimensioni, misura free energy e relativo errore
-beta, l, F, error = pylab.loadtxt("data.txt", unpack = "True")
+beta, l, F, error = pylab.loadtxt("dataOld.txt", unpack = "True")
 
 temp = []
 surf = []
@@ -37,7 +37,7 @@ def search(element, array):
 
 #scorro il file .txt e appendo a temp solo le beta di quelli con beta giusto
 for i in range(len(beta)):
-	if(search(beta[i], temp) == 0):
+	if(search(beta[i], temp) == 0 and beta[i] > 0.2284):
 		temp.append(beta[i])
 		
 temp = numpy.array(temp)
@@ -50,9 +50,10 @@ for i in range(len(temp)):
 	#riscorro tutto il .txt e metto negli array temporanei i valori di l, F, err con beta giusta 
 	for j in range(len(l)):
 		if(beta[j] == temp[i]):
-			l_temp.append(l[j])
-			F_temp.append(F[j])
-			error_temp.append(error[j])
+			if(search(l[j], l_temp) == 0):
+				l_temp.append(l[j])
+				F_temp.append(F[j])
+				error_temp.append(error[j])
 	
 	l_temp = numpy.array(l_temp)
 	F_temp = numpy.array(F_temp)
@@ -93,7 +94,7 @@ for i in range(len(temp)):
 	chisq = ((F_temp-freeEnergy(l_temp, a, b))/error_temp)**2
 	somma = sum(chisq)
 	
-	ndof = len(F_temp) - 3 #Tolgo due parametri estratti dal fit
+	ndof = len(F_temp) - 2 #Tolgo due parametri estratti dal fit
 	
 	p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
@@ -124,9 +125,9 @@ err = numpy.array(err)
 
 #taglio i primi valori
 
-temp = numpy.delete(temp, numpy.array([6, 7]))
-surf = numpy.delete(surf, numpy.array([6, 7]))
-err = numpy.delete(err, numpy.array([6, 7]))
+#temp = numpy.delete(temp, numpy.array([6, 7]))
+#surf = numpy.delete(surf, numpy.array([6, 7]))
+#err = numpy.delete(err, numpy.array([6, 7]))
 
 #plotto l'andamento in funzione di beta delle surftension fittate
 pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
