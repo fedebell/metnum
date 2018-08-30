@@ -83,6 +83,34 @@ Università di Pisa \\
 \end{center}
 \end{frame}
 
+\begin{frame}{3D Ising model}
+\begin{center}
+
+\begin{columns}
+\begin{column}{0.43\textwidth}
+   \[
+\mathcal{H} = -\sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y
+\]
+
+\[
+J_{\langle x, y \rangle} = 1\text{ ferromagnetic}
+\]
+\[
+J_{\langle x, y \rangle} = -1\text{ antiferromagnetic}
+\]
+\end{column}
+\begin{column}{0.57\textwidth}  %%<--- here
+ \begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{ising3D.png}
+\end{figure}
+\end{column}
+\end{columns}
+
+
+\end{center}
+\end{frame}
+
 \begin{frame}{Definition of the surface tension}
 \begin{center}
 
@@ -94,49 +122,101 @@ Università di Pisa \\
 
 \large
 \[
-\sigma = \lim_{\substack{L \rightarrow +\infty \\  T \rightarrow +\infty}} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}}
+\sigma = -\lim_{L \rightarrow +\infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} \quad L \times L \times cL \quad c = \text{const}
 \]
 
-\note{L'ordine dei due limiti T e  non dovrebbe contare. Non so se si può "dimostrare" al nostro libello di rigore fisiamo T = 3L e facciamo il limite per L}
+\note{L'ordine dei due limiti T e  non dovrebbe contare. Non so se si può "dimostrare" al nostro libello di rigore fisiamo T = 3L e facciamo il limite per L. Per sistemare la faccenda introduciamo una larghezza L del sistema e questa è l'unica lunghezza che va all'infinito.}
 
 \note{$Z_{+-}$ e $Z_{++}$ sono le funzioni di partzione quando fisso cosa devono valere i layer di spin sul pavimento e sul soffito. Inserire piccola immagine per spiegarlo.}
 
 \end{center}
 \end{frame}
 
-\begin{frame}{Definition of the surface tension}
+\begin{frame}
 \begin{center}
-\[
-\sigma = \lim_{\substack{L \rightarrow +\infty \\  T \rightarrow +\infty}} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} = \frac{1}{L^2} \left( F_{+-} - F_{++} \right) 
-\]
-
-\
-Free energy per area of the interface between phases.
-
-\end{center}
-\end{frame}
-
-\begin{frame}{Definition of the surface tension}
-\begin{center}
-
-
-
-\begin{minipage}[t]{0.48\linewidth}
-left part
-\end{minipage}\hfill
-\begin{minipage}[t]{0.48\linewidth}
+\hfill
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.5]{antiferro.png}
+\includegraphics[scale=0.50]{comparison.png}
 \end{figure}
-\end{minipage}
+\[
+\sigma = -\lim_{L \rightarrow +\infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} = \lim_{L \rightarrow +\infty} \frac{1}{L^2} \left( F_{+-} - F_{++} \right) 
+\]
+\[\sigma = \text{difference of the free energies per unit area}\]
+
+\note{Bisogna dire che nel limite termodinamico sopravvive una sola superficie di separazione.}
 
 \end{center}
 \end{frame}
 
-\begin{frame}{Definition of the surface tension}
+\begin{frame}
 \begin{center}
 
+\begin{columns}
+\begin{column}{0.50\textwidth}
+\begin{center}
+Redefinition of $Z_{++}$ and $Z_{+-}$.\\
+\vspace{10pt}
+$Z_{++} \rightarrow $ ferromagnetic link between \textbf{top and bottom}.\\
+$Z_{+-} \rightarrow $ \textbf{anti}ferromagnetic link between \textbf{top and bottom}.\\
+\vspace{10pt}
+Always ferromagnetic link in $x$ and $y$.\\
+\vspace{10pt}
+Same definition for $\sigma$.\\
+\vspace{10pt}
+Periodic boundary conditions reduce the finite size effect.\\
+\end{center}
+
+\end{column}
+\begin{column}{0.50\textwidth}  %%<--- here
+ \begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.7]{antiferro.png}
+\end{figure}
+\end{column}
+\end{columns}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+{\Large Montecarlo simulations can't measure $Z$!\\}
+\vspace{10pt}
+Solution: $J_{\langle x, y \rangle}$ between top and bottom becomes a \textbf{dinamical variable} that is summed over in $Z$.\\
+$J_{\langle x, y \rangle} = 1$ (periodic b.c.)\hspace{10pt}$J_{\langle x, y \rangle} = -1$ (antiperiodic b.c.)\\
+Other $J_{\langle x, y \rangle}$ remains ferromagnetic.
+
+\[
+Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
+\]
+
+{\large \[
+\frac{Z_{+-}}{Z_{++}} = \frac{\frac{Z_{+-}}{Z}}{\frac{Z_{++}}{Z}}=\frac{\langle \delta_{J = -1} \rangle}{\langle \delta_{J = + 1} \rangle}
+\]}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+We want to define the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ in the thermodynamic limit.
+
+In $F_{+-} - F_{++}$ there is an \textbf{entropic} contribution which we subtract:
+
+\[
+F_s = F_{+-} - F_{++} + \ln \left( cL \right )
+\]
+
+INSERIRE IMMAGINE MEMBRANA IN VARIE POSIZIONI
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+In the thermodynamic limit there is only one interface in an elemnt in the $Z_{+-}$ ensambe. For finite L multiple interface can be present.
+
+INSERIRE IMMAGINE
 
 \end{center}
 \end{frame}

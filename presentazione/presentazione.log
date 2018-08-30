@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  30 AUG 2018 18:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  31 AUG 2018 00:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1239,33 +1239,60 @@ LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 
 [2
 
-] <bound.png, id=28, 520.344pt x 274.626pt>
-File: bound.png Graphic file (type png)
- <use bound.png>
-Package pdftex.def Info: bound.png used on input line 105.
-(pdftex.def)             Requested size: 260.17136pt x 137.31265pt.
-LaTeX Font Info:    Try loading font information for U+msa on input line 105.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+]
+LaTeX Font Info:    Try loading font information for U+msa on input line 112.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 105.
+LaTeX Font Info:    Try loading font information for U+msb on input line 112.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [3
+)
+Overfull \hbox (12.80066pt too wide) detected at line 112
+\T1/cmss/m/it/12 J[] \OT1/cmss/m/n/12 = \OMS/cmsy/m/n/12 ^^@\T1/cmss/m/n/12 1[]
 
- <./bound.png>]
+ []
+
+<ising3D.png, id=28, 376.607pt x 408.727pt>
+File: ising3D.png Graphic file (type png)
+ <use ising3D.png>
+Package pdftex.def Info: ising3D.png used on input line 112.
+(pdftex.def)             Requested size: 188.30302pt x 204.36299pt.
+
+Overfull \hbox (13.14555pt too wide) in paragraph at lines 112--112
+ [] 
+ []
+
+[3
+
+ <./ising3D.png>] <bound.png, id=42, 520.344pt x 274.626pt>
+File: bound.png Graphic file (type png)
+ <use bound.png>
+Package pdftex.def Info: bound.png used on input line 133.
+(pdftex.def)             Requested size: 260.17136pt x 137.31265pt.
+
 [4
 
-] <antiferro.png, id=52, 138.919pt x 309.958pt>
-File: antiferro.png Graphic file (type png)
- <use antiferro.png>
-Package pdftex.def Info: antiferro.png used on input line 135.
-(pdftex.def)             Requested size: 69.45932pt x 154.9786pt.
+ <./bound.png>] <comparison.png, id=55, 501.875pt x 252.945pt>
+File: comparison.png Graphic file (type png)
+
+<use comparison.png>
+Package pdftex.def Info: comparison.png used on input line 150.
+(pdftex.def)             Requested size: 250.93687pt x 126.47218pt.
  [5
 
- <./antiferro.png>] [6
+ <./comparison.png>]
+<antiferro.png, id=63, 138.919pt x 309.958pt>
+File: antiferro.png Graphic file (type png)
+ <use antiferro.png>
+Package pdftex.def Info: antiferro.png used on input line 180.
+(pdftex.def)             Requested size: 97.24263pt x 216.9691pt.
+ [6
+
+ <./antiferro.png>] [7
+
+] [8
 
 ]
 \tf@nav=\write6
@@ -1277,11 +1304,11 @@ Package pdftex.def Info: antiferro.png used on input line 135.
 \tf@snm=\write8
 \openout8 = `presentazione.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 147.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 147.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 217.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 217.
  (./presentazione.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 147.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 147.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 217.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 217.
 Package rerunfilecheck Info: File `presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1292,34 +1319,40 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 147.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 217.
  ) 
 Here is how much of TeX's memory you used:
- 17052 strings out of 494901
- 319561 string characters out of 6179487
- 384610 words of memory out of 5000000
- 19912 multiletter control sequences out of 15000+600000
- 23916 words of font info for 62 fonts, out of 8000000 for 9000
+ 17085 strings out of 494901
+ 320102 string characters out of 6179487
+ 385608 words of memory out of 5000000
+ 19936 multiletter control sequences out of 15000+600000
+ 27064 words of font info for 70 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,11n,52p,420b,392s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1200.600pk> </hom
-e/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0800.600pk> </home/federi
-co/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1000.600pk> </home/federico/.texm
-f-var/fonts/pk/ljfour/jknappen/ec/ecsi1440.600pk> </home/federico/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecsi1000.600pk> </home/federico/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecss1440.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecss0800.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/e
-c/ecss1200.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss17
-28.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on presentazione.pdf (6 pages, 103209 bytes).
+ 48i,11n,52p,420b,568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0600.600pk> </hom
+e/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0600.600pk> </home/federi
+co/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1728.600pk> </home/federico/.texm
+f-var/fonts/pk/ljfour/jknappen/ec/ecsx1200.600pk> </home/federico/.texmf-var/fo
+nts/pk/ljfour/jknappen/ec/ecss1000.600pk> </home/federico/.texmf-var/fonts/pk/l
+jfour/jknappen/ec/ecsi1440.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecsi1000.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/e
+c/ecss1440.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi12
+00.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0800.600pk
+> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.600pk> </home
+/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1200.600pk> </home/federic
+o/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1728.600pk></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on presentazione.pdf (8 pages, 165424 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 308 PDF objects out of 1000 (max. 8388607)
+ 126 compressed objects within 2 object streams
+ 17 named destinations out of 1000 (max. 500000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 
