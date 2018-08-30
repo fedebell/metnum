@@ -4,7 +4,7 @@ set pass "feupaecaim"
 ssh fbelliardo@192.168.80.24
 expect "fbelliardo@192.168.80.24's password: "
 send "$pass"
-screen -dm -S 224 ./sg -p 0.224 34 36 38 40
+screen -dm -S 2240 ./sg -p 0.224 34 36 38 40
 screen -dm -S 2265 ./sg -p 0.2265 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 
 exit
 #Connesione a defiant

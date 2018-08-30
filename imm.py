@@ -1,0 +1,77 @@
+import math
+import numpy as numpy
+import pylab
+from scipy.optimize import curve_fit
+import math
+import scipy.stats
+import matplotlib.pyplot
+from matplotlib import pyplot 
+
+from matplotlib.pyplot import figure
+
+
+#carico array di beta, dimensioni, misura free energy e relativo errore
+
+
+spin = pylab.loadtxt("data.txt", unpack = "True")
+
+dim = 10
+
+latt = numpy.zeros((dim, dim, 3*dim))
+
+print(len(spin))
+
+for count in range(0, 10):
+
+	
+	
+	for i in range(0, dim):
+		for j in range(0, dim):
+			for k in range(0, 3*dim):
+				latt[i][j][k] = spin[i*(dim*3*dim)+(j*3*dim) + k + count*dim**2*3*dim]
+					
+	lattRed = numpy.zeros((dim, 3*dim))
+	
+	for i in range(0, dim):
+		for k in range(0, 3*dim):
+			count = 0
+			for j in range(0, dim):
+				if(latt[i][j][k] == 1.0): count += 1
+			if(count/dim > 0.5): lattRed[i][k] = 1
+			else: lattRed[i][k] = 0
+		
+	for i in range(0, dim):
+		for k in range(0, 3*dim):
+			if(latt[i][7][k] == 1.0): lattRed[i][k] = 1
+			else: lattRed[i][k] = 0
+	'''
+	x = []
+	z = []
+	
+	for i in range(0, dim):
+			for k in range(0, 3*dim):
+				if(lattRed[i][k] == 1):
+					x.append(i)
+					z.append(k)
+	'''
+	
+	x = numpy.zeros(3*dim)
+	for i in range(0, 3*dim):
+		x[i] = i
+	z = numpy.zeros(dim)
+	for i in range(0, dim):
+		z[i] = i
+	
+	x, z = numpy.meshgrid(x, z)
+	
+	cMap = matplotlib.colors.ListedColormap(['#FFFF00','b'])
+	
+	figure(num=None, figsize=(11, 3), dpi=80, facecolor='w', edgecolor='k')
+	matplotlib.pyplot.pcolormesh(x, z, lattRed, cmap = cMap)
+	
+	pyplot.show()
+	
+	
+					
+			
+	

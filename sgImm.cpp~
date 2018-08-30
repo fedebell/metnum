@@ -11,7 +11,7 @@
 using namespace std;
 
 //Inserire il numero di iterazioni
-#define N 100
+#define N 20000
 
 int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
 int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
@@ -25,10 +25,10 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L1 = {30};
-	const vector<int> L2 = {30};
-	const vector<int> T = {30*3};
+	const vector<long double> Beta = {0.255};
+	const vector<int> L1 = {10};
+	const vector<int> L2 = {10};
+	const vector<int> T = {30};
 	
 	int boundary = 1;
 
@@ -53,10 +53,8 @@ int main() {
 					l2_str << l2;
 					t_str << t;
 					
-					file.open (beta_str.str() + "_" + l1_str.str() + "_" + l2_str.str() + "_" + t_str.str() + ".txt");
+					file.open ("data.txt");
 					
-					//header file
-					file << "#\t mag\t abs_mag\t b.c." << endl;
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
 					//if(l1 != l2) continue;
@@ -91,6 +89,10 @@ int main() {
 					int per = 0; 
 					int aper = 0;
 					int init = clock();
+					
+					bool flag = false;
+					int count = 0;
+					
 					for(long int rep = 0; rep < N; rep++) {
 						
 						int tot_mag = 0;
@@ -121,16 +123,17 @@ int main() {
 						abs_tot_mag = abs(tot_mag);
 						mag = (double)tot_mag/(l1*l2*t);
 						abs_mag = (double)abs_tot_mag/(l1*l2*t);
-						
-						if(rep > 10000 && rep < 10010) {
+					
+						if((rep > 1000) && (flag == false) && (boundary == -1)) flag = true;
+						if(flag == true && count < 10) {
 							for(int i = 0; i < l1; i++) 
 								for(int j = 0; j < l2; j++) 
 									for(int k = 0; k < t; k++) 
 										file << latt[i][j][k] << endl;
+							count++;
 						}
-				}
-					
 					}
+					
 					int fine = clock() - init;
 
 					double Aper = double(aper);
