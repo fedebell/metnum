@@ -19,6 +19,7 @@
 
 \documentclass[12pt,handout]{beamer}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 \usepackage[T1]{fontenc}
 \usepackage{verbatim}
 
@@ -59,7 +60,7 @@ Università di Pisa \\
 
 %\begin{frame}
 %\frametitle{Overview} % Table of contents slide, comment this block out to remove it
-%\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+%\quadleofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
 %\end{frame}
 
 %----------------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ Università di Pisa \\
 \item Estimation of the errors and autocorrelation
 \item Fit of the free energy
 \item Fit of the critical behaviour
-\item Conclusion
+\item (Conclusion?)
 \end{itemize}
 
 \end{center}
@@ -99,6 +100,7 @@ J_{\langle x, y \rangle} = 1\text{ ferromagnetic}
 J_{\langle x, y \rangle} = -1\text{ antiferromagnetic}
 \]
 \end{column}
+
 \begin{column}{0.57\textwidth}  %%<--- here
  \begin{figure}[!htb]
 \centering
@@ -168,11 +170,13 @@ Periodic boundary conditions reduce the finite size effect.\\
 \end{center}
 
 \end{column}
-\begin{column}{0.50\textwidth}  %%<--- here
+\begin{column}{0.50\textwidth}
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.7]{antiferro.png}
 \end{figure}
+
 \end{column}
 \end{columns}
 
@@ -236,6 +240,7 @@ F_S = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z
 Cluster algorithms allow for simultaneous updates of large parts of the lattice. Thus reducing the autocorrelation time and the critical slowling down. Swendsen and Wang (1987).\\
 \vspace{10pt}
 Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ on the lattice:
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.4]{link.png}
@@ -249,10 +254,268 @@ Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ 
 \begin{frame}
 \begin{center}
 
+\begin{gather*}
+Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} e^{ \beta  s_x s_y} = \\[20pt]
+= e ^{ -d V \beta } \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} \left( 1 + \delta_{s_x, s_y} \left( e^{  2 \beta} - 1 \right) \right) = \\[20pt]
+= e^{ -d V \beta} \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle}   \sum_{\lbrace \sigma_{\langle x, y \rangle} = 0,1 \rbrace} \left[ \left( 1 - \sigma_{\langle x, y \rangle} \right)
++ \sigma_{\langle x, y \rangle} \delta_{s_x, s_y} \left( e^{ 2 \beta } - 1 \right) \right]
+\end{gather*}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+For a fixed spin configuration $\lbrace s \rbrace$ the links are indipendent.
 \[
-Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle} \exp \left( \beta s_x s_y \right) 
+p_1 = p \left( \sigma_{\langle x, y \rangle} = 0 \right) = \min \left[ 1 , e^{- 2 \beta s_x s_y} \right] = \exp \left( - 2 \beta \delta_{s_x, s_y} \right)
+\]
+\[
+p_0 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
+\]
+(if $s_x s_y = 1$ the weights in $Z$ are normalized to $e^{2 \beta}$)\\
+\vspace{30pt}
+For fixed $\sigma_{\langle x, y \rangle}$ only
+configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\langle x, y \rangle} = 1$ have a non zero probability. All configurations that satisfy the constraint have the same weight.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+Definition: a \textbf{cluster} is a set of spin in the lattice path connected by links with $\sigma_{\langle x, y \rangle} = 1$. In the ensamble all sites of a cluster are forced to have the same spin.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{esempioCluster.png}
+\end{figure}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+{\Large Swendsen and Wang algorithm:}
+
+\begin{itemize}
+\item Generate a link configuration $\sigma_{\langle x, y \rangle}$ based on the current spin configuration by using probablities $p_0$ and $p_1$. 
+\item For each cluster chosse a spin $\left( s = \pm 1 \right)$ with probability $\frac{1}{2}$.
+\item The newly generted spin configuration is the new element of the Markov chain.
+\end{itemize}
+
+\vspace{20pt}
+The SW is \textbf{ergodic}. We know prove that it satisfy the \textbf{detailed balance}.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+In the cluster algorithm we update both the spin $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spins and link configurations: $\lbrace s,  \sigma \rbrace$.
+
+\[
+\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
 \]
 
+(this is not the detailer balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the lonk configurations don't get exchnged!)
+
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+
+$P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right) =
+ \frac{1}{2^{\# cluster}}$ if $\lbrace s \rbrace$ is compatible with $\lbrace \sigma \rbrace$. Null otherwise.\\
+Thus $P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) = P \left( \lbrace s_2 \rbrace | \lbrace \sigma \rbrace \right)$.
+
+\[P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) =
+\exp \left( - 2 \beta \sum_{\langle x, y \rangle} \delta_{s_x, s_y} \right)
+\]
+
+FINIRE -- In effetti questa probabilità non mi convince - rivedere.
+
+Dire che in realtà noi usiamo il sigle cluster algorithm con un procedimento ricorsivo (implementato con uno stack) che controlla una ed una sola volta ogni link per vedere se attivarlo o meno. Costruendo così un singolo cluster che andiamo a flippare.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+INSERIRE WOLF SINGLE CLUSTER ALGORITHM
+\end{center}
+\end{frame}
+
+\begin{frame}{Boundary flip algorithm}
+\begin{center}
+
+Now also the coupling between the top and the bottom is a dynamical variable to simulate: $\lbrace s, \sigma, J = \pm 1 \rbrace$.
+
+At fixed $\lbrace s, J_{\langle x, y \rangle} \rbrace$ the $\sigma_{\langle x, y \rangle}$ probabilities are:
+
+\[
+p_1 = p \left( \sigma_{\langle x, y \rangle} = 0 \right) = \min \left[ 1 , e^{- 2 J_{\langle x, y \rangle} \beta s_x s_y} \right]
+\]
+\[
+p_0 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
+\]
+
+A link $\sigma_{\langle x, y \rangle} = 1$ demands $J_{\langle x, y \rangle} s_x s_y = 1$. Thus we can flip $J$, $s_x$ and all the spins connected to $s_x$ via some link in the bulk obtaing a configuration compatible with $\lbrace \sigma_{\langle x, y \rangle} \rbrace $.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\begin{columns}
+\begin{column}{0.20\textwidth}
+\begin{center}
+Boundary condition update.
+Section of a $7 \times 7 \times 21$ lattice at temperature $\beta = 0.250$
+\end{center}
+\end{column}
+\begin{column}{0.80\textwidth}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{boundaryFlip.png}
+\end{figure}
+
+\end{column}
+\end{columns}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+{ \large The boundary flip generates an interface between phases!\\ } 
+\vspace{20pt}
+We must check this flip of spins and $J$ can be done without violating the constraints imposed by the bulk links ($\sigma_{\langle x, y \rangle} = 1$ implies $s_x = s_y$).\\
+\vspace{20pt}
+Check all the clusters that contain sites of the lower surface and flip the boundary condition only if it can be done consistently on all the lattice.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+\begin{columns}
+\begin{column}{0.30\textwidth}
+\begin{center}
+Introduce an extra variable $c_{x} = \pm 1$ that gets propagated in the costruction of the cluster but changes sign when crossing the boundary.
+\end{center}
+\end{column}
+\begin{column}{0.70\textwidth}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{extra.png}
+\end{figure}
+
+\end{column}
+\end{columns}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+This update is ergodic. We now prove the validity of the detailed balance.
+
+FINIRE!!!
+
+We alternate a step of the Wolff algorithm with the boundary flip.
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Notes on the implementation}
+\begin{center}
+
+C++ for the Montecarlo and Jackknife algorithms, Python for data analysis, fits and plots.\\
+\vspace{20pt}
+The hot function of the simulation generates a cluster starting in a given position and exploring the neighbouring links. If a link is chosen to be $\sigma_{\langle x, y \rangle} = 1$ then the adjacent site is included in the cluster and the procedure is repeated. The extra variable $c_x$ is also propagated.
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+
+stack<site> stack
+
+stack.push(seed)
+
+while(!stack.empty())
+
+\quad site current = stack.top()
+
+\quad value = cluster[current]
+
+\quad if(cluster[current] is incostintent) flag = 1;
+
+\quad else if(cluster[current] == 0)
+
+\quad \quad cluster[current] = cluster[old];
+
+\quad \quad for(d = 0; d < 3; d++) 
+
+\quad \quad \quad for(a = -1; a < 2; a = a + 2) 
+
+\quad \quad \quad next = current + a
+
+\quad \quad \quad Check if we are on the boundary
+				
+\quad \quad \quad if(cluster[next] == 0 and random < p) stack.push(next)\\
+return flag
+
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+\begin{itemize}
+\item The algorithm doesn't actually performs the spin and boundary flip it just counts for how many configuration it is possible.\\
+\vspace{10pt}
+\item The simulation where executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
+\vspace{10pt}
+\item The first $5\%$ of the Markov chain is ignored to avoid non termalized configurations.\\
+\vspace{10pt}
+\item The Jackknife is executed for blocks with size starting from $10000$ to $10900$ with step $30$. 
+\end{itemize}
+\end{center}
+\end{frame}
+
+\begin{frame}{Estimation of the errors and autocorrelation}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Fit of the free energy - theory}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Fit of the free energy - results}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Fit of the critical behaviour}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+\begin{frame}{(Conclusions?)}
+\begin{center}
 
 \end{center}
 \end{frame}

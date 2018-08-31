@@ -19,7 +19,7 @@ using namespace std;
 //Percentuale iniziale rimossa dalla catena di Markov perché si considera termalizzazione.
 #define frac 5
 //Variabili che controllano il jackknife
-#define start 7000
+#define start 10000
 #define lenght 30
 #define step 30
 
@@ -382,6 +382,7 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 					if(next.c[d] == size[d]) { next.c[d] = 0; if(d == 2) next.cross = 1;}
 					if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
 					
+					//Questa riga potrebbe essere ottimizzata infatti potrebbe controllare prima se non è possibile fare il link prima di chiamare il numero causuale.
 					if((cluster[next.c[0]][next.c[1]][next.c[2]] == 0) && ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + ((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]))))) stack.push(next);
 					
 				}

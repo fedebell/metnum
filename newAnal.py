@@ -42,6 +42,7 @@ for i in range(len(beta)):
 		
 temp = numpy.array(temp)
 
+temp.sort()
 
 for i in range(len(temp)):
 	l_temp = []

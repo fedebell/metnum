@@ -37,11 +37,14 @@ def search(element, array):
 
 #scorro il file .txt e appendo a temp solo le beta di quelli con beta giusto
 for i in range(len(beta)):
-	if(search(beta[i], temp) == 0 and beta[i] > 0.2284):
+	if(search(beta[i], temp) == 0):
 		temp.append(beta[i])
 		
 temp = numpy.array(temp)
 
+numpy.sort(temp)
+
+print(temp)
 
 for i in range(len(temp)):
 	l_temp = []
