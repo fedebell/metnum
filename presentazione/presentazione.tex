@@ -71,8 +71,9 @@ Università di Pisa \\
 \begin{center}
 
 \begin{itemize}
+\item 3D Ising models
 \item Definition of the surface tension
-\item Algorithm for generating the Markov chain
+\item Cluster algorithm and boundary flip
 \item (Notes on the implementation?)
 \item Estimation of the errors and autocorrelation
 \item Fit of the free energy
@@ -85,10 +86,9 @@ Università di Pisa \\
 
 \begin{frame}{3D Ising model}
 \begin{center}
-
 \begin{columns}
 \begin{column}{0.43\textwidth}
-   \[
+ \[
 \mathcal{H} = -\sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y
 \]
 
@@ -120,10 +120,11 @@ J_{\langle x, y \rangle} = -1\text{ antiferromagnetic}
 \includegraphics[scale=0.5]{bound.png}
 \end{figure}
 
-\large
-\[
-\sigma = -\lim_{L \rightarrow +\infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} \quad L \times L \times cL \quad c = \text{const}
-\]
+\vspace{20pt}
+
+{\Large
+$
+\sigma = -\lim_{L \rightarrow \infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}}$} $ \quad L \times L \times T,\, T = cL$
 
 \note{L'ordine dei due limiti T e  non dovrebbe contare. Non so se si può "dimostrare" al nostro libello di rigore fisiamo T = 3L e facciamo il limite per L. Per sistemare la faccenda introduciamo una larghezza L del sistema e questa è l'unica lunghezza che va all'infinito.}
 
@@ -134,15 +135,14 @@ J_{\langle x, y \rangle} = -1\text{ antiferromagnetic}
 
 \begin{frame}
 \begin{center}
-\hfill
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.50]{comparison.png}
 \end{figure}
 \[
-\sigma = -\lim_{L \rightarrow +\infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} = \lim_{L \rightarrow +\infty} \frac{1}{L^2} \left( F_{+-} - F_{++} \right) 
+\sigma = -\lim_{L \rightarrow \infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}} = \lim_{L \rightarrow \infty} \frac{1}{L^2} \left( F_{+-} - F_{++} \right) = \lim_{L \rightarrow \infty} \frac{F_s}{L^2}
 \]
-\[\sigma = \text{difference of the free energies per unit area}\]
+\[\sigma = \text{interface free energy per unit area}\]
 
 \note{Bisogna dire che nel limite termodinamico sopravvive una sola superficie di separazione.}
 
@@ -169,7 +169,7 @@ Periodic boundary conditions reduce the finite size effect.\\
 
 \end{column}
 \begin{column}{0.50\textwidth}  %%<--- here
- \begin{figure}[!htb]
+\begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.7]{antiferro.png}
 \end{figure}
@@ -194,33 +194,68 @@ Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_
 {\large \[
 \frac{Z_{+-}}{Z_{++}} = \frac{\frac{Z_{+-}}{Z}}{\frac{Z_{++}}{Z}}=\frac{\langle \delta_{J = -1} \rangle}{\langle \delta_{J = + 1} \rangle}
 \]}
+
+Ratio of measurable expectation values.
 \end{center}
 \end{frame}
 
 \begin{frame}
 \begin{center}
-We want to define the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ in the thermodynamic limit.
+We redefine the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ to $\sigma$ when $L \rightarrow \infty$.
+\vspace{10pt}
+Thermodynamic limit {\Large $\rightarrow$} only \textbf{one} interface\\
+\vspace{10pt}
+For finite $L$ multiple interface can be present. An even number for $Z_{++}$ and odd for $Z_{+-}$.\\
 
-In $F_{+-} - F_{++}$ there is an \textbf{entropic} contribution which we subtract:
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.3]{multiple.png}
+\end{figure}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+$F_s$ is the free energy of a single surface. There are $\sim T$ different position for the interface.
+\[Z_1 = T \exp \left( - F_s \right) = \exp \left( -F_S +\ln T \right) \]
+
+\[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^3}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_S +\ln T \right) \right) \]
 
 \[
-F_s = F_{+-} - F_{++} + \ln \left( cL \right )
-\]
+F_S = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right) \quad \sigma = \lim_{L \rightarrow \infty} \frac{F_s}{L^2} \]
 
-INSERIRE IMMAGINE MEMBRANA IN VARIE POSIZIONI
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Cluster algorithm and boundary flip}
+\begin{center}
+
+Cluster algorithms allow for simultaneous updates of large parts of the lattice. Thus reducing the autocorrelation time and the critical slowling down. Swendsen and Wang (1987).\\
+\vspace{10pt}
+Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ on the lattice:
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4]{link.png}
+\end{figure}
+
+\note{Giustificare perché metto tre reticoli. Sono a diversa temperatura. A bassa T (alto beta) è facile formare i cluster. A basso beta è difficile.}
 
 \end{center}
 \end{frame}
 
 \begin{frame}
 \begin{center}
-In the thermodynamic limit there is only one interface in an elemnt in the $Z_{+-}$ ensambe. For finite L multiple interface can be present.
 
-INSERIRE IMMAGINE
+\[
+Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle} \exp \left( \beta s_x s_y \right) 
+\]
+
 
 \end{center}
 \end{frame}
-
 
 %----------------------------------------------------------------------------------------
 

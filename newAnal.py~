@@ -13,7 +13,7 @@ surf = []
 err = []
 
 def freeEnergy(l, a, b):
-	return b + a*l**2
+	#return b + a*l**2
 	#return c + d*(1/l)**2 + b*l + a*l**2
 	#return c + d*(1/l)  + a*l**2
 	#return c + b*(1/l)**2  + a*l**2
@@ -23,7 +23,7 @@ def freeEnergy(l, a, b):
 	#return a*l**2 + c - numpy.log( 1.0 + b*(1/l)**2) 
 	#return a*(l**2) + c + b/(a*(l**2))
 	#return a*(l**2) + c + b/(a*(l**2)) + d/(a*(l**2))
-	#return b + a * l**2 - numpy.log(1.0 + 0.25/( a * l**2))
+	return b + a * l**2 - numpy.log(1.0 + 0.25/( a * l**2))
 	
 def surfaceTension(b, sigma_0, b_c, exp):
 	return sigma_0*numpy.float_power(abs(b - b_c)/b_c, exp)

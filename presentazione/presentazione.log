@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  31 AUG 2018 00:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  31 AUG 2018 05:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1228,14 +1228,14 @@ LaTeX Font Warning: Font shape `T1/cmss/m/n' in size <4> not available
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 84.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 85.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 84.
+LaTeX Font Info:    No file OMScmss.fd. on input line 85.
 
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 84.
+(Font)              for symbol `textbullet' on input line 85.
 
 [2
 
@@ -1269,12 +1269,12 @@ Overfull \hbox (13.14555pt too wide) in paragraph at lines 112--112
  <./ising3D.png>] <bound.png, id=42, 520.344pt x 274.626pt>
 File: bound.png Graphic file (type png)
  <use bound.png>
-Package pdftex.def Info: bound.png used on input line 133.
+Package pdftex.def Info: bound.png used on input line 134.
 (pdftex.def)             Requested size: 260.17136pt x 137.31265pt.
 
 [4
 
- <./bound.png>] <comparison.png, id=55, 501.875pt x 252.945pt>
+ <./bound.png>] <comparison.png, id=53, 501.875pt x 252.945pt>
 File: comparison.png Graphic file (type png)
 
 <use comparison.png>
@@ -1283,7 +1283,7 @@ Package pdftex.def Info: comparison.png used on input line 150.
  [5
 
  <./comparison.png>]
-<antiferro.png, id=63, 138.919pt x 309.958pt>
+<antiferro.png, id=61, 138.919pt x 309.958pt>
 File: antiferro.png Graphic file (type png)
  <use antiferro.png>
 Package pdftex.def Info: antiferro.png used on input line 180.
@@ -1292,7 +1292,26 @@ Package pdftex.def Info: antiferro.png used on input line 180.
 
  <./antiferro.png>] [7
 
-] [8
+] <multiple.png, id=79, 996.72375pt x 332.24126pt>
+File: multiple.png Graphic file (type png)
+
+<use multiple.png>
+Package pdftex.def Info: multiple.png used on input line 216.
+(pdftex.def)             Requested size: 299.01944pt x 99.67314pt.
+ [8
+
+ <./multiple.png>] [9
+
+]
+<link.png, id=93, 626.34pt x 204.765pt>
+File: link.png Graphic file (type png)
+ <use link.png>
+Package pdftex.def Info: link.png used on input line 247.
+(pdftex.def)             Requested size: 250.53156pt x 81.90454pt.
+ [10
+
+ <./link.png>]
+[11
 
 ]
 \tf@nav=\write6
@@ -1304,11 +1323,11 @@ Package pdftex.def Info: antiferro.png used on input line 180.
 \tf@snm=\write8
 \openout8 = `presentazione.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 217.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 217.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 262.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 262.
  (./presentazione.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 217.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 217.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 262.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 262.
 Package rerunfilecheck Info: File `presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1319,40 +1338,41 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 217.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 262.
  ) 
 Here is how much of TeX's memory you used:
- 17085 strings out of 494901
- 320102 string characters out of 6179487
- 385608 words of memory out of 5000000
- 19936 multiletter control sequences out of 15000+600000
+ 17107 strings out of 494901
+ 320343 string characters out of 6179487
+ 386609 words of memory out of 5000000
+ 19950 multiletter control sequences out of 15000+600000
  27064 words of font info for 70 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,11n,52p,420b,568s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,11n,52p,420b,566s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0600.600pk> </hom
 e/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0600.600pk> </home/federi
-co/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1728.600pk> </home/federico/.texm
-f-var/fonts/pk/ljfour/jknappen/ec/ecsx1200.600pk> </home/federico/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecss1000.600pk> </home/federico/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecsi1440.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jk
-nappen/ec/ecsi1000.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/e
-c/ecss1440.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi12
-00.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi0800.600pk
-> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.600pk> </home
-/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1200.600pk> </home/federic
-o/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1728.600pk></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on presentazione.pdf (8 pages, 165424 bytes).
+co/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1000.600pk> </home/federico/.texm
+f-var/fonts/pk/ljfour/jknappen/ec/ecsi1440.600pk> </home/federico/.texmf-var/fo
+nts/pk/ljfour/jknappen/ec/ecsi1728.600pk> </home/federico/.texmf-var/fonts/pk/l
+jfour/jknappen/ec/ecsx1200.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecss1000.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/e
+c/ecsi1200.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi08
+00.600pk> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss0800.600pk
+> </home/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1200.600pk> </home
+/federico/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecss1728.600pk></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmss17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on presentazione.pdf (11 pages, 253099 bytes).
 PDF statistics:
- 308 PDF objects out of 1000 (max. 8388607)
- 126 compressed objects within 2 object streams
- 17 named destinations out of 1000 (max. 500000)
- 63 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 334 PDF objects out of 1000 (max. 8388607)
+ 141 compressed objects within 2 object streams
+ 23 named destinations out of 1000 (max. 500000)
+ 73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
