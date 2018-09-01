@@ -1,3 +1,4 @@
+
 /*Montecarlo per generare le superfici di separazione*/
  
 #include <iostream>
@@ -121,14 +122,7 @@ int main() {
 						abs_tot_mag = abs(tot_mag);
 						mag = (double)tot_mag/(l1*l2*t);
 						abs_mag = (double)abs_tot_mag/(l1*l2*t);
-						
-						if(rep > 10000 && rep < 10010) {
-							for(int i = 0; i < l1; i++) 
-								for(int j = 0; j < l2; j++) 
-									for(int k = 0; k < t; k++) 
-										file << latt[i][j][k] << endl;
-						}
-				}
+						file << mag << "\t" << abs_mag << "\t" << boundary << endl;
 					
 					}
 					int fine = clock() - init;
@@ -294,4 +288,3 @@ int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, i
 
 	return boundary;
 }
-
