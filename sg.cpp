@@ -356,6 +356,7 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 	stack.push(next);
 	
 	int flag = 0, value = 0, d = 0, a = 0, s = 0;
+	double p = 0.0;
 
 	while(!stack.empty()) {
 	
@@ -380,10 +381,14 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 					next.c[d] +=  a;
 					
 					if(next.c[d] == size[d]) { next.c[d] = 0; if(d == 2) next.cross = 1;}
-					if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
+					else if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
 					
-					//Questa riga potrebbe essere ottimizzata infatti potrebbe controllare prima se non è possibile fare il link prima di chiamare il numero causuale.
-					if((cluster[next.c[0]][next.c[1]][next.c[2]] == 0) && ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + ((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]))))) stack.push(next);
+					if(cluster[next.c[0]][next.c[1]][next.c[2]] == 0) {
+						if( ((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]] == 1) {
+							p = (1.0 - exp(-2 * beta));
+							if((*distribution)(mt) < p) stack.push(next);
+						}
+					}
 					
 				}
 			}
@@ -420,9 +425,15 @@ void clusterizeSimplified(int*** latt, int*** cluster, int l1, int l2, int t, lo
 					next.c[d] +=  a;
 					
 					if(next.c[d] == size[d]) next.c[d] = 0;
-					if(next.c[d] == -1) next.c[d] = size[d] - 1;
+					else if(next.c[d] == -1) next.c[d] = size[d] - 1;
 					
-					if((cluster[next.c[0]][next.c[1]][next.c[2]] == 0) && ((*distribution)(mt) < (1.0 - exp(-beta * (1.0 + latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]))))) stack.push(next);
+					//Questa riga potrebbe essere ottimizzata infatti potrebbe controllare prima se non è possibile fare il link prima di chiamare il numero causuale.
+					
+					if(cluster[next.c[0]][next.c[1]][next.c[2]] == 0) {
+						if(latt[current.c[0]][current.c[1]][current.c[2]] == latt[next.c[0]][next.c[1]][next.c[2]]) {
+							p = (1.0 - exp(-2 * beta)); 
+							if((*distribution)(mt) < p) stack.push(next);
+					}
 					
 				}
 			}
