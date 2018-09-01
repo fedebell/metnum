@@ -444,8 +444,8 @@ We thus obtain the detailed balance:
 {\large
 \begin{itemize}
 
-\item The only requirement on the update step is that all the possible $\lbrace s \rbrace$ given $\lbrace s \rbrace$ which we choose to have a non null probability of happearing are indeed equiprobable.
-\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle}$ where $\sigma = 1$.
+\item The only requirement on the update step is that all the possible $\lbrace s \rbrace$ given $\lbrace \sigma \rbrace$ which we choose to have a non null probability of happearing are indeed equiprobable.
+\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y$ where $\sigma = 1$.
 
 \end{itemize}}
 
@@ -603,8 +603,6 @@ return flag
 \begin{frame}
 \begin{center}
 \begin{itemize}
-\item The algorithm doesn't actually performs the spin and boundary flip it just counts for how many configuration it is possible.\\
-\vspace{10pt}
 \item The simulation where executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
 \vspace{10pt}
 \item The first $5\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
