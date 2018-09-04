@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  3 SEP 2018 18:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.8.5)  4 SEP 2018 22:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1353,7 +1353,7 @@ Package pdftex.def Info: esempioCluster.png used on input line 311.
 ] <wolff.png, id=169, 517.935pt x 242.506pt>
 File: wolff.png Graphic file (type png)
  <use wolff.png>
-Package pdftex.def Info: wolff.png used on input line 477.
+Package pdftex.def Info: wolff.png used on input line 475.
 (pdftex.def)             Requested size: 207.17032pt x 97.00067pt.
 
 [23
@@ -1364,7 +1364,7 @@ Package pdftex.def Info: wolff.png used on input line 477.
 File: boundaryFlip.png Graphic file (type png)
 
 <use boundaryFlip.png>
-Package pdftex.def Info: boundaryFlip.png used on input line 510.
+Package pdftex.def Info: boundaryFlip.png used on input line 508.
 (pdftex.def)             Requested size: 202.25513pt x 240.8994pt.
  [25
 
@@ -1374,7 +1374,7 @@ Package pdftex.def Info: boundaryFlip.png used on input line 510.
 <extra.png, id=195, 418.56375pt x 483.8075pt>
 File: extra.png Graphic file (type png)
  <use extra.png>
-Package pdftex.def Info: extra.png used on input line 542.
+Package pdftex.def Info: extra.png used on input line 540.
 (pdftex.def)             Requested size: 209.28136pt x 241.90315pt.
  [27
 
@@ -1406,11 +1406,11 @@ Package pdftex.def Info: extra.png used on input line 542.
 \tf@snm=\write8
 \openout8 = `presentazione.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 647.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 647.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 645.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 645.
  (./presentazione.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 647.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 647.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 645.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 645.
 Package rerunfilecheck Info: File `presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1421,7 +1421,7 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 647.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 645.
  ) 
 Here is how much of TeX's memory you used:
  17227 strings out of 494901
@@ -1457,7 +1457,7 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on presentazione.pdf (36 pages, 487696 bytes).
+Output written on presentazione.pdf (36 pages, 488102 bytes).
 PDF statistics:
  595 PDF objects out of 1000 (max. 8388607)
  274 compressed objects within 3 object streams

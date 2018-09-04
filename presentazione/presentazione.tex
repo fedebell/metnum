@@ -331,7 +331,7 @@ The SW is \textbf{ergodic}. We know prove that it satisfies the \textbf{detailed
 In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spin and link configurations: $\lbrace s,  \sigma \rbrace$.
 
 \[
-\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
+\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
 \]
 
 (this is not the detailed balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the link configurations don't get exchanged!)
@@ -344,12 +344,12 @@ In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the li
 \begin{frame}
 \begin{center}
 
-$P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right) =
- \frac{1}{2^{\# cluster}}$ if $\lbrace s \rbrace$ is compatible with $\lbrace \sigma \rbrace$, null otherwise.\\
+$P \left( \lbrace s \rbrace | \lbrace \sigma, s_0 \rbrace \right) =
+ \frac{1}{2^{\# cluster}}$ if $\lbrace s \rbrace$ is compatible with $\lbrace \sigma \rbrace$, null otherwise. Notice that in thw SW algorithm $\lbrace s \rbrace$ is actually independent on $\lbrace s_0 \rbrace$.\\
 \vspace{20pt} 
-In general $P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right)$ must be a \textbf{constant} independent of $\lbrace s \rbrace$ on the allowed configurations.\\
+Thus {\large $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$}.\\
 \vspace{20pt}
-Thus $P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) = P \left( \lbrace s_2 \rbrace | \lbrace \sigma \rbrace \right)$.
+In general this is the condition we ask to cluster algorithms.
 
 %In effetti questa probabilità non mi convince - rivedere.
 
@@ -390,7 +390,7 @@ Now we compute (reminding $\lbrace s_0 \rbrace$ and $\lbrace s_1 \rbrace$ share 
 \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^1_x s^1_y}}{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^0_x s^0_y}} = \\ \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^1_x s^1_y = +1}} e^{\beta}}{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^0_x s^0_y = +1}} e^{\beta}}
 \end{gather*}
 
-The last part having $\sigma = 1$ obviously depends only on $\lbrace \sigma \rbrace$ for all $J s_x s_y$ beeing forced to $1$ if $\sigma=1$.
+The last part having $\sigma = 1$ obviously depends only on $\lbrace \sigma \rbrace$ for all $J_{\langle x, y \rangle} s_x s_y$ beeing forced to $1$ if $\sigma=1$.
 
 \end{center}
 \end{frame}
@@ -444,7 +444,7 @@ We thus obtain the detailed balance:
 {\large
 \begin{itemize}
 
-\item The only requirement on the update step is that all the possible $\lbrace s \rbrace$ given $\lbrace \sigma \rbrace$ which we choose to have a non null probability of happearing are equiprobable.
+\item The only requirement on the update step is that  $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$.
 \item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y = 1$ where $\sigma = 1$.
 
 \end{itemize}}
@@ -462,9 +462,7 @@ This two observations give rise to two key modification of the SW algorithm: the
 \Large Single cluster update (Wolff):\\
 }
 \vspace{10pt}
-In the Wolff algorithm we choose at random one cluster and flip it with certainty.\\
-\vspace{10pt}
-It's equivalent to choosing at random one site of the lattice and considering it to be the seed for and expanding cluster and then flipping it.  
+In the Wolff algorithm we choose at random one site of the lattice and flip the cluster it belongs to. The probability of going from $s_1$ to $s_0$ ad viceversa is obviously the same, beeing the probability of choosing the right cluster. Notice that $P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right) \neq$ const. Practically we build only \textbf{one cluster} starting from a seed.\\
 
 \begin{figure}[!htb]
 \centering
