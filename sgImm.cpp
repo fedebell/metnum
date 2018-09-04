@@ -53,7 +53,7 @@ int main() {
 					l2_str << l2;
 					t_str << t;
 					
-					file.open ("data.txt");
+					file.open ("dataLattice" + beta.str() + ":" + l1.str() + ".txt");
 					
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
@@ -95,11 +95,6 @@ int main() {
 					
 					for(long int rep = 0; rep < N; rep++) {
 						
-						int tot_mag = 0;
-						int abs_tot_mag = 0;
-						long double mag = 0;
-						long double abs_mag = 0;
-						
 						cout << rep  << "\r";
 						
 						if(rep % 2 == 0){
@@ -120,9 +115,6 @@ int main() {
 								}
 							}
 						}
-						abs_tot_mag = abs(tot_mag);
-						mag = (double)tot_mag/(l1*l2*t);
-						abs_mag = (double)abs_tot_mag/(l1*l2*t);
 					
 						if((rep > 1000) && (flag == false) && (boundary == -1)) flag = true;
 						if(flag == true && count < 10) {

@@ -239,15 +239,10 @@ int main(int argc, char *argv[]) {
 
 double jackknife(int* boundary, int size, int* blockDimentions, int len, double t) {
 
-	int avgP = 0;
-	int avgAP = 0;
-	double davgP = 0.0;
-	double davgAP = 0.0;
+	int avgP = 0, avgAP = 0, Nb = 0;
 	
-	double media = 0.0;
-	double sum = 0.0;
-	int Nb = 0;
-	double F_mod = 0.0;
+	double davgP = 0.0, davgAP = 0.0, media = 0.0, sum = 0.0, F_mod = 0.0;
+
 
 	double* block = 0;
 	double* vars = (double*) malloc (len * sizeof(double));
@@ -281,7 +276,7 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 			//cout << "AntiPeriodic average = " << avgAP << endl;
 			davgP = double(avgP);
 			davgAP = double(avgAP);
-			F_mod = t - log( 0.5 * log( (1.0 + davgAP/davgP) / (1.0 - davgAP/davgP) ));
+			F_mod = log(t) - log( 0.5 * log( (1.0 + davgAP/davgP) / (1.0 - davgAP/davgP) ));
 			
 			//cout << "F_mod = " << F_mod << endl;
 			
@@ -293,7 +288,6 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 		media = 0.0;
 		for(j = 0; j < Nb; j++) media += block[j];	
 		media /= Nb;
-		
 		
 		
 		//cout << "Media = " << media;
@@ -384,7 +378,6 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 					if(next.c[d] == size[d]) { next.c[d] = 0; if(d == 2) next.cross = 1;}
 					else if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
 					
-					//Conviene o no togliere questo if... secondo me no.
 					if(cluster[next.c[0]][next.c[1]][next.c[2]] == 0) {
 						if( (((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]) == 1) {
 							p = (1.0 - exp(-2 * beta));

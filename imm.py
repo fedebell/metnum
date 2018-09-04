@@ -13,9 +13,9 @@ from matplotlib.pyplot import figure
 #carico array di beta, dimensioni, misura free energy e relativo errore
 
 
-spin = pylab.loadtxt("data.txt", unpack = "True")
+spin = pylab.loadtxt("dataImm0.23:20.txt", unpack = "True")
 
-dim = 10
+dim = 20
 
 latt = numpy.zeros((dim, dim, 3*dim))
 
@@ -42,7 +42,7 @@ for count in range(0, 10):
 		
 	for i in range(0, dim):
 		for k in range(0, 3*dim):
-			if(latt[i][7][k] == 1.0): lattRed[i][k] = 1
+			if(latt[i][3][k] == 1.0): lattRed[i][k] = 1
 			else: lattRed[i][k] = 0
 	'''
 	x = []

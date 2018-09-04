@@ -25,7 +25,7 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.255};
+	const vector<long double> Beta = {0.250};
 	const vector<int> L1 = {10};
 	const vector<int> L2 = {10};
 	const vector<int> T = {30};
@@ -53,7 +53,7 @@ int main() {
 					l2_str << l2;
 					t_str << t;
 					
-					file.open ("data.txt");
+					file.open ("dataLattice" + beta.str() + ":" + l1.str() + ".txt");
 					
 
 					//Inserire qui le eventuali condizioni per rimuovere le combinazioni non di interesse. Esempio
@@ -120,9 +120,6 @@ int main() {
 								}
 							}
 						}
-						abs_tot_mag = abs(tot_mag);
-						mag = (double)tot_mag/(l1*l2*t);
-						abs_mag = (double)abs_tot_mag/(l1*l2*t);
 					
 						if((rep > 1000) && (flag == false) && (boundary == -1)) flag = true;
 						if(flag == true && count < 10) {

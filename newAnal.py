@@ -6,7 +6,7 @@ from scipy.optimize import curve_fit
 import math
 import scipy.stats
 #carico array di beta, dimensioni, misura free energy e relativo errore
-beta, l, F, error = pylab.loadtxt("dataOld.txt", unpack = "True")
+beta, l, F, error = pylab.loadtxt("newData.txt", unpack = "True")
 
 temp = []
 surf = []
@@ -37,8 +37,8 @@ def search(element, array):
 
 #scorro il file .txt e appendo a temp solo le beta di quelli con beta giusto
 for i in range(len(beta)):
-	if(search(beta[i], temp) == 0):
-		temp.append(beta[i])
+	if(search(beta[i], temp) == 0)
+			temp.append(beta[i])
 		
 temp = numpy.array(temp)
 

@@ -162,7 +162,7 @@ Redefinition of $Z_{++}$ and $Z_{+-}$.\\
 $Z_{++} \rightarrow $ ferromagnetic link between \textbf{top and bottom}.\\
 $Z_{+-} \rightarrow $ \textbf{anti}ferromagnetic link between \textbf{top and bottom}.\\
 \vspace{10pt}
-Always ferromagnetic link in $x$ and $y$.\\
+Always ferromagnetic link in $x$ and $y$ directions.\\
 \vspace{10pt}
 Same definition for $\sigma$.\\
 \vspace{10pt}
@@ -174,7 +174,7 @@ Periodic boundary conditions reduce the finite size effect.\\
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.7]{antiferro.png}
+\includegraphics[scale=0.6]{antiferro.png}
 \end{figure}
 
 \end{column}
@@ -190,7 +190,6 @@ Periodic boundary conditions reduce the finite size effect.\\
 Solution: $J_{\langle x, y \rangle}$ between top and bottom becomes a \textbf{dinamical variable} that is summed over in $Z$.\\
 $J_{\langle x, y \rangle} = 1$ (periodic b.c.)\hspace{10pt}$J_{\langle x, y \rangle} = -1$ (antiperiodic b.c.)\\
 Other $J_{\langle x, y \rangle}$ remains ferromagnetic.
-
 \[
 Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
 \]
@@ -205,10 +204,9 @@ Ratio of measurable expectation values.
 
 \begin{frame}
 \begin{center}
-We redefine the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ to $\sigma$ when $L \rightarrow \infty$.
+We redefine the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ to $\sigma$ when $L \rightarrow \infty$.\\
 \vspace{10pt}
 Thermodynamic limit {\Large $\rightarrow$} only \textbf{one} interface\\
-\vspace{10pt}
 For finite $L$ multiple interface can be present. An even number for $Z_{++}$ and odd for $Z_{+-}$.\\
 
 \begin{figure}[!htb]
@@ -223,6 +221,7 @@ For finite $L$ multiple interface can be present. An even number for $Z_{++}$ an
 \begin{center}
 
 $F_s$ is the free energy of a single surface. There are $\sim T$ different position for the interface.
+
 \[Z_1 = T \exp \left( - F_s \right) = \exp \left( -F_S +\ln T \right) \]
 
 \[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^3}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_S +\ln T \right) \right) \]
@@ -282,17 +281,18 @@ Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle
 \begin{frame}
 \begin{center}
 
-For a fixed spin configuration $\lbrace s \rbrace$ the links are indipendent.
+For a fixed spin configuration $\lbrace s \rbrace$ the links are independent.
 \[
-p_1 = p \left( \sigma_{\langle x, y \rangle} = 0 \right)  = \exp \left( - 2 \beta \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \right)
+p_0 = p \left( \sigma_{\langle x, y \rangle} = 0 \right)  = \exp \left( - 2 \beta \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \right)
 \]
 \[
-p_0 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
+p_1 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
 \]
+
 (if $J_{\langle x, y \rangle} s_x s_y = 1$ the weights in $Z$ are normalized to $e^{2 \beta}$)\\
 \vspace{30pt}
 For simplicity let's put $J_{\langle x, y \rangle} = 1$. For fixed $\sigma_{\langle x, y \rangle}$ only
-configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\langle x, y \rangle} = 1$ have a non zero probability. All configurations that satisfy the constraint have the same weight.
+configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\langle x, y \rangle} = 1$ have a non zero probability. All configurations of spin that satisfy the constraint have the same weight.
 
 \end{center}
 \end{frame}
@@ -300,7 +300,7 @@ configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\
 \begin{frame}
 \begin{center}
 
-Definition: a \textbf{cluster} is a set of spin in the lattice path connected by links with $\sigma_{\langle x, y \rangle} = 1$. If $J_{\langle x, y \rangle} = 1$ in the ensamble all sites of a cluster are forced to have the same spin.
+Definition: a \textbf{cluster} is a set of spins in the lattice path-connected by links with $\sigma_{\langle x, y \rangle} = 1$. If $J_{\langle x, y \rangle} = 1$ all sites of a cluster are forced to have the same spin.
 
 \begin{figure}[!htb]
 \centering
@@ -316,25 +316,25 @@ Definition: a \textbf{cluster} is a set of spin in the lattice path connected by
 
 \begin{itemize}
 \item Generate a link configuration $\sigma_{\langle x, y \rangle}$ based on the current spin configuration by using probablities $p_0$ and $p_1$. 
-\item For each cluster chosse a spin $\left( s = \pm 1 \right)$ with probability $\frac{1}{2}$. In general the updte step must be compatible with the constraint $J_{\langle x, y \rangle}  s_x s_y = 1$ for all the spins of the cluster.
+\item For each cluster choose a spin $\left( s = \pm 1 \right)$ with probability $\frac{1}{2}$. In general the updte step must be compatible with the constraint $J_{\langle x, y \rangle}  s_x s_y = 1$.
 \item The newly generted spin configuration is the next element of the Markov chain.
 \end{itemize}
 
 \vspace{20pt}
-The SW is \textbf{ergodic}. We know prove that it satisfy the \textbf{detailed balance}.
+The SW is \textbf{ergodic}. We know prove that it satisfies the \textbf{detailed balance}.
 
 \end{center}
 \end{frame}
 
 \begin{frame}
 \begin{center}
-In the cluster algorithm we update both the spin $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spins and link configurations: $\lbrace s,  \sigma \rbrace$.
+In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spin and link configurations: $\lbrace s,  \sigma \rbrace$.
 
 \[
 \frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
 \]
 
-(this is not the detailer balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the lonk configurations don't get exchnged!)
+(this is not the detailed balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the link configurations don't get exchanged!)
 
 
 \end{center}
@@ -369,7 +369,7 @@ Thus $P \left( \lbrace s_1 \rbrace | \lbrace \sigma \rbrace \right) = P \left( \
 \vspace{20pt}
 The first factor arise from the unconnected links for which $J_{\langle x, y \rangle} s_x s_y = 1$ each being in this state with probability $e^{ - 2 \beta }$. The second one is from the connected links (for which $J_{\langle x, y \rangle} s_x s_y = 1$ necessarily).\\
 \vspace{20pt}
-The second factor is \textbf{indipendent of $\lbrace s \rbrace$} and will be neglettend in the sequent.
+The second factor is \textbf{independent of $\lbrace s \rbrace$} and will be neglettend in the sequent.
 
 \end{center}
 \end{frame}
@@ -384,7 +384,7 @@ P \left( \lbrace \sigma \rbrace | \lbrace s \rbrace \right) =
 \prod_{ \substack{ \sigma_{\langle x, y \rangle} = 0 \\ J_{\langle x, y \rangle} s_x s_y = 1}} e^{-2 \beta}
 \]
 
-Now we compute (reminding $\lbrace s_0 \rbrace$ and $\lbrace s_1 \rbrace$ share the same $\lbrace \sigma \rbrace$:
+Now we compute (reminding $\lbrace s_0 \rbrace$ and $\lbrace s_1 \rbrace$ share the same $\lbrace \sigma \rbrace$):
 
 \begin{gather*}
 \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^1_x s^1_y}}{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^0_x s^0_y}} = \\ \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^1_x s^1_y = +1}} e^{\beta}}{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^0_x s^0_y = +1}} e^{\beta}}
@@ -407,7 +407,7 @@ We observe that:
 \]
 
 \[
-\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{2 \beta}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{-2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^1s_x s^0_y = +1}} e^{+2 \beta}}
+\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{2 \beta}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{-2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^1s_x s^0_y = +1}} e^{-2 \beta}}
 \]
 
 \end{center}
@@ -444,10 +444,12 @@ We thus obtain the detailed balance:
 {\large
 \begin{itemize}
 
-\item The only requirement on the update step is that all the possible $\lbrace s \rbrace$ given $\lbrace \sigma \rbrace$ which we choose to have a non null probability of happearing are indeed equiprobable.
-\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y$ where $\sigma = 1$.
+\item The only requirement on the update step is that all the possible $\lbrace s \rbrace$ given $\lbrace \sigma \rbrace$ which we choose to have a non null probability of happearing are equiprobable.
+\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y = 1$ where $\sigma = 1$.
 
 \end{itemize}}
+
+\vspace{30pt}
 
 This two observations give rise to two key modification of the SW algorithm: the Wolff algorithm and the boundary flip.
 
@@ -457,12 +459,12 @@ This two observations give rise to two key modification of the SW algorithm: the
 \begin{frame}
 \begin{center}
 {
-\Large Single cluster update:\\
+\Large Single cluster update (Wolff):\\
 }
 \vspace{10pt}
-In the Wolff algorithm we chose at random one site of the lattice and flipping the cluster it belongs to with certanty.\\
+In the Wolff algorithm we choose at random one cluster and flip it with certainty.\\
 \vspace{10pt}
-It is equivalent to chossing at random one site of the lattice and consider it the seed for and expanding cluster and then flipping it.  
+It's equivalent to choosing at random one site of the lattice and considering it to be the seed for and expanding cluster and then flipping it.  
 
 \begin{figure}[!htb]
 \centering
@@ -479,7 +481,7 @@ It is equivalent to chossing at random one site of the lattice and consider it t
 
 {\Large Boundary flip algorithm:\\}
 \vspace{20pt}
-$J = 1$ in the bulk, but the coupling between the top and the bottom is now a dynamical variable to simulate: $\lbrace s, \sigma, J_{0, T-1} = \pm 1 \rbrace$.\\
+$J = 1$ in the bulk, but the coupling between the top and the bottom is now a dynamical variable to simulate: $\lbrace s, \sigma, J_{0, T-1} = \pm 1 \rbrace$ is ana element of the ensamble.\\
 \vspace{20pt}
 A link $\sigma_{\langle 0, T-1 \rangle} = 1$ demands $J_{0, T-1} s_0 s_{T-1} = 1$. Thus we can flip $J_{0, T-1}$, $s_0$ and all the spins connected to $s_0$ via some chain of links in the bulk obtaing a configuration compatible with $\lbrace \sigma_{\langle x, y \rangle} \rbrace $. This for all the spins on the bottom boundary.
 
@@ -513,7 +515,7 @@ Section of a $7 \times 7 \times 21$ lattice at temperature $\beta = 0.250$
 \vspace{20pt}
 We must check this update can be done without violating the constraints imposed by the bulk links ($\sigma_{\langle x, y \rangle} = 1$ implies $s_x = s_y$).\\
 \vspace{20pt}
-Check all the clusters that contain sites of the lower surface and flip the boundary condition only if it can be done consistently on all the lattice.
+Check all the clusters that contain sites of the lower surface and flip the boundary condition only if it can be done consistently in all the lattice.
 \end{center}
 \end{frame}
 
@@ -523,7 +525,7 @@ Check all the clusters that contain sites of the lower surface and flip the boun
 \begin{columns}
 \begin{column}{0.30\textwidth}
 \begin{center}
-Introduce an extra variable $c_{x} = \pm 1$ that gets propagated in the bulk during the costruction of the cluster but changes sign when crossing the boundary.
+Introduce extra variables $c_{x} = \pm 1$ that get propagated in the bulk during the costruction of the cluster but change sign when crossing the boundary.
 \end{center}
 \end{column}
 \begin{column}{0.70\textwidth}
@@ -576,8 +578,6 @@ while(!stack.empty())
 
 \quad site current = stack.top()
 
-\quad value = cluster[current]
-
 \quad if(cluster[current] is incostintent) flag = 1;
 
 \quad else if(cluster[current] == 0)
@@ -603,11 +603,11 @@ return flag
 \begin{frame}
 \begin{center}
 \begin{itemize}
-\item The simulation where executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
+\item The simulations were executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
 \vspace{10pt}
 \item The first $5\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
 \vspace{10pt}
-\item The Jackknife is executed for blocks with size starting from $10000$ to $10900$ with step of $30$ events. 
+\item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. 
 \end{itemize}
 \end{center}
 \end{frame}
