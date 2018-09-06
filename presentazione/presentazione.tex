@@ -56,7 +56,7 @@ Università di Pisa \\
 
 \begin{frame}
 \titlepage % Print the title page as the first slide
-\end{frame}
+7\end{frame}
 
 %\begin{frame}
 %\frametitle{Overview} % Table of contents slide, comment this block out to remove it
@@ -603,7 +603,7 @@ return flag
 \begin{itemize}
 \item The simulations were executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
 \vspace{10pt}
-\item The first $5\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
+\item The first $10\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
 \vspace{10pt}
 \item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. 
 \end{itemize}
@@ -616,27 +616,130 @@ return flag
 \end{center}
 \end{frame}
 
-\begin{frame}{Fit of the free energy - theory}
-\begin{center}
+\begin{frame}{Capillary Wave Model}
 
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.5]{CWM.png}
+\caption{2D effective description of the interface}
+\end{figure}
+\begin{center}
+Energy proportional to surface!
+\[
+	\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
+\]
+%\[
+%	\mathcal H \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2
+%\]
+1-Loop calculations:
+\[
+	F = C + \sigma L ^2 + \sigma\log\left( 1 + \frac{1}{4\sigma L^2}\right)
+\]
 \end{center}
 \end{frame}
 
 \begin{frame}{Fit of the free energy - results}
-\begin{center}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4]{02255FvsL.png}
+\end{figure}
+\end{frame}
 
+\begin{frame}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4]{02391FvsL.png}
+\end{figure}
+Low T, Big L: MCMC too short to flip boundary
+\end{frame}
+
+\begin{frame}{Results}
+%TODO inserire tabella risultati con chi^2
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+$\beta$ & $\sigma$\\
+\hline
+0.223 &  $(2.226 \pm 0.005) \cdot 10^{-3}$ \\
+\hline
+0.224 & $(4.637 \pm 0.006) \cdot 10^{-3} $\\
+\hline
+0.2255 & $(8.73 \pm 0.01)\cot 10^{-3}$\\
+\hline
+0.2275 & $(1.476 \pm 0.002\cdot 10^{-2})$\\
+\hline
+0.2327 & $(3.225 \pm 0.004)\cdot 10 ^{-2}$\\
+\hline
+0.2391 & $(5.60 \pm 0.01)cdot 10^{-2}$\\
+\hline
+\end{tabular}
+\caption{Fit results for $\sigma$ \label{tab:fitsigma}}
+\end{table}
+\begin{center}
+\begin{itemize}
+\item Low statistical error
+\item High systematics: unknown higher loop corrections
+\item High $\chi ^2/\mbox{ndof}$
+\end{itemize}
 \end{center}
+\end{frame}
+
 \end{frame}
 
 \begin{frame}{Fit of the critical behaviour}
 \begin{center}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{sigmavsbeta.png}
+\caption{Critical scaling law fit\label{fig:scalinglaw}}
+\end{figure}
 
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+%la dovresti mettere prima del grafico sennò non si capisce
+Scaling law at critical point:
+\[
+\sigma\left(\beta \right) = \sigma_0\left(\frac{\beta - \beta_c}{\beta_c} \right)^{\mu}
+\]
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+$\sigma$ & $\mu$ & $\beta_c$\\
+\hline
+$1.209(6)$ & $1.202(2)$ & $0.22182(1)$\\
+\hline
+\end{tabular}
+\caption{Fit results\label{tab:fitfinal}}
+\end{table}
+
+\begin{itemize}
+\item correct critical exponent from Widom Law
+\item High $\chi ^2$: points outside scaling region!
+\item Consider modified scaling law $rightarrow$ low $\chi ^2$, no theoretical model.
+\item changing fit law, $\sigma_0$ lies in 1.1 - 1.4 range.
+\item high systematics!
+\end{itemize}
 \end{center}
 \end{frame}
 
 \begin{frame}{(Conclusions?)}
 \begin{center}
-
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{tableauthors.png}
+\caption{Previous results for $\sigma_0$ in 3D Ising\label{fig:authors}}
+\end{figure}
+\begin{itemize}
+\item Our result for $\sigma_0$ agrees but is in low end
+\item We should factor in scaling breaking terms in the fit
+\item No theoretical formula: cumbersome RG flow calculations
+\end{itemize}
 \end{center}
 \end{frame}
 

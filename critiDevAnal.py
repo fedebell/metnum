@@ -25,8 +25,8 @@ def freeEnergy(l, a, b):
 	#return a*(l**2) + c + b/(a*(l**2)) + d/(a*(l**2))
 	return b + a * l**2 - numpy.log(1.0 + 0.25/( a * l**2))
 	
-def surfaceTension(b, sigma_0, b_c, exp):
-	return sigma_0*numpy.float_power(abs(b - b_c)/b_c, exp)
+def surfaceTension(b, sigma_0, b_c, exp, a):
+	return sigma_0*numpy.float_power(abs(1 - b_c/b), exp)*( 1.0 + a*numpy.float_power(abs(1 - b_c/b), 1)) 
 	
 def search(element, array):
 	flag = 0
@@ -99,7 +99,6 @@ for i in range(len(temp)):
 	p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
 	print("beta = %f, Chisquare/ndof = %f/%d" % (temp[i], somma, ndof))
-	print("sigma = ", par[0], "pm", numpy.sqrt(cov[0][0]) )
 	#print("p = ", p)
 	
 	
@@ -144,7 +143,7 @@ pylab.errorbar(temp, surf, err, 0, "o", color="black")
 #Eseguo il fit
 
 #error = unumpy.std_devs(I_D)
-init = numpy.array([1.5157, 0.22103, 1.31337])
+init = numpy.array([1.5157, 0.22103, 1.31337, 1])
 #Errori tutti statistici
 par, cov = curve_fit(surfaceTension, temp, surf, init, err, absolute_sigma = "false")
 #trattazione statistica degli errori
@@ -156,13 +155,13 @@ par, cov = curve_fit(surfaceTension, temp, surf, init, err, absolute_sigma = "fa
 sigma_0 = par[0]
 b_c = par[1]
 exp = par[2]
+dev = par[3]
+print(surfaceTension(temp, par[0], par[1], par[2], par[3]))
 
-print(surfaceTension(temp, par[0], par[1], par[2]))
-
-chisq = ((surf - surfaceTension(temp, par[0], par[1], par[2]))/err)**2
+chisq = ((surf - surfaceTension(temp, par[0], par[1], par[2], par[3]))/err)**2
 somma = sum(chisq)
 	
-ndof = len(temp) - 3 #Tolgo due parametri estratti dal fit
+ndof = len(temp) - 4 #Tolgo due parametri estratti dal fit
 	
 p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
@@ -172,6 +171,7 @@ print("p = ", p)
 print("Surface tension = ", sigma_0, "pm", numpy.sqrt(cov[0][0]))
 print("Critical beta = ", b_c, "pm", numpy.sqrt(cov[1][1]))
 print("Critical exponent = ", exp, "pm", numpy.sqrt(cov[2][2]))
+print("Deviatiom = ", dev, "pm", numpy.sqrt(cov[3][3]))
 	
 div = 1000
 bucket = numpy.array([0.0 for i in range(div)])
@@ -179,7 +179,7 @@ retta = numpy.array([0.0 for i in range(div)])
 inc = (temp.max()-temp.min())/div 
 for k in range(len(bucket)):
 	bucket[k]=float(k)*inc + temp.min()
-	retta[k] = surfaceTension(bucket[k], par[0], par[1], par[2])
+	retta[k] = surfaceTension(bucket[k], par[0], par[1], par[2], par[3])
 	
 pylab.plot(bucket, retta, color = "red")
 		
@@ -187,6 +187,3 @@ pylab.plot(bucket, retta, color = "red")
 	 
 
 pylab.show()
-
-
-
