@@ -56,7 +56,7 @@ Università di Pisa \\
 
 \begin{frame}
 \titlepage % Print the title page as the first slide
-7\end{frame}
+\end{frame}
 
 %\begin{frame}
 %\frametitle{Overview} % Table of contents slide, comment this block out to remove it
@@ -597,6 +597,76 @@ return flag
 
 \end{frame}
 
+\begin{frame}{Algorithm properties: correlation}
+\begin{center}
+Estimate of integrated correlation time $\tau$: data blocking
+
+\[
+	\sigma_{\bar{x}}^2 = 2\tau\sigma_{x}^2/N
+\]
+Idea: study the fluctuation around average of block averages.
+\[
+	\sigma _B ^2 = \frac{1}{N_B - 1}\sum_ {i = 1} ^{N_B} \left( x_{B_i} - \bar{x} \right)^2 
+\]
+If $k\gg\tau$, blocks are uncorrelated and we get $\sigma_B^2/N_B = \sigma_{\bar{x}}^2$.
+Asymptotically in $k$ we have:
+\[
+	2\tau = k \sigma_B ^2/\sigma_{x}^2
+\]
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{corrbc.png}
+\caption{Integrated correlation time for boundary condition value\label{fig:corr}}
+\end{figure}
+$\tau \simeq 1$: low correlation time
+%TODO simple ising correlation time
+\end{center}
+\end{frame}
+
+\begin{frame}{Algorithm properties: thermalization}
+Thermalization test: Kolmogorov-Smirnov
+If after thermalization time $T$ the distribution of observbables is the same (2 sided KS test) system is in thermal equilibrium
+\end{frame}
+
+\begin{frame}{Estimation of the errors}
+\begin{center}
+We want to estimate reduced free energies $F$ at given $\beta, L$.
+\[
+	\hat{F}_N = \frac{\# \text{Antiferromagnetic}}{\# \text{Ferromagnetic}}
+\]
+$N_B$ resamples created via blocked Jackknife.
+
+We divide initial sample in $N_B$ block with length $k\gg \tau$.
+
+$i$-th resample: all blocks except block $i$
+
+We calculate the free energy on the resamples.
+\[
+	\hat{F}_{N-k, i} = \frac{\sum_ { \mbox{no block i }} \# \text{Antiferromagnetic} }{\sum_ {\mbox{no block i}} \# \text{Ferromagnetic}}
+\]
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Estimation of errors}
+\begin{center}
+Statistical error: fluctuation around $\hat{F}_N$ evaluated on resamples.
+
+\[
+	\sigma_{F, N-k}^2 = \frac{1}{N_B-1}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\]
+To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply to get correct sum of errors.
+\[
+	\sigma_{F_N}^2 = \frac{N_B-1}{N_B}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\]
+\end{center}
+\end{frame}
 
 \begin{frame}
 \begin{center}
@@ -607,12 +677,6 @@ return flag
 \vspace{10pt}
 \item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. 
 \end{itemize}
-\end{center}
-\end{frame}
-
-\begin{frame}{Estimation of the errors and autocorrelation}
-\begin{center}
-
 \end{center}
 \end{frame}
 
@@ -703,7 +767,7 @@ $\beta$ & $\sigma$\\
 %la dovresti mettere prima del grafico sennò non si capisce
 Scaling law at critical point:
 \[
-\sigma\left(\beta \right) = \sigma_0\left(\frac{\beta - \beta_c}{\beta_c} \right)^{\mu}
+\sigma\left(\beta \right) = \sigma_0\left|\frac{\beta - \beta_c}{\beta_c} \right|^{\mu}
 \]
 
 \begin{table}[!htb]
