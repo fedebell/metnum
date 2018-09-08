@@ -624,8 +624,8 @@ Asymptotically in $k$ we have:
 \includegraphics[scale=0.4]{corrbc.png}
 \caption{Integrated correlation time for boundary condition value\label{fig:corr}}
 \end{figure}
-$\tau \simeq 1$: low correlation time
-%TODO simple ising correlation time
+$\tau \simeq 1$: low correlation time even for $\beta = 0.2391, L = 10$
+%TODO metropolis correlation time
 \end{center}
 \end{frame}
 
@@ -642,7 +642,7 @@ We want to estimate reduced free energies $F$ at given $\beta, L$.
 \]
 $N_B$ resamples created via blocked Jackknife.
 
-We divide initial sample in $N_B$ block with length $k\gg \tau$.
+We divide initial sample in $N_B$ block with fixed length $k\gg \tau$.
 
 $i$-th resample: all blocks except block $i$
 
@@ -668,6 +668,23 @@ To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply
 \end{center}
 \end{frame}
 
+\begin{frame}{Bias}
+\begin{center}
+By Great Numbers' Law $\hat{F}_N$ is consistent. Is it biased?
+\[
+	\mathbb E \left[\hat{F}_N\right] = F + \frac{\alpha_1}{N} + \frac{\alpha _2}{N} \ldots 
+\]
+Jackknife resamples help to construct a less biased estimator
+\[
+	\hat_{F}^{\left(u\right)} _N = N_B\hat{F}_N - \frac{N-k}{N} \sum_{i = 1} ^ {N_B} \hat{F}_{N-k, i}
+\]
+From data: bias $\ll$ statistical uncertainty
+
+%TODO scrivi esempio di F biassato e non per far vedere che è molto piccolo
+\end{center}
+\end{frame}
+
+
 \begin{frame}
 \begin{center}
 \begin{itemize}
@@ -675,7 +692,8 @@ To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply
 \vspace{10pt}
 \item The first $10\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
 \vspace{10pt}
-\item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. 
+\item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. \\
+\item No strong dependace of results on block length.
 \end{itemize}
 \end{center}
 \end{frame}
