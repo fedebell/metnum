@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.7)  9 SEP 2018 19:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.7)  9 SEP 2018 23:21
 entering extended mode
 **./presentazione.tex
 (presentazione.tex
@@ -1447,76 +1447,87 @@ my insertion and my current dilemma will both disappear.
 
 ] [38
 
-] <CWM.png, id=258, 426.99525pt x 202.95825pt>
-File: CWM.png Graphic file (type png)
- <use CWM.png>
-Package pdftex.def Info: CWM.png used on input line 735.
-(pdftex.def)             Requested size: 213.4971pt x 101.47887pt.
+] <kink.png, id=258, 464.33475pt x 282.45525pt>
+File: kink.png Graphic file (type png)
+ <use kink.png>
+Package pdftex.def Info: kink.png used on input line 731.
+(pdftex.def)             Requested size: 185.7306pt x 112.98009pt.
 
-Overfull \vbox (24.18349pt too high) detected at line 735
+Overfull \vbox (19.3568pt too high) detected at line 731
  []
 
 [39
 
- <./CWM.png>] <02255FvsL.png, id=265, 867.24pt x 430.0065pt>
-File: 02255FvsL.png Graphic file (type png)
+ <./kink.png>] <CWM.png, id=266, 426.99525pt x 202.95825pt>
+File: CWM.png Graphic file (type png)
+ <use CWM.png>
+Package pdftex.def Info: CWM.png used on input line 752.
+(pdftex.def)             Requested size: 170.79507pt x 81.18185pt.
 
-<use 02255FvsL.png>
-Package pdftex.def Info: 02255FvsL.png used on input line 742.
-(pdftex.def)             Requested size: 346.88986pt x 171.99954pt.
-
-Overfull \hbox (39.59999pt too wide) in paragraph at lines 742--742
- [] 
+Overfull \vbox (3.88647pt too high) detected at line 752
  []
 
 [40
 
- <./02255FvsL.png>] <02391FvsL.png, id=272, 867.24pt x 430.0065pt>
-File: 02391FvsL.png Graphic file (type png)
+ <./CWM.png>] <02255FvsL.png, id=273, 867.24pt x 430.0065pt>
+File: 02255FvsL.png Graphic file (type png)
 
-<use 02391FvsL.png>
-Package pdftex.def Info: 02391FvsL.png used on input line 750.
+<use 02255FvsL.png>
+Package pdftex.def Info: 02255FvsL.png used on input line 759.
 (pdftex.def)             Requested size: 346.88986pt x 171.99954pt.
 
-Overfull \hbox (39.59999pt too wide) in paragraph at lines 750--750
+Overfull \hbox (39.59999pt too wide) in paragraph at lines 759--759
  [] 
  []
 
 [41
 
- <./02391FvsL.png>] [42
+ <./02255FvsL.png>] <02391FvsL.png, id=280, 867.24pt x 430.0065pt>
+File: 02391FvsL.png Graphic file (type png)
+
+<use 02391FvsL.png>
+Package pdftex.def Info: 02391FvsL.png used on input line 767.
+(pdftex.def)             Requested size: 346.88986pt x 171.99954pt.
+
+Overfull \hbox (39.59999pt too wide) in paragraph at lines 767--767
+ [] 
+ []
+
+[42
+
+ <./02391FvsL.png>] [43
 
 ]
 ! Too many }'s.
 \endframe ->\egroup 
                     \begingroup \def \@currenvir {frame}
-l.784 \end{frame}
+l.801 \end{frame}
                  
 You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
-<sigmavsbeta.png, id=285, 867.24pt x 430.0065pt>
+<sigmavsbeta.png, id=294, 867.24pt x 430.0065pt>
 File: sigmavsbeta.png Graphic file (type png)
  <use sigmavsbeta.png>
-Package pdftex.def Info: sigmavsbeta.png used on input line 795.
+Package pdftex.def Info: sigmavsbeta.png used on input line 812.
 (pdftex.def)             Requested size: 346.88986pt x 171.99954pt.
 
-Overfull \hbox (39.59999pt too wide) in paragraph at lines 795--795
+Overfull \hbox (39.59999pt too wide) in paragraph at lines 812--812
  [] 
  []
 
-[43
+[44
 
- <./sigmavsbeta.png>] [44
+ <./sigmavsbeta.png>] [45
 
 ]
-<tableauthors.png, id=300, 466.1415pt x 292.6935pt>
+<tableauthors.png, id=308, 466.1415pt x 292.6935pt>
 File: tableauthors.png Graphic file (type png)
  <use tableauthors.png>
-Package pdftex.def Info: tableauthors.png used on input line 840.
+Package pdftex.def Info: tableauthors.png used on input line 857.
 (pdftex.def)             Requested size: 186.4533pt x 117.07532pt.
 
-[45
+[46
 
  <./tableauthors.png>]
 \tf@nav=\write6
@@ -1528,26 +1539,23 @@ Package pdftex.def Info: tableauthors.png used on input line 840.
 \tf@snm=\write8
 \openout8 = `presentazione.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 844.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 844.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 861.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 861.
  (presentazione.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 844.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 844.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 861.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 861.
 Package rerunfilecheck Info: File `presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 17773 strings out of 493323
- 329812 string characters out of 3139047
- 403845 words of memory out of 3000000
- 20763 multiletter control sequences out of 15000+200000
+ 17786 strings out of 493323
+ 329940 string characters out of 3139047
+ 403869 words of memory out of 3000000
+ 20772 multiletter control sequences out of 15000+200000
  25334 words of font info for 76 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,55p,809b,557s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1579,9 +1587,9 @@ c/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
 ts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cms
 y7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C
 :/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on presentazione.pdf (45 pages, 621203 bytes).
+Output written on presentazione.pdf (46 pages, 636729 bytes).
 PDF statistics:
- 656 PDF objects out of 1000 (max. 8388607)
- 96 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 669 PDF objects out of 1000 (max. 8388607)
+ 99 named destinations out of 1000 (max. 500000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -712,15 +712,32 @@ From data: bias $\ll$ statistical uncertainty
 \end{center}
 \end{frame}
 
-\begin{frame}{Capillary Wave Model}
+\begin{frame}{Capillary wave model}
+\begin{center}
+We need model to relate $F$ and $L$ at given $\beta$ near $\beta_c$
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{kink.png}
+\caption{Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases \label{fig:kink}}
+\end{figure}
 
+Near critical point, 3D Ising $\simeq \varphi ^4$.
+
+$F$ is related to fluctuations around kink solution.
+
+Idea: instead of doing calculation in $\varphi^4$, focus on the kink interface between the two phases.
+
+\end{center}
+\end{frame}
+
+\begin{frame}{Capillary Wave Model}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.5]{CWM.png}
+\includegraphics[scale=0.4]{CWM.png}
 \caption{2D effective description of the interface}
 \end{figure}
 \begin{center}
-Energy proportional to surface!
+Energy proportional to surface
 \[
 	\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
 \]
