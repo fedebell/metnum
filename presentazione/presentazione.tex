@@ -690,7 +690,7 @@ By Great Numbers' Law $\hat{F}_N$ is consistent. Is it biased?
 \]
 Jackknife resamples help to construct a less biased estimator
 \[
-	\hat_{F}^{\left(u\right)} _N = N_B\hat{F}_N - \frac{N-k}{N} \sum_{i = 1} ^ {N_B} \hat{F}_{N-k, i}
+	\hat{F}^{\left(u\right)} _N = N_B\hat{F}_N - \frac{N-k}{N} \sum_{i = 1} ^ {N_B} \hat{F}_{N-k, i}
 \]
 From data: bias $\ll$ statistical uncertainty
 
@@ -739,12 +739,12 @@ Idea: instead of doing calculation in $\varphi^4$, focus on the kink interface b
 \begin{center}
 Energy proportional to surface
 \[
-	\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
+	\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
 \]
 %\[
-%	\mathcal H \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2
+%	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2
 %\]
-1-Loop calculations:
+Quartic expansion + 2-Loop calculations:
 \[
 	F = C + \sigma L ^2 + \sigma\log\left( 1 + \frac{1}{4\sigma L^2}\right)
 \]
@@ -770,29 +770,29 @@ Low T, Big L: MCMC too short to flip boundary
 %TODO inserire tabella risultati con chi^2
 \begin{table}[!htb]
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|}
 \hline
-$\beta$ & $\sigma$\\
+$\beta$ & $\sigma$ & $\chi ^2 /n$ \\
 \hline
-0.223 &  $(2.226 \pm 0.005) \cdot 10^{-3}$ \\
+0.223 &  $2.226(5) \cdot 10^{-3}$ & 1154.8\\
 \hline
-0.224 & $(4.637 \pm 0.006) \cdot 10^{-3} $\\
+0.224 & $4.637(6) \cdot 10^{-3} $ & 236.5\\
 \hline
-0.2255 & $(8.73 \pm 0.01)\cot 10^{-3}$\\
+0.2255 & $8.73(1)\cdot 10^{-3}$ & 19.9\\
 \hline
-0.2275 & $(1.476 \pm 0.002\cdot 10^{-2})$\\
+0.2275 & $1.476(2)\cdot 10^{-2}$ & 4.9\\
 \hline
-0.2327 & $(3.225 \pm 0.004)\cdot 10 ^{-2}$\\
+0.2327 & $3.225(4)\cdot 10 ^{-2}$ & 22.4\\
 \hline
-0.2391 & $(5.60 \pm 0.01)cdot 10^{-2}$\\
+0.2391 & $5.60(1)\cdot 10^{-2}$ & 5.4\\
 \hline
 \end{tabular}
-\caption{Fit results for $\sigma$ \label{tab:fitsigma}}
+\caption{Fit results for $\sigma$.\label{tab:fitsigma}}
 \end{table}
 \begin{center}
 \begin{itemize}
 \item Low statistical error
-\item High systematics: unknown higher loop corrections
+\item High systematics: Finite $x_3$ + truncated action + 2-loops only
 \item High $\chi ^2/\mbox{ndof}$
 \end{itemize}
 \end{center}
@@ -821,27 +821,61 @@ Scaling law at critical point:
 
 \begin{table}[!htb]
 \centering
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 \hline
-$\sigma$ & $\mu$ & $\beta_c$\\
+$\sigma_0$ & $\mu$ & $\beta_c$ & $\chi^2 /n$\\
 \hline
-$1.209(6)$ & $1.202(2)$ & $0.22182(1)$\\
+$1.209(6)$ & $1.202(2)$ & $0.22182(1)$ & 5.4\\
 \hline
 \end{tabular}
-\caption{Fit results\label{tab:fitfinal}}
+\caption{Fit results ($n = 3$)\label{tab:fitfinal}}
 \end{table}
 
 \begin{itemize}
-\item correct critical exponent from Widom Law
+\item correct critical exponent from Widom Law %Sì ma lo devi confrontare con gli errori
 \item High $\chi ^2$: points outside scaling region!
-\item Consider modified scaling law $rightarrow$ low $\chi ^2$, no theoretical model.
-\item changing fit law, $\sigma_0$ lies in 1.1 - 1.4 range.
-\item high systematics!
+\item High systematics! Need of corrected scaling law.
 \end{itemize}
 \end{center}
 \end{frame}
 
-\begin{frame}{(Conclusions?)}
+\begin{frame}{Wegner's scaling correction}
+\begin{center}
+From linearized RG flow near critical point:
+\[
+	\sigma\left( \beta \right) = \sigma _0 t^{\mu}\left( 1 + a_\theta t^{\theta} + a t\right)
+\]
+with $\theta = 0.5$
+
+Fit input: $\mu$ (variable), $\theta = 0.51$, $\beta_c = 0.2218$.
+Fit result:
+\begin{table}[!htb]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\mu$ & $\sigma_0$ & $a_{\theta}$ & $a$ & $\chi^2/n$ \\
+\hline
+1.200 & 1.124(6) & 0.61(8) & 0.0(2) & 0.6\\
+\hline
+1.209 & 1.198(6) & 0.33(7) & 0.4(2) & 0.8\\
+\hline
+1.220 & 1.294(7) & 0.01(7) & 0.8(2) & 1.2\\
+\hline
+1.230 & 1.387(7) & -0.26(6) & 1.2(1) & 1.8\\
+\hline
+1.240 & 1.486(7) & -0.53(6) & 1.6(2) & 2.8\\
+\hline
+1.256 & 1.658(8) & -0.93(5) & 2.2(2) & 5.0\\
+\hline
+\end{tabular}
+\caption{Improved fit results ($n=3$)\label{tab:fitfinalimproved}}
+\end{table}
+$\sigma_0$ VERY dependent on  $\mu$ value.
+\end{center}
+\end{frame}
+
+
+\begin{frame}{(Conclusions)}
 \begin{center}
 \begin{figure}
 \centering
@@ -849,9 +883,8 @@ $1.209(6)$ & $1.202(2)$ & $0.22182(1)$\\
 \caption{Previous results for $\sigma_0$ in 3D Ising\label{fig:authors}}
 \end{figure}
 \begin{itemize}
-\item Our result for $\sigma_0$ agrees but is in low end
-\item We should factor in scaling breaking terms in the fit
-\item No theoretical formula: cumbersome RG flow calculations
+\item Our result for $\sigma_0$ agree with other results.
+\item Need for better theoretical understanding of parameters of the theory ($\mu$).
 \end{itemize}
 \end{center}
 \end{frame}

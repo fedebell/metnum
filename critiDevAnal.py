@@ -25,8 +25,8 @@ def freeEnergy(l, a, b):
 	#return a*(l**2) + c + b/(a*(l**2)) + d/(a*(l**2))
 	return b + a * l**2 - numpy.log(1.0 + 0.25/( a * l**2))
 	
-def surfaceTension(b, sigma_0, b_c, exp, a):
-	return sigma_0*numpy.float_power(abs(1 - b_c/b), exp)*( 1.0 + a*numpy.float_power(abs(1 - b_c/b), 1)) 
+def surfaceTension(b, sigma_0, a_theta, a):
+	return sigma_0*numpy.float_power(abs(1 - 0.2218/b), 1.200)*( 1.0 + a_theta * numpy.float_power(abs(1 - 0.2216544/b), 0.51) + a*abs(1 - 0.2216544/b)) 
 	
 def search(element, array):
 	flag = 0
@@ -98,11 +98,11 @@ for i in range(len(temp)):
 	
 	p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
-	print("beta = %f, Chisquare/ndof = %f/%d" % (temp[i], somma, ndof))
+	print("beta = %f, Chisquare/ndof = %f" % (temp[i], somma/ndof))
 	#print("p = ", p)
 	
 	
-	#plotto per ogni temperatura le funzioni di fit coi parametri ricavati
+"""	#plotto per ogni temperatura le funzioni di fit coi parametri ricavati
 	div = 1000
 	bucket = numpy.array([0.0 for i in range(div)])
 	retta = numpy.array([0.0 for i in range(div)])
@@ -115,7 +115,7 @@ for i in range(len(temp)):
 		
 	#pylab.savefig("plot" + str(temp[i]) + ".png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
 
-	pylab.show()
+	pylab.show()"""
 
 #print("beta = ", temp)
 #print("sigma = ", surf)
@@ -143,7 +143,7 @@ pylab.errorbar(temp, surf, err, 0, "o", color="black")
 #Eseguo il fit
 
 #error = unumpy.std_devs(I_D)
-init = numpy.array([1.5157, 0.22103, 1.31337, 1])
+init = numpy.array([1.5157, 0.0, 0.0])
 #Errori tutti statistici
 par, cov = curve_fit(surfaceTension, temp, surf, init, err, absolute_sigma = "false")
 #trattazione statistica degli errori
@@ -153,33 +153,32 @@ par, cov = curve_fit(surfaceTension, temp, surf, init, err, absolute_sigma = "fa
 	
 #Di nuovo co capisco il chi quadro, non cambia nulla se cambio da true a false
 sigma_0 = par[0]
-b_c = par[1]
-exp = par[2]
-dev = par[3]
-print(surfaceTension(temp, par[0], par[1], par[2], par[3]))
+a_theta = par[1]
+a = par[2]
 
-chisq = ((surf - surfaceTension(temp, par[0], par[1], par[2], par[3]))/err)**2
+print(surfaceTension(temp, par[0], par[1], par[2]))
+
+chisq = ((surf - surfaceTension(temp, par[0], par[1], par[2]))/err)**2
 somma = sum(chisq)
 	
-ndof = len(temp) - 4 #Tolgo due parametri estratti dal fit
+ndof = len(temp) - 3 #Tolgo tre parametri estratti dal fit
 	
 p=1.0-scipy.stats.chi2.cdf(somma, ndof)
 	
-print("Chisquare/ndof = %f/%d" % (somma, ndof))
+print("Chisquare/ndof = %f" % (somma/ndof))
 print("p = ", p)
 
 print("Surface tension = ", sigma_0, "pm", numpy.sqrt(cov[0][0]))
-print("Critical beta = ", b_c, "pm", numpy.sqrt(cov[1][1]))
-print("Critical exponent = ", exp, "pm", numpy.sqrt(cov[2][2]))
-print("Deviatiom = ", dev, "pm", numpy.sqrt(cov[3][3]))
-	
+print("a_theta = ", a_theta, "pm", numpy.sqrt(cov[1][1]))
+print("a = ", a, "pm", numpy.sqrt(cov[2][2]))
+
 div = 1000
 bucket = numpy.array([0.0 for i in range(div)])
 retta = numpy.array([0.0 for i in range(div)])
 inc = (temp.max()-temp.min())/div 
 for k in range(len(bucket)):
 	bucket[k]=float(k)*inc + temp.min()
-	retta[k] = surfaceTension(bucket[k], par[0], par[1], par[2], par[3])
+	retta[k] = surfaceTension(bucket[k], par[0], par[1], par[2])
 	
 pylab.plot(bucket, retta, color = "red")
 		
