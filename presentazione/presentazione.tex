@@ -20,6 +20,7 @@
 \documentclass[12pt,handout]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage[export]{adjustbox}
 \usepackage[T1]{fontenc}
 \usepackage{verbatim}
 
@@ -75,11 +76,11 @@ Università di Pisa \\
 \item 3D Ising models
 \item Definition of the surface tension
 \item Cluster algorithms and boundary flip
-\item (Notes on the implementation?)
+\item Notes on the implementation
 \item Estimation of the errors and autocorrelation
 \item Fit of the free energy
 \item Fit of the critical behaviour
-\item (Conclusion?)
+\item Conclusions
 \end{itemize}
 
 \end{center}
@@ -105,7 +106,7 @@ J_{\langle x, y \rangle} = -1\text{ antiferromagnetic}
 \begin{column}{0.57\textwidth}  %%<--- here
  \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.5]{ising3D.png}
+\includegraphics[scale=0.5]{ising.png}
 \end{figure}
 \end{column}
 \end{columns}
@@ -155,12 +156,12 @@ $
 \begin{frame}{General strategy}
 \begin{center}
 \begin{itemize}
-\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$
-\item Repeat for different $L$, same $\beta$
-\item Find a theoretical formula to link $F_s(L)$ and $\sigma$
-\item extrapolate $\sigma$ at given $\beta$
-\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$
-\item Fit critical scaling law for $\sigma\left(\beta \right)$
+\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
+\item Repeat for different $L$, same $\beta$.
+\item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
+\item Extrapolate $\sigma$ at given $\beta$.
+\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
+\item Fit critical scaling law for $\sigma\left(\beta \right)$.
 \end{itemize}
 \end{center}
 \end{frame}
@@ -324,151 +325,6 @@ Definition: a \textbf{cluster} is a set of spins in the lattice path-connected b
 \end{center}
 \end{frame}
 
-\begin{frame}
-\begin{center}
-{\Large Swendsen and Wang algorithm:}
-
-\begin{itemize}
-\item Generate a link configuration $\sigma_{\langle x, y \rangle}$ based on the current spin configuration by using probablities $p_0$ and $p_1$. 
-\item For each cluster choose a spin $\left( s = \pm 1 \right)$ with probability $\frac{1}{2}$. In general the updte step must be compatible with the constraint $J_{\langle x, y \rangle}  s_x s_y = 1$.
-\item The newly generted spin configuration is the next element of the Markov chain.
-\end{itemize}
-
-\vspace{20pt}
-The SW is \textbf{ergodic}. We know prove that it satisfies the \textbf{detailed balance}.
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spin and link configurations: $\lbrace s,  \sigma \rbrace$.
-
-\[
-\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
-\]
-
-(this is not the detailed balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the link configurations don't get exchanged!)
-
-
-\end{center}
-\end{frame}
-
-
-\begin{frame}
-\begin{center}
-
-$P \left( \lbrace s \rbrace | \lbrace \sigma, s_0 \rbrace \right) =
- \frac{1}{2^{\# cluster}}$ if $\lbrace s \rbrace$ is compatible with $\lbrace \sigma \rbrace$, null otherwise. Notice that in thw SW algorithm $\lbrace s \rbrace$ is actually independent on $\lbrace s_0 \rbrace$.\\
-\vspace{20pt} 
-Thus {\large $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$}.\\
-\vspace{20pt}
-In general this is the condition we ask to cluster algorithms.
-
-%In effetti questa probabilità non mi convince - rivedere.
-
-%Dire che in realtà noi usiamo il sigle cluster algorithm con un procedimento ricorsivo (implementato con uno stack) che controlla una ed una sola volta ogni link per vedere se attivarlo o meno. Costruendo così un singolo cluster che andiamo a flippare.
-
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
-{\large
-\[P \left( \lbrace \sigma \rbrace | \lbrace s \rbrace \right) =
-\prod_{ \substack{ \sigma_{\langle x, y \rangle} = 0 \\ J_{\langle x, y \rangle} s_x s_y = 1}} e^{-2 \beta} \prod_{\sigma_{\langle x, y \rangle} = 1} \left( 1- e^{-2 \beta } \right)
-\]} for $\lbrace s \rbrace$ compatible with $\lbrace \sigma \rbrace$.\\
-\vspace{20pt}
-The first factor arise from the unconnected links for which $J_{\langle x, y \rangle} s_x s_y = 1$ each being in this state with probability $e^{ - 2 \beta }$. The second one is from the connected links (for which $J_{\langle x, y \rangle} s_x s_y = 1$ necessarily).\\
-\vspace{20pt}
-The second factor is \textbf{independent of $\lbrace s \rbrace$} and will be neglettend in the sequent.
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
-We obtain:
-
-\[
-P \left( \lbrace \sigma \rbrace | \lbrace s \rbrace \right) =
-\prod_{ \substack{ \sigma_{\langle x, y \rangle} = 0 \\ J_{\langle x, y \rangle} s_x s_y = 1}} e^{-2 \beta}
-\]
-
-Now we compute (reminding $\lbrace s_0 \rbrace$ and $\lbrace s_1 \rbrace$ share the same $\lbrace \sigma \rbrace$):
-
-\begin{gather*}
-\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^1_x s^1_y}}{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^0_x s^0_y}} = \\ \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^1_x s^1_y = +1}} e^{\beta}}{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^0_x s^0_y = +1}} e^{\beta}}
-\end{gather*}
-
-The last part having $\sigma = 1$ obviously depends only on $\lbrace \sigma \rbrace$ for all $J_{\langle x, y \rangle} s_x s_y$ beeing forced to $1$ if $\sigma=1$.
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-We observe that: 
-\[
-\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \times \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = 1}} e^{-\beta} = \prod_{\sigma = 0} e^{-\beta} = k
-\] $k$ depends only on the link configuration $\lbrace \sigma \rbrace$\\
-
-\[
-\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} = k \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = 1}} e^{\beta} 
-\]
-
-\[
-\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{2 \beta}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{-2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^1s_x s^0_y = +1}} e^{-2 \beta}}
-\]
-
-\end{center}
-\end{frame}
-
-
-\begin{frame}
-\begin{center}
-
-We arrived at:
-
-\[
-\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}}
-\]
-
-\[
-P \left( \lbrace s_0 \rbrace \rightarrow \lbrace s_1\rbrace \right) = \sum_{\lbrace \sigma \rbrace, \lbrace \sigma_0 \rbrace} P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)
-\]
-
-We thus obtain the detailed balance:
-
-{ \Large
-\[
-\frac{P \left( \lbrace s_0 \rbrace \rightarrow \lbrace s_1\rbrace \right)}{P \left( \lbrace s_1 \rbrace \rightarrow \lbrace s_0\rbrace \right)} = \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}}
-\]
-}
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
-{\large
-\begin{itemize}
-
-\item The only requirement on the update step is that  $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$.
-\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y = 1$ where $\sigma = 1$.
-
-\end{itemize}}
-
-\vspace{30pt}
-
-This two observations give rise to two key modification of the SW algorithm: the Wolff algorithm and the boundary flip.
-
-\end{center}
-\end{frame}
 
 \begin{frame}
 \begin{center}
@@ -476,14 +332,14 @@ This two observations give rise to two key modification of the SW algorithm: the
 \Large Single cluster update (Wolff):\\
 }
 \vspace{10pt}
-In the Wolff algorithm we choose at random one site of the lattice and flip the cluster it belongs to. The probability of going from $s_1$ to $s_0$ ad viceversa is obviously the same, beeing the probability of choosing the right cluster. Notice that $P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right) \neq$ const. Practically we build only \textbf{one cluster} starting from a seed.\\
+In the Wolff algorithm we choose at random one site of the lattice and flip the cluster it belongs to. The probability of going from $s_1$ to $s_0$ ad viceversa is obviously the same, beeing the probability of choosing the right cluster. %Notice that $P \left( \lbrace s \rbrace | \lbrace \sigma \rbrace \right) \neq$ const.
+Practically we build only \textbf{one cluster} starting from a seed.\\
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.4]{wolff.png}
 \end{figure}
 
-%TODO--Questa cosa non mi torna: "we chose at random one site of the lattice" or "we chose at random a cluster".
 
 \end{center}
 \end{frame}
@@ -493,7 +349,7 @@ In the Wolff algorithm we choose at random one site of the lattice and flip the 
 
 {\Large Boundary flip algorithm:\\}
 \vspace{20pt}
-$J = 1$ in the bulk, but the coupling between the top and the bottom is now a dynamical variable to simulate: $\lbrace s, \sigma, J_{0, T-1} = \pm 1 \rbrace$ is ana element of the ensamble.\\
+$J = 1$ in the bulk, but the coupling between the top and the bottom is now a dynamical variable to simulate: $\lbrace s, \sigma, J_{0, T-1} = \pm 1 \rbrace$ is an element of the ensamble.\\
 \vspace{20pt}
 A link $\sigma_{\langle 0, T-1 \rangle} = 1$ demands $J_{0, T-1} s_0 s_{T-1} = 1$. Thus we can flip $J_{0, T-1}$, $s_0$ and all the spins connected to $s_0$ via some chain of links in the bulk obtaing a configuration compatible with $\lbrace \sigma_{\langle x, y \rangle} \rbrace $. This for all the spins on the bottom boundary.
 
@@ -614,18 +470,17 @@ return flag
 \begin{frame}{Algorithm properties: correlation}
 \begin{center}
 Estimate of integrated correlation time $\tau$: data blocking
-
 \[
-	\sigma_{\bar{x}}^2 = 2\tau\sigma_{x}^2/N
+\sigma_{\bar{x}}^2 = 2\tau\sigma_{x}^2/N
 \]
 Idea: study the fluctuation around average of block averages.
 \[
-	\sigma _B ^2 = \frac{1}{N_B - 1}\sum_ {i = 1} ^{N_B} \left( x_{B_i} - \bar{x} \right)^2 
+\sigma _B ^2 = \frac{1}{N_B - 1}\sum_ {i = 1} ^{N_B} \left( x_{B_i} - \bar{x} \right)^2 
 \]
 If $k\gg\tau$, blocks are uncorrelated and we get $\sigma_B^2/N_B = \sigma_{\bar{x}}^2$.
 Asymptotically in $k$ we have:
 \[
-	2\tau = k \sigma_B ^2/\sigma_{x}^2
+2\tau = k \sigma_B ^2/\sigma_{x}^2
 \]
 \end{center}
 \end{frame}
@@ -635,7 +490,7 @@ Asymptotically in $k$ we have:
 \begin{center}
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{corrbc.png}
+\includegraphics[scale=1.0]{corrbc.jpg}
 \caption{Integrated correlation time for boundary condition value\label{fig:corr}}
 \end{figure}
 $\tau \simeq 1$: low correlation time even for $\beta = 0.2391, L = 10$
@@ -645,7 +500,7 @@ $\tau \simeq 1$: low correlation time even for $\beta = 0.2391, L = 10$
 
 \begin{frame}{Algorithm properties: thermalization}
 Thermalization test: Kolmogorov-Smirnov
-If after thermalization time $T$ the distribution of observbables is the same (2 sided KS test) system is in thermal equilibrium
+If after thermalization time $T$ the distribution of observbables is the same (2 sided KS test) system is in thermal equilibrium.
 \end{frame}
 
 \begin{frame}{Estimation of the errors}
@@ -702,71 +557,123 @@ From data: bias $\ll$ statistical uncertainty
 \begin{frame}
 \begin{center}
 \begin{itemize}
-\item The simulations were executed with $N = 10^5, 10^6$ steps of the Markov chain.\\
+\item The simulations were executed with $N = 10^6$ steps of the Markov chain.\\
 \vspace{10pt}
 \item The first $10\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
 \vspace{10pt}
-\item The Jackknife is executed for blocks of size starting from $10000$ to $10900$ with step of $30$ events. \\
-\item No strong dependace of results on block length.
+\item The Jackknife is executed for blocks of sizes that are divisors of $900000$ going from $300$ to $10000$. No strong dependence of results on block length is observed.\\
+%TODO in realtà un po' dipendeva ma in una maniera abbastanza a caso per quello prendevamo la media.
 \end{itemize}
 \end{center}
 \end{frame}
 
-\begin{frame}{Capillary wave model}
+\begin{frame}
 \begin{center}
-We need model to relate $F$ and $L$ at given $\beta$ near $\beta_c$
+We need model to relate $F$ and $L$ at given $\beta$ near $\beta_c$.
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{kink.png}
-\caption{Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases \label{fig:kink}}
+\includegraphics[scale=0.30, center]{kink.png}
+\caption{\centering Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases 
+\label{fig:kink}}
 \end{figure}
 
-Near critical point, 3D Ising $\simeq \varphi ^4$.
-
-$F$ is related to fluctuations around kink solution.
-
-Idea: instead of doing calculation in $\varphi^4$, focus on the kink interface between the two phases.
+Near critical point, 3D Ising $\simeq \varphi ^4$. $F$ is related to fluctuations around kink solution.\\
 
 \end{center}
 \end{frame}
 
 \begin{frame}{Capillary Wave Model}
+\begin{center}
+\vspace{5pt}
+\textbf{Idea}: instead of doing calculation in $\varphi^4$, focus on the kink interface between the two phases.
+
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.4]{CWM.png}
-\caption{2D effective description of the interface}
+\caption{\centering Effective 2D description of the interface.}
 \end{figure}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+
 \begin{center}
-Energy proportional to surface
+Energy proportional to surface area:
 \[
-	\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
-\]
+\mathcal H = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
+\]\\
 %\[
 %	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2
 %\]
+\vspace{20pt}
 Quartic expansion + 2-Loop calculations:
 \[
-	F = C + \sigma L ^2 + \sigma\log\left( 1 + \frac{1}{4\sigma L^2}\right)
+F = C + \sigma L ^2 - \log\left( 1 + \frac{1}{4\sigma L^2}\right)
 \]
 \end{center}
 \end{frame}
 
-\begin{frame}{Fit of the free energy - results}
+\begin{frame}{Fit of the free energy - results}\begin{center}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.4]{02255FvsL.png}
+\includegraphics[scale=0.4, center]{02391.png}
 \end{figure}
+Low T, Big L: MCMC too short to flip boundary. $F_s = \sigma L^2$ is a good fit.
+\end{center}
 \end{frame}
 
 \begin{frame}
+\begin{center}
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.4]{02391FvsL.png}
+\includegraphics[scale=0.4, center]{02327.png}
 \end{figure}
-Low T, Big L: MCMC too short to flip boundary
+$F_s = \sigma L^2$ is a good fit.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4, center]{02275.png}
+\end{figure}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4, center]{0225.png}
+\end{figure}
+Fluctuations contribution $- \log \left( 1 + \frac{1}{4 \sigma L^2} \right)$ becomes evident.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4, center]{0224.png}
+\end{figure}
+Fluctuations contributions $- \log \left( 1 + \frac{1}{4 \sigma L^2} \right)$ becomes evident.
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=0.4, center]{0223.png}
+\end{figure}
+Systematics becomes important.
+\end{center}
 \end{frame}
 
 \begin{frame}{Results}
+\begin{center}
 %TODO inserire tabella risultati con chi^2
 \begin{table}[!htb]
 \centering
@@ -789,23 +696,21 @@ $\beta$ & $\sigma$ & $\chi ^2 /n$ \\
 \end{tabular}
 \caption{Fit results for $\sigma$.\label{tab:fitsigma}}
 \end{table}
-\begin{center}
 \begin{itemize}
-\item Low statistical error
-\item High systematics: Finite $x_3$ + truncated action + 2-loops only
-\item High $\chi ^2/\mbox{ndof}$
+\item Low statistical error.
+\item High systematics: finite $L$ and $T$ + truncated action + 2-loops only.
+\item High $\chi ^2/\mbox{ndof}$.
 \end{itemize}
 \end{center}
 \end{frame}
 
-\end{frame}
 
 \begin{frame}{Fit of the critical behaviour}
 \begin{center}
 \begin{figure}
 \centering
-\includegraphics[scale=0.4]{sigmavsbeta.png}
-\caption{Critical scaling law fit\label{fig:scalinglaw}}
+\includegraphics[scale=0.4, center]{sbeta.png}
+\caption{Critical scaling law fit.\label{fig:scalinglaw}}
 \end{figure}
 
 \end{center}
@@ -832,7 +737,7 @@ $1.209(6)$ & $1.202(2)$ & $0.22182(1)$ & 5.4\\
 \end{table}
 
 \begin{itemize}
-\item correct critical exponent from Widom Law %Sì ma lo devi confrontare con gli errori
+\item Correct critical exponent from Widom law. %Sì ma lo devi confrontare con gli errori
 \item High $\chi ^2$: points outside scaling region!
 \item High systematics! Need of corrected scaling law.
 \end{itemize}
@@ -842,11 +747,9 @@ $1.209(6)$ & $1.202(2)$ & $0.22182(1)$ & 5.4\\
 \begin{frame}{Wegner's scaling correction}
 \begin{center}
 From linearized RG flow near critical point:
-\[
-	\sigma\left( \beta \right) = \sigma _0 t^{\mu}\left( 1 + a_\theta t^{\theta} + a t\right)
-\]
-with $\theta = 0.5$
-
+$ \sigma\left( \beta \right) = \sigma _0 t^{\mu}\left( 1 + a_\theta t^{\theta} + a t\right)
+$ with $\theta = 0.5$\\
+\vspace{5pt}
 Fit input: $\mu$ (variable), $\theta = 0.51$, $\beta_c = 0.2218$.
 Fit result:
 \begin{table}[!htb]
@@ -875,7 +778,7 @@ $\sigma_0$ VERY dependent on  $\mu$ value.
 \end{frame}
 
 
-\begin{frame}{(Conclusions)}
+\begin{frame}{Conclusions}
 \begin{center}
 \begin{figure}
 \centering
@@ -888,6 +791,154 @@ $\sigma_0$ VERY dependent on  $\mu$ value.
 \end{itemize}
 \end{center}
 \end{frame}
+
+\begin{frame}{Backup slides}
+\begin{center}
+{\Large Swendsen and Wang algorithm:}
+
+\begin{itemize}
+\item Generate a link configuration $\sigma_{\langle x, y \rangle}$ based on the current spin configuration by using probablities $p_0$ and $p_1$. 
+\item For each cluster choose a spin $\left( s = \pm 1 \right)$ with probability $\frac{1}{2}$. In general the updte step must be compatible with the constraint $J_{\langle x, y \rangle}  s_x s_y = 1$.
+\item The newly generted spin configuration is the next element of the Markov chain.
+\end{itemize}
+
+\vspace{20pt}
+The SW is \textbf{ergodic}. It can be prooved it satisfy the \textbf{detailed balance}.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+We now prove all our cluster algorithms satisfy the detailed balance condition.\\
+
+In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spin and link configurations: $\lbrace s,  \sigma \rbrace$.
+
+\[
+\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
+\]
+
+(this is not the detailed balance in the ensamble of $\lbrace s,  \sigma \rbrace$ as the link configurations don't get exchanged!)
+
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\vspace{20pt}
+$P \left( \lbrace s \rbrace | \lbrace \sigma, s_0 \rbrace \right) =
+ \frac{1}{2^{\# cluster}}$ if $\lbrace s \rbrace$ is compatible with $\lbrace \sigma \rbrace$, null otherwise. Notice that in thw SW algorithm $\lbrace s \rbrace$ is actually independent on $\lbrace s_0 \rbrace$.\\
+\vspace{20pt} 
+Thus {\large $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$}.\\
+\vspace{20pt}
+In general this is the condition we ask to cluster algorithms.
+
+%In effetti questa probabilità non mi convince - rivedere.
+
+%Dire che in realtà noi usiamo il sigle cluster algorithm con un procedimento ricorsivo (implementato con uno stack) che controlla una ed una sola volta ogni link per vedere se attivarlo o meno. Costruendo così un singolo cluster che andiamo a flippare.
+
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+{\large
+\[P \left( \lbrace \sigma \rbrace | \lbrace s \rbrace \right) =
+\prod_{ \substack{ \sigma_{\langle x, y \rangle} = 0 \\ J_{\langle x, y \rangle} s_x s_y = 1}} e^{-2 \beta} \prod_{\sigma_{\langle x, y \rangle} = 1} \left( 1- e^{-2 \beta } \right)
+\]} for $\lbrace s \rbrace$ compatible with $\lbrace \sigma \rbrace$.\\
+\vspace{20pt}
+The first factor arise from the unconnected links for which $J_{\langle x, y \rangle} s_x s_y = 1$ each being in this state with probability $e^{ - 2 \beta }$. The second one is from the connected links (for which $J_{\langle x, y \rangle} s_x s_y = 1$ necessarily).\\
+\vspace{20pt}
+The second factor is \textbf{independent of $\lbrace s \rbrace$} and will be neglettend in the sequent.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+We obtain:
+
+\[
+P \left( \lbrace \sigma \rbrace | \lbrace s \rbrace \right) =
+\prod_{ \substack{ \sigma_{\langle x, y \rangle} = 0 \\ J_{\langle x, y \rangle} s_x s_y = 1}} e^{-2 \beta}
+\]
+
+Now we compute (reminding $\lbrace s_0 \rbrace$ and $\lbrace s_1 \rbrace$ share the same $\lbrace \sigma \rbrace$):
+
+\begin{gather*}
+\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^1_x s^1_y}}{\prod_{\langle x, y \rangle} e^{J_{\langle x, y \rangle} s^0_x s^0_y}} = \\ \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^1_x s^1_y = +1}} e^{\beta}}{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{\beta} \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = -1}} e^{-\beta} \prod_{\substack{\sigma = 1 \\ J s^0_x s^0_y = +1}} e^{\beta}}
+\end{gather*}
+
+The last part having $\sigma = 1$ obviously depends only on $\lbrace \sigma \rbrace$ for all $J_{\langle x, y \rangle} s_x s_y$ beeing forced to $1$ if $\sigma=1$.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+We observe that: 
+\[
+\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} \times \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = 1}} e^{-\beta} = \prod_{\sigma = 0} e^{-\beta} = k
+\] $k$ depends only on the link configuration $\lbrace \sigma \rbrace$\\
+
+\[
+\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = -1}} e^{-\beta} = k \prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = 1}} e^{\beta} 
+\]
+
+\[
+\frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^1_x s^1_y = +1}} e^{2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{2 \beta}} = \frac{\prod_{\substack{\sigma = 0 \\ J s^0_x s^0_y = +1}} e^{-2 \beta}} { \prod_{\substack{\sigma = 0 \\ J s^1s_x s^0_y = +1}} e^{-2 \beta}}
+\]
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+
+We arrived at:
+
+\[
+\frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}}
+\]
+
+\[
+P \left( \lbrace s_0 \rbrace \rightarrow \lbrace s_1\rbrace \right) = \sum_{\lbrace \sigma \rbrace, \lbrace \sigma_0 \rbrace} P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)
+\]
+
+We thus obtain the detailed balance:
+
+{ \Large
+\[
+\frac{P \left( \lbrace s_0 \rbrace \rightarrow \lbrace s_1\rbrace \right)}{P \left( \lbrace s_1 \rbrace \rightarrow \lbrace s_0\rbrace \right)} = \frac{e^{- \beta \mathcal{H} \left( \lbrace s_1 \rbrace \right)}}{e^{- \beta \mathcal{H} \left( \lbrace s_0 \rbrace \right)}}
+\]
+}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+{\large
+\begin{itemize}
+
+\item The only requirement on the update step is that  $P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) = P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right)$.
+\item We can also update the coupling constants $J_{\langle x, y \rangle}$ as long as $J_{\langle x, y \rangle} s_x s_y = 1$ where $\sigma = 1$.
+
+\end{itemize}}
+
+\vspace{30pt}
+
+This two observations give rise to two key modification of the SW algorithm: the Wolff algorithm and the boundary flip.
+
+\end{center}
+\end{frame}
+
 
 %----------------------------------------------------------------------------------------
 

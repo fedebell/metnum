@@ -61,14 +61,17 @@ for i in range(len(temp)):
 	
 	#Eseguo il grafico per ogni temperatura, indicizzata proprio da temp
 	
-	pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
-	pylab.rc('font',size=13)
-	pylab.title('Energia libera alla temperatura ' + str(temp[i]), fontsize = "16")
-	pylab.xlabel('L', size = "14")
-	pylab.ylabel('freeEnergy', size = "14")
+	pylab.figure(num=None, figsize=(12, 8), dpi=80, facecolor='w', edgecolor='k')
+	pylab.rc('font',size=20)
+	pylab.title('$\\beta$ = ' + str(temp[i]), fontsize = "24")
+	pylab.xlabel('L', size = "20")
+	pylab.ylabel('$F_s$', size = "20")
 	pylab.grid(color = "gray")
+	if(temp[i] != 0.2327 and temp[i] != 0.2391 and temp[i] != 0.2275):
+		error_temp *= 10
 	pylab.errorbar(l_temp, F_temp, error_temp, 0, "o", color="black")
-	
+	if(temp[i] != 0.2327 and temp[i] != 0.2391 and temp[i] != 0.2275): 
+		error_temp /= 10
 	 
 	#Eseguo il fit per ogni temperatura
 
@@ -86,7 +89,7 @@ for i in range(len(temp)):
 	#e = par[4]
 	#f = par[5]
 
-	#creo array surf[i] = surface tension ricavata dal fit a beta[i]
+	#creo array surf[i] = n ricavata dal fit a beta[i]
 	surf.append(a)
 	err.append(math.sqrt(cov[0][0]))
 	
@@ -114,7 +117,7 @@ for i in range(len(temp)):
 	
 	pylab.plot(bucket, retta, color = "red")
 		
-	#pylab.savefig("plot" + str(temp[i]) + ".png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
+	#pylab.savefig("plot" + str(l_temp[i]) + ".png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
 
 	pylab.show()
 
@@ -131,15 +134,15 @@ err = numpy.array(err)
 #err = numpy.delete(err, numpy.array([6, 7]))
 
 #plotto l'andamento in funzione di beta delle surftension fittate
-pylab.figure(num=None, figsize=(12, 6), dpi=80, facecolor='w', edgecolor='k')
-pylab.rc('font',size=13)
-pylab.title('Surface tension', fontsize = "16")
-pylab.xlabel('beta', size = "14")
-pylab.ylabel('sigma', size = "14")
+pylab.figure(num=None, figsize=(12, 8), dpi=80, facecolor='w', edgecolor='k')
+pylab.rc('font',size=20)
+pylab.title('Surface tension vs. $\\beta$', fontsize = "24")
+pylab.xlabel('$\\beta$', size = "20")
+pylab.ylabel('$\\sigma$', size = "20")
 pylab.grid(color = "gray")
-#err = err*10
+err = err*10
 pylab.errorbar(temp, surf, err, 0, "o", color="black")
-#err = err/10
+err = err/10
 
 #Eseguo il fit
 
@@ -183,7 +186,7 @@ for k in range(len(bucket)):
 	
 pylab.plot(bucket, retta, color = "red")
 		
-#pylab.savefig("plot" + str(temp[i]) + ".png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
+pylab.savefig("surface.png", dpi=None, facecolor='w', edgecolor='w', orientation='portrait', papertype=None, format=None, transparent=False, bbox_inches=None, pad_inches=0.1, frameon=None)
 	 
 
 pylab.show()
