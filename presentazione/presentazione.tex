@@ -153,18 +153,6 @@ $
 \end{center}
 \end{frame}
 
-\begin{frame}{General strategy}
-\begin{center}
-\begin{itemize}
-\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
-\item Repeat for different $L$, same $\beta$.
-\item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
-\item Extrapolate $\sigma$ at given $\beta$.
-\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
-\item Fit critical scaling law for $\sigma\left(\beta \right)$.
-\end{itemize}
-\end{center}
-\end{frame}
 
 \begin{frame}
 \begin{center}
@@ -197,6 +185,21 @@ Periodic boundary conditions reduce the finite size effect.\\
 
 \end{center}
 \end{frame}
+
+
+\begin{frame}{General strategy}
+\begin{center}
+\begin{itemize}
+\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
+\item Repeat for different $L$, same $\beta$.
+\item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
+\item Extrapolate $\sigma$ at given $\beta$.
+\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
+\item Fit critical scaling law for $\sigma\left(\beta \right)$.
+\end{itemize}
+\end{center}
+\end{frame}
+
 
 \begin{frame}
 \begin{center}
@@ -523,7 +526,7 @@ We calculate the free energy on the resamples.
 \end{center}
 \end{frame}
 
-\begin{frame}{Estimation of errors}
+\begin{frame}
 \begin{center}
 Statistical error: fluctuation around $\hat{F}_N$ evaluated on resamples.
 
@@ -541,7 +544,7 @@ To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply
 \begin{center}
 By Great Numbers' Law $\hat{F}_N$ is consistent. Is it biased?
 \[
-	\mathbb E \left[\hat{F}_N\right] = F + \frac{\alpha_1}{N} + \frac{\alpha _2}{N} \ldots 
+	\mathbb E \left[\hat{F}_N\right] = F + \frac{\alpha_1}{N} + \frac{\alpha _2}{N^2} \ldots 
 \]
 Jackknife resamples help to construct a less biased estimator
 \[
@@ -603,9 +606,9 @@ Energy proportional to surface area:
 \[
 \mathcal H = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
 \]\\
-%\[
-%	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} \mbox{d}x \int _0 ^{L} 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2
-%\]
+\[
+	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \left( 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2 \right)
+\]
 \vspace{20pt}
 Quartic expansion + 2-Loop calculations:
 \[
