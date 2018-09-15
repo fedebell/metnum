@@ -209,7 +209,7 @@ Solution: $J_{\langle x, y \rangle}$ between top and bottom becomes a \textbf{di
 $J_{\langle x, y \rangle} = 1$ (periodic b.c.)\hspace{10pt}$J_{\langle x, y \rangle} = -1$ (antiperiodic b.c.)\\
 Other $J_{\langle x, y \rangle}$ remains ferromagnetic.
 \[
-Z = \sum_{\lbrace s \rbrace, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
+Z = \sum_{\lbrace s \rbrace, \, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
 \]
 
 {\large \[
@@ -250,13 +250,12 @@ F_S = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z
 
 \end{center}
 \end{frame}
-
 \begin{frame}{Cluster algorithms and boundary flip}
 \begin{center}
 
 Cluster algorithms allow for simultaneous updates of large parts of the lattice. Thus reducing the autocorrelation time and the critical slowling down. Swendsen and Wang (1987).\\
 \vspace{10pt}
-Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ on the lattice:
+Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ on the lattice and in the partition function:
 
 \begin{figure}[!htb]
 \centering
@@ -271,63 +270,16 @@ Introduce link variables $\sigma_{\langle x, y \rangle} = \lbrace 0, 1 \rbrace$ 
 \begin{frame}
 \begin{center}
 
-\begin{gather*}
-Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} e^{ \beta  s_x s_y} = \\[20pt]
-= e ^{ -d V \beta } \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} \left( 1 + \delta_{s_x, s_y} \left( e^{  2 \beta} - 1 \right) \right) = \\[20pt]
-= e^{ -d V \beta} \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle}   \sum_{\lbrace \sigma_{\langle x, y \rangle} = 0,1 \rbrace} \left[ \left( 1 - \sigma_{\langle x, y \rangle} \right)
-+ \sigma_{\langle x, y \rangle} \delta_{s_x, s_y} \left( e^{ 2 \beta } - 1 \right) \right]
-\end{gather*}
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
-Also valid for generic coupling $J_{\langle x, y \rangle}$:
-
-\begin{gather*}
-Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} e^{ \beta  J_{\langle x, y \rangle} s_x s_y} = \\[20pt]
-= e ^{ -d V \beta } \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} \left( 1 + \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \left( e^{  2 \beta} - 1 \right) \right) = \\[20pt]
-= e^{ -d V \beta} \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle}   \sum_{\lbrace \sigma_{\langle x, y \rangle} = 0,1 \rbrace}  \left( 1 - \sigma_{\langle x, y \rangle} \right) + \\
-+ \sigma_{\langle x, y \rangle} \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \left( e^{ 2 \beta } - 1 \right) 
-\end{gather*}
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
-For a fixed spin configuration $\lbrace s \rbrace$ the links are independent.
-\[
-p_0 = p \left( \sigma_{\langle x, y \rangle} = 0 \right)  = \exp \left( - 2 \beta \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \right)
-\]
-\[
-p_1 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
-\]
-
-(if $J_{\langle x, y \rangle} s_x s_y = 1$ the weights in $Z$ are normalized to $e^{2 \beta}$)\\
-\vspace{30pt}
-For simplicity let's put $J_{\langle x, y \rangle} = 1$. For fixed $\sigma_{\langle x, y \rangle}$ only
-configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\langle x, y \rangle} = 1$ have a non zero probability. All configurations of spin that satisfy the constraint have the same weight.
-
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
-
 Definition: a \textbf{cluster} is a set of spins in the lattice path-connected by links with $\sigma_{\langle x, y \rangle} = 1$. If $J_{\langle x, y \rangle} = 1$ all sites of a cluster are forced to have the same spin.
 
 \begin{figure}[!htb]
 \centering
-\includegraphics[scale=0.5]{esempioCluster.png}
+\includegraphics[scale=0.4]{esempioCluster.png}
 \end{figure}
 
+$\lbrace \sigma \rbrace$ uniquely \textbf{identifies} all the clusters. Vice versa given $\lbrace s \rbrace$ we have some probability of generating a given link configuration.
 \end{center}
 \end{frame}
-
 
 \begin{frame}
 \begin{center}
@@ -438,38 +390,6 @@ The hot function of the simulation generates a cluster starting in a given posit
 \end{center}
 \end{frame}
 
-
-\begin{frame}
-
-stack<site> stack
-
-stack.push(seed)
-
-while(!stack.empty())
-
-\quad site current = stack.top()
-
-\quad if(cluster[current] is incostintent) flag = 1;
-
-\quad else if(cluster[current] == 0)
-
-\quad \quad cluster[current] = cluster[old];
-
-\quad \quad for(d = 0; d < 3; d++) 
-
-\quad \quad \quad for(a = -1; a < 2; a = a + 2) 
-
-\quad \quad \quad next = current + a
-
-\quad \quad \quad Check if we are on the boundary
-				
-\quad \quad \quad if(cluster[next] == 0)
-
-\quad \quad \quad \quad if(p > 0 and random < p) stack.push(next)\\
-return flag
-
-\end{frame}
-
 \begin{frame}{Algorithm properties: correlation}
 \begin{center}
 Estimate of integrated correlation time $\tau$: data blocking
@@ -529,13 +449,12 @@ We calculate the free energy on the resamples.
 \begin{frame}
 \begin{center}
 Statistical error: fluctuation around $\hat{F}_N$ evaluated on resamples.
-
 \[
-	\sigma_{F, N-k}^2 = \frac{1}{N_B-1}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\sigma_{F, N-k}^2 = \frac{1}{N_B-1}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
 \]
 To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply to get correct sum of errors.
 \[
-	\sigma_{F_N}^2 = \frac{N_B-1}{N_B}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\sigma_{F_N}^2 = \frac{N_B-1}{N_B}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
 \]
 \end{center}
 \end{frame}
@@ -609,7 +528,6 @@ Energy proportional to surface area:
 \[
 	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \left( 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2 \right)
 \]
-\vspace{20pt}
 Quartic expansion + 2-Loop calculations:
 \[
 F = C + \sigma L ^2 - \log\left( 1 + \frac{1}{4\sigma L^2}\right)
@@ -795,7 +713,64 @@ $\sigma_0$ VERY dependent on  $\mu$ value.
 \end{center}
 \end{frame}
 
+\begin{frame}
+\begin{center}
+
+{\Huge
+Thanks for your attention!
+}
+
+\end{center}
+\end{frame}
+
 \begin{frame}{Backup slides}
+\begin{center}
+
+\begin{gather*}
+Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} e^{ \beta  s_x s_y} = \\[20pt]
+= e ^{ -d V \beta } \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} \left( 1 + \delta_{s_x, s_y} \left( e^{  2 \beta} - 1 \right) \right) = \\[20pt]
+= e^{ -d V \beta} \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle}   \sum_{\lbrace \sigma_{\langle x, y \rangle} = 0,1 \rbrace} \left[ \left( 1 - \sigma_{\langle x, y \rangle} \right)
++ \sigma_{\langle x, y \rangle} \delta_{s_x, s_y} \left( e^{ 2 \beta } - 1 \right) \right]
+\end{gather*}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+Also valid for generic coupling $J_{\langle x, y \rangle}$:
+
+\begin{gather*}
+Z = \sum_{\lbrace s = \pm 1\rbrace} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right) = \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} e^{ \beta  J_{\langle x, y \rangle} s_x s_y} = \\[20pt]
+= e ^{ -d V \beta } \sum_{\lbrace s = \pm 1 \rbrace} \prod_{\langle x, y \rangle} \left( 1 + \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \left( e^{  2 \beta} - 1 \right) \right) = \\[20pt]
+= e^{ -d V \beta} \sum_{\lbrace s \rbrace} \prod_{\langle x, y \rangle}   \sum_{\lbrace \sigma_{\langle x, y \rangle} = 0,1 \rbrace}  \left( 1 - \sigma_{\langle x, y \rangle} \right) + \\
++ \sigma_{\langle x, y \rangle} \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \left( e^{ 2 \beta } - 1 \right) 
+\end{gather*}
+
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+
+For a fixed spin configuration $\lbrace s \rbrace$ the links are independent.
+\[
+p_0 = p \left( \sigma_{\langle x, y \rangle} = 0 \right)  = \exp \left( - 2 \beta \delta_{J_{\langle x, y \rangle} s_x s_y, 1} \right)
+\]
+\[
+p_1 = p \left( \sigma_{\langle x, y \rangle} = 1 \right) = 1 - p \left( \sigma_{\langle x, y \rangle} = 1 \right)
+\]
+
+(if $J_{\langle x, y \rangle} s_x s_y = 1$ the weights in $Z$ are normalized to $e^{2 \beta}$)\\
+\vspace{30pt}
+For simplicity let's put $J_{\langle x, y \rangle} = 1$. For fixed $\sigma_{\langle x, y \rangle}$ only
+configurations of spins that satisfy the constraint $s_x = s_y$ where $\sigma_{\langle x, y \rangle} = 1$ have a non zero probability. All configurations of spin that satisfy the constraint have the same weight.
+
+\end{center}
+\end{frame}
+
+\begin{frame}
 \begin{center}
 {\Large Swendsen and Wang algorithm:}
 
@@ -806,7 +781,7 @@ $\sigma_0$ VERY dependent on  $\mu$ value.
 \end{itemize}
 
 \vspace{20pt}
-The SW is \textbf{ergodic}. It can be prooved it satisfy the \textbf{detailed balance}.
+The SW is \textbf{ergodic}. It can be proved it satisfies the \textbf{detailed balance}.
 
 \end{center}
 \end{frame}
@@ -815,7 +790,7 @@ The SW is \textbf{ergodic}. It can be prooved it satisfy the \textbf{detailed ba
 \begin{center}
 We now prove all our cluster algorithms satisfy the detailed balance condition.\\
 
-In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spin and link configurations: $\lbrace s,  \sigma \rbrace$.
+In the cluster algorithm we update both the spins $\lbrace s \rbrace$ and the links $\lbrace \sigma_{x, y} \rbrace$. The ensamble contains both spins and links configurations: $\lbrace s,  \sigma \rbrace$.
 
 \[
 \frac{P \left( \lbrace s_0, \sigma_0 \rbrace \rightarrow \lbrace s_1, \sigma \rbrace \right)}{ P \left( \lbrace s_1, \sigma_0 \rbrace \rightarrow \lbrace s_0, \sigma \rbrace \right)} = \frac{P \left( \lbrace s_1 \rbrace | \lbrace \sigma, s_0 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_0 \rbrace \right) }{ P \left( \lbrace s_0 \rbrace | \lbrace \sigma, s_1 \rbrace \right) P \left( \lbrace \sigma \rbrace | \lbrace s_1 \rbrace \right) }
@@ -940,6 +915,38 @@ We thus obtain the detailed balance:
 This two observations give rise to two key modification of the SW algorithm: the Wolff algorithm and the boundary flip.
 
 \end{center}
+\end{frame}
+
+
+\begin{frame}
+
+stack<site> stack
+
+stack.push(seed)
+
+while(!stack.empty())
+
+\quad site current = stack.top()
+
+\quad if(cluster[current] is incostintent) flag = 1;
+
+\quad else if(cluster[current] == 0)
+
+\quad \quad cluster[current] = cluster[old];
+
+\quad \quad for(d = 0; d < 3; d++) 
+
+\quad \quad \quad for(a = -1; a < 2; a = a + 2) 
+
+\quad \quad \quad next = current + a
+
+\quad \quad \quad check if we are on the boundary
+				
+\quad \quad \quad if(cluster[next] == 0)
+
+\quad \quad \quad \quad if(p > 0 and random < p) stack.push(next)\\
+return flag
+
 \end{frame}
 
 
