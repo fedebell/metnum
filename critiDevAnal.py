@@ -6,7 +6,7 @@ from scipy.optimize import curve_fit
 import math
 import scipy.stats
 #carico array di beta, dimensioni, misura free energy e relativo errore
-beta, l, F, error = pylab.loadtxt("newData.txt", unpack = "True")
+beta, l, F, error = pylab.loadtxt("newData.txt~", unpack = "True")
 
 temp = []
 surf = []
@@ -26,7 +26,7 @@ def freeEnergy(l, a, b):
 	return b + a * l**2 - numpy.log(1.0 + 0.25/( a * l**2))
 	
 def surfaceTension(b, sigma_0, a_theta, a):
-	return sigma_0*numpy.float_power(abs(1 - 0.2218/b), 1.200)*( 1.0 + a_theta * numpy.float_power(abs(1 - 0.2216544/b), 0.51) + a*abs(1 - 0.2216544/b)) 
+	return sigma_0*numpy.float_power(abs(1 - 0.2218/b), 1.260)*( 1.0 + a_theta * numpy.float_power(abs(1 - 0.2216544/b), 0.51) + a*abs(1 - 0.2216544/b)) 
 	
 def search(element, array):
 	flag = 0

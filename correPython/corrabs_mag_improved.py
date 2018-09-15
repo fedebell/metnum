@@ -6,7 +6,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("0.2391_10_10_30_pureising.txt", unpack =True)
+mag, abs_mag, bc = pylab.loadtxt("..//miscData//0.2391_10_10_30.txt", unpack =True)
 
 i = 1
 varb = []

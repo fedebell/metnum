@@ -9,7 +9,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("0.2391_10_10_30.txt", unpack =True)
+mag, abs_mag, bc = pylab.loadtxt("miscData//0.2391_10_10_30.txt", unpack =True)
 
 i = 1
 varb = []
@@ -60,9 +60,11 @@ tau = 0.5 * varb * n / var
 
 print ("tau = ", tau)
 
-pylab.title('tau')
-pylab.xlabel('block_length')
-pylab.ylabel('tau')
+pylab.figure(num=None, figsize=(12, 8), dpi=80, facecolor='w', edgecolor='k')
+pylab.rc('font',size=20)
+pylab.title('Integrated correlation time  $\\tau$', fontsize = "24")
+pylab.xlabel('Block Length', size = "20")
+pylab.ylabel('$\\tau$', size = "24")
 pylab.grid(color = "gray")
 plt.plot(n, tau)
 plt.show()

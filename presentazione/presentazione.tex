@@ -413,17 +413,29 @@ Asymptotically in $k$ we have:
 \begin{center}
 \begin{figure}
 \centering
-\includegraphics[scale=1.0]{corrbc.jpg}
-\caption{Integrated correlation time for boundary condition value\label{fig:corr}}
+\includegraphics[scale=0.35]{correlation.png}
+\caption{Integrated correlation time for boundary condition value ($\beta = 0.2391, L = 10$)\label{fig:corr}}
 \end{figure}
-$\tau \simeq 1$: low correlation time even for $\beta = 0.2391, L = 10$
-%TODO metropolis correlation time
+$\tau \simeq 1$: low correlation time even for low $T$, big $L$.
 \end{center}
 \end{frame}
 
 \begin{frame}{Algorithm properties: thermalization}
-Thermalization test: Kolmogorov-Smirnov
-If after thermalization time $T$ the distribution of observbables is the same (2 sided KS test) system is in thermal equilibrium.
+\begin{center}
+Thermalization test: 2-sample Kolmogorov-Smirnov on magnetization distribution (almost continuous distribution).
+\[
+	\mbox{Sample A}: x_{T+l}, x_{T+2l},\ldots, x_{T+Nl}
+\]
+\[
+	\mbox{Sample B}: x_{T+(N+1)l}, x_{T+(N+2)l}, \ldots, x_{T+2Nl}
+\]\\
+\vspace{10pt}
+T thermalization time, $N \simeq 1000$, $l\ge \tau$.\\
+\vspace{10pt}
+Thermal equilibrium $\rightarrow$ A,B same distribution (pass KS test).\\
+\vspace{10pt}
+T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
+\end{center}
 \end{frame}
 
 \begin{frame}{Estimation of the errors}
@@ -448,13 +460,13 @@ We calculate the free energy on the resamples.
 
 \begin{frame}
 \begin{center}
-Statistical error: fluctuation around $\hat{F}_N$ evaluated on resamples.
+Statistical error: fluctuation around average $\bar{F}_{N-k}$ evaluated on resamples.
 \[
-\sigma_{F, N-k}^2 = \frac{1}{N_B-1}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\sigma_{F, N-k}^2 = \frac{1}{N_B-1}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \bar{F}_{N-k}\right)^2
 \]
 To relate fluctuation of $N-k$-long samples to $N$-long original sample multiply to get correct sum of errors.
 \[
-\sigma_{F_N}^2 = \frac{N_B-1}{N_B}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \hat{F}_N\right)^2
+\sigma_{F_N}^2 = \frac{N_B-1}{N_B}\sum_i ^{N_B} \left(\hat{F}_{N-k, i} - \bar{F}_{N-k}\right)^2
 \]
 \end{center}
 \end{frame}
@@ -658,7 +670,7 @@ $1.209(6)$ & $1.202(2)$ & $0.22182(1)$ & 5.4\\
 \end{table}
 
 \begin{itemize}
-\item Correct critical exponent from Widom law. %Sì ma lo devi confrontare con gli errori
+\item $\mu$ correct to first digit. ($\mu_{th} = 2\nu_{th} \simeq 1.5-1.6$). %Sì ma lo devi confrontare con gli errori
 \item High $\chi ^2$: points outside scaling region!
 \item High systematics! Need of corrected scaling law.
 \end{itemize}
@@ -679,8 +691,8 @@ Fit result:
 \hline
 $\mu$ & $\sigma_0$ & $a_{\theta}$ & $a$ & $\chi^2/n$ \\
 \hline
-1.200 & 1.124(6) & 0.61(8) & 0.0(2) & 0.6\\
-\hline
+%1.200 & 1.124(6) & 0.61(8) & 0.0(2) & 0.6\\
+%\hline
 1.209 & 1.198(6) & 0.33(7) & 0.4(2) & 0.8\\
 \hline
 1.220 & 1.294(7) & 0.01(7) & 0.8(2) & 1.2\\
@@ -689,8 +701,13 @@ $\mu$ & $\sigma_0$ & $a_{\theta}$ & $a$ & $\chi^2/n$ \\
 \hline
 1.240 & 1.486(7) & -0.53(6) & 1.6(2) & 2.8\\
 \hline
+1.250 & 1.592(8) & -0.79(6) & 2.0(1) & 4.1\\
+\hline
 1.256 & 1.658(8) & -0.93(5) & 2.2(2) & 5.0\\
 \hline
+1.260 & 1.704(8) & -1.03(6) & 2.3(2) & 5.8\\
+\hline
+
 \end{tabular}
 \caption{Improved fit results ($n=3$)\label{tab:fitfinalimproved}}
 \end{table}
