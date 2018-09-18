@@ -203,25 +203,6 @@ Periodic boundary conditions reduce the finite size effect.\\
 
 \begin{frame}
 \begin{center}
-{\Large Montecarlo simulations can't measure $Z$!\\}
-\vspace{10pt}
-Solution: $J_{\langle x, y \rangle}$ between top and bottom becomes a \textbf{dinamical variable} that is summed over in $Z$.\\
-$J_{\langle x, y \rangle} = 1$ (periodic b.c.)\hspace{10pt}$J_{\langle x, y \rangle} = -1$ (antiperiodic b.c.)\\
-Other $J_{\langle x, y \rangle}$ remains ferromagnetic.
-\[
-Z = \sum_{\lbrace s \rbrace, \, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
-\]
-
-{\large \[
-\frac{Z_{+-}}{Z_{++}} = \frac{\frac{Z_{+-}}{Z}}{\frac{Z_{++}}{Z}}=\frac{\langle \delta_{J = -1} \rangle}{\langle \delta_{J = + 1} \rangle}
-\]}
-
-Ratio of measurable expectation values.
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
 We redefine the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ to $\sigma$ when $L \rightarrow \infty$.\\
 \vspace{10pt}
 Thermodynamic limit {\Large $\rightarrow$} only \textbf{one} interface\\
@@ -242,14 +223,33 @@ $F_s$ is the free energy of a single surface. There are $\sim T$ different posit
 
 \[Z_1 = T \exp \left( - F_s \right) = \exp \left( -F_S +\ln T \right) \]
 
-\[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^3}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_S +\ln T \right) \right) \]
+\[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^5}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_S +\ln T \right) \right) \]
 
 \[
 F_S = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right) \quad \sigma = \lim_{L \rightarrow \infty} \frac{F_s}{L^2} \]
 
-
 \end{center}
 \end{frame}
+
+\begin{frame}
+\begin{center}
+{\Large Montecarlo simulations can't measure $Z$!\\}
+\vspace{10pt}
+Solution: $J_{\langle x, y \rangle}$ between top and bottom becomes a \textbf{dinamical variable} that is summed over in $Z$.\\
+$J_{\langle x, y \rangle} = 1$ (periodic b.c.)\hspace{10pt}$J_{\langle x, y \rangle} = -1$ (antiperiodic b.c.)\\
+Other $J_{\langle x, y \rangle}$ remains ferromagnetic.
+\[
+Z = \sum_{\lbrace s \rbrace, \, J} \exp \left( \beta \sum_{\langle x, y \rangle} J_{\langle x, y \rangle} s_x s_y \right)
+\]
+
+{\large \[
+\frac{Z_{+-}}{Z_{++}} = \frac{\frac{Z_{+-}}{Z}}{\frac{Z_{++}}{Z}}=\frac{\langle \delta_{J = -1} \rangle}{\langle \delta_{J = + 1} \rangle}
+\]}
+
+Ratio of measurable expectation values.
+\end{center}
+\end{frame}
+
 \begin{frame}{Cluster algorithms and boundary flip}
 \begin{center}
 
@@ -438,6 +438,22 @@ T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
 \end{center}
 \end{frame}
 
+\begin{frame}{Measures}
+\begin{center}
+\begin{itemize}
+\item Fix $\beta$ and $L$
+\vspace{10pt}
+\item Execute the algorithm
+\vspace{10pt}
+\item At each step of Markov Chain, measure the boundary coupling condition $\delta _{J =-1}$, $\delta_{J=1}$.
+\vspace{10pt}
+\item Calculate the improved reduced free energy $F_s$ of interface at finite $L$.
+\end{itemize}
+\vspace{20pt}
+How can we get $\sigma\left(\beta\right)$ in thermodynamic limit $L\rightarrow \infty$?
+\end{center}
+\end{frame}
+
 \begin{frame}{Estimation of the errors}
 \begin{center}
 We want to estimate reduced free energies $F$ at given $\beta, L$.
@@ -500,6 +516,7 @@ From data: bias $\ll$ statistical uncertainty
 \end{itemize}
 \end{center}
 \end{frame}
+
 
 \begin{frame}
 \begin{center}
@@ -670,7 +687,7 @@ $1.209(6)$ & $1.202(2)$ & $0.22182(1)$ & 5.4\\
 \end{table}
 
 \begin{itemize}
-\item $\mu$ correct to first digit. ($\mu_{th} = 2\nu_{th} \simeq 1.5-1.6$). %Sì ma lo devi confrontare con gli errori
+\item $\mu$ correct to first digit. ($\mu_{th} = 2\nu_{th} \simeq 1.25-1.26$). %Sì ma lo devi confrontare con gli errori
 \item High $\chi ^2$: points outside scaling region!
 \item High systematics! Need of corrected scaling law.
 \end{itemize}
