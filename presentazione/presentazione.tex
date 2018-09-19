@@ -380,6 +380,23 @@ After each update we count if the current configuration has ferromagnetic or ant
 \end{center}
 \end{frame}
 
+\begin{frame}{Recap on the algorithm}
+\begin{center}
+
+\begin{enumerate}
+\item Hot/cold start
+\item Single cluster update
+\item For all sites on the lower boundary we generate the correspondig clusters.
+\item All cluster propagate a variable $c_x$ which changes sign if there is a boundary cross.
+\item  $J_{0, T-1}$ is switched if $c_x$ is consistent on all the lattice.
+\item We repeat from point $2$ $N$ times.
+\item We count the number of configuations whith ferromagnetic and antiferromagnetic boundary coupling.
+\item The ratio of this values is the estimator of $\frac{Z_{+-}}{Z_{++}}$ to be substited in $F_s$.
+\end{enumerate}
+
+
+\end{center}
+\end{frame}
 
 \begin{frame}{Notes on the implementation}
 \begin{center}
