@@ -187,20 +187,6 @@ Periodic boundary conditions reduce the finite size effect.\\
 \end{frame}
 
 
-\begin{frame}{General strategy}
-\begin{center}
-\begin{itemize}
-\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
-\item Repeat for different $L$, same $\beta$.
-\item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
-\item Extrapolate $\sigma$ at given $\beta$.
-\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
-\item Fit critical scaling law for $\sigma\left(\beta \right)$.
-\end{itemize}
-\end{center}
-\end{frame}
-
-
 \begin{frame}
 \begin{center}
 We redefine the free energy of the interface in order to improve the convergence proprieties of $\frac{F_s}{L^2}$ to $\sigma$ when $L \rightarrow \infty$.\\
@@ -221,15 +207,30 @@ For finite $L$ multiple interface can be present. An even number for $Z_{++}$ an
 
 $F_s$ is the free energy of a single surface. There are $\sim T$ different position for the interface.
 
-\[Z_1 = T \exp \left( - F_s \right) = \exp \left( -F_S +\ln T \right) \]
+\[Z_1 = T \exp \left( - F_s \right) = \exp \left( -F_s +\ln T \right) \]
 
-\[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^5}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_S +\ln T \right) \right) \]
+\[ \frac{Z_{+-}}{Z_{++}} = \frac{Z_1 + \frac{Z_1^3}{3!} + \frac{Z_1^5}{5!} + ...}{1 +  \frac{Z_1^2}{2!} + \frac{Z_1^4}{4!} + ...} = \tanh \left( \exp \left( -F_s +\ln T \right) \right) \]
 
 \[
-F_S = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right) \quad \sigma = \lim_{L \rightarrow \infty} \frac{F_s}{L^2} \]
+F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right) \quad \sigma = \lim_{L \rightarrow \infty} \frac{F_s}{L^2} \]
 
 \end{center}
 \end{frame}
+
+
+\begin{frame}{General strategy}
+\begin{center}
+\begin{itemize}
+\item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
+\item Repeat for different $L$, same $\beta$.
+\item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
+\item Extrapolate $\sigma$ at given $\beta$.
+\item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
+\item Fit critical scaling law for $\sigma\left(\beta \right)$.
+\end{itemize}
+\end{center}
+\end{frame}
+
 
 \begin{frame}
 \begin{center}
@@ -390,7 +391,7 @@ After each update we count if the current configuration has ferromagnetic or ant
 \item All cluster propagate a variable $c_x$ which changes sign if there is a boundary cross.
 \item  $J_{0, T-1}$ is switched if $c_x$ is consistent on all the lattice.
 \item We repeat from point $2$ $N$ times.
-\item We count the number of configuations whith ferromagnetic and antiferromagnetic boundary coupling.
+\item We count the number of configurations with ferromagnetic and antiferromagnetic boundary coupling.
 \item The ratio of this values is the estimator of $\frac{Z_{+-}}{Z_{++}}$ to be substited in $F_s$.
 \end{enumerate}
 
@@ -455,28 +456,28 @@ T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
 \end{center}
 \end{frame}
 
-\begin{frame}{Measures}
+\begin{frame}{Data analysis strategy}
 \begin{center}
 \begin{itemize}
-\item Fix $\beta$ and $L$
+\item Measure $F_s$ at given $\beta$, $L$ through estimator
+\item Study statistical uncertainty on $F_s$ estimate.
+\[
+	F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right)
+\]
 \vspace{10pt}
-\item Execute the algorithm
-\vspace{10pt}
-\item At each step of Markov Chain, measure the boundary coupling condition $\delta _{J =-1}$, $\delta_{J=1}$.
-\vspace{10pt}
-\item Calculate the improved reduced free energy $F_s$ of interface at finite $L$.
+\item Get $\sigma\left(\beta\right)$ in thermodynamic limit $L\rightarrow \infty$ from finite size lattice at different $L$.
 \end{itemize}
-\vspace{20pt}
-How can we get $\sigma\left(\beta\right)$ in thermodynamic limit $L\rightarrow \infty$?
+\vspace{10pt}
 \end{center}
 \end{frame}
 
-\begin{frame}{Estimation of the errors}
+\begin{frame}{Estimation of statistical errors}
 \begin{center}
 We want to estimate reduced free energies $F$ at given $\beta, L$.
 \[
-	\hat{F}_N = \frac{\# \text{Antiferromagnetic}}{\# \text{Ferromagnetic}}
+	\hat{F}_N = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{\# J=-1}{\# J=1}}{1 - \frac{\# J =-1}{\# J=1}} \right) \right)
 \]
+
 $N_B$ resamples created via blocked Jackknife.
 
 We divide initial sample in $N_B$ block with fixed length $k\gg \tau$.
@@ -485,7 +486,7 @@ $i$-th resample: all blocks except block $i$
 
 We calculate the free energy on the resamples.
 \[
-	\hat{F}_{N-k, i} = \frac{\sum_ { \mbox{no block i }} \# \text{Antiferromagnetic} }{\sum_ {\mbox{no block i}} \# \text{Ferromagnetic}}
+	\hat{F}_{N-k, i} = = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{\# J=-1 \not\in i}{\# J=1 \not\in i}}{1 - \frac{\# J =-1 \not\in i}{\# J=1 \not\in i}} \right) \right)
 \]
 
 \end{center}
