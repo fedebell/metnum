@@ -26,10 +26,10 @@ mt19937 mt(rd());
 int main() {
 	
 	//Inserire i parametri delle simulazioni, verranno eseguite tutte le possibili combinazioni a meno di aggiunta di condizioni.
-	const vector<long double> Beta = {0.2391};
-	const vector<int> L1 = {30};
-	const vector<int> L2 = {30};
-	const vector<int> T = {30*3};
+	const vector<long double> Beta = {0.223};
+	const vector<int> L1 = {10};
+	const vector<int> L2 = {10};
+	const vector<int> T = {30};
 	
 	int boundary = 1;
 

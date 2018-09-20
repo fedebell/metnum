@@ -219,6 +219,8 @@ int main(int argc, char *argv[]) {
 			}
 			free(cluster);
 			
+			fclose(file);
+			
 			if(parall) return 0;
 		}
 	}

@@ -172,12 +172,12 @@ int main(int argc, char *argv[]) {
 				}
 				
 				for(int a = 0 ; a < l1 ; a++){
-							for(int b = 0 ; b < l2 ; b++){
-								for(int c = 0 ; c < t ; c++){
-									tot_mag += latt[a][b][c];
-								}
-							}
+					for(int b = 0 ; b < l2 ; b++){
+						for(int c = 0 ; c < t ; c++){
+							tot_mag += latt[a][b][c];
 						}
+					}
+				}
 				
 				abs_tot_mag = abs(tot_mag);
 				mag = (double)tot_mag/(l1*l2*t);
@@ -218,6 +218,8 @@ int main(int argc, char *argv[]) {
 				free(cluster[a]);
 			}
 			free(cluster);
+			
+			fclose(file)
 			
 			if(parall) return 0;
 		}
