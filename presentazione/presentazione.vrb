@@ -1,0 +1,18 @@
+
+\begin{verbatim}
+stack<site> stack
+stack.push(seed)
+while(!stack.empty())
+   site current = stack.top()
+   if(cluster[current] is incostintent) flag = 1;
+   else if(cluster[current] == 0)
+      cluster[current] = cluster[old];
+      for(d = 0; d < 3; d++)
+         for(a = -1; a < 2; a = a + 2)
+         next = current + a
+         check if we are on the boundary
+         if(cluster[next] == 0)
+            if(p > 0 and random < p) stack.push(next)
+return flag
+\end{verbatim}
+
