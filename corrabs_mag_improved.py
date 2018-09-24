@@ -6,7 +6,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.22_20_20_60.txt", unpack =True)
+all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.22_15_15_45.txt", unpack =True)
 
 varb = []
 n = []
@@ -23,24 +23,23 @@ for i in range(len(all_mag)):
 		abs_mag[i//2] = all_abs_mag[i]
 
 
-totsum = mag.sum()
+totsum = abs_mag.sum()
 
 #refresh: se non parte da 1 fa casino a dividere in blocchi da 0
 i = 1
-
 #blocking 
-while i < numpy.sqrt(len(mag)): #scorro sui posssibli divisori del numero di eventi
+while i < numpy.sqrt(len(abs_mag)): #scorro sui possibli divisori del numero di eventi
 	#creo array i cui elementi sono le medie dei blocchetti desiderati
 	n.append(i) #salvo la dimensione dei blocchi
 	block = []
 	avg = totsum
-	for cnt in range(len(mag) - (len(mag)//i) * i):
-		avg -= mag[(len(mag)//i) * i + cnt] #tolgo gli elementi in eccesso ,che comunque non vengono passati dal for successivo...
-	avg = avg / (i* (len(mag)//i) ) #true avg	
-	for j in range(len(mag)//i): #scelgo il blocco
+	for cnt in range(len(abs_mag) - (len(abs_mag)//i) * i):
+		avg -= abs_mag[(len(abs_mag)//i) * i + cnt] #tolgo gli elementi in eccesso ,che comunque non vengono passati dal for successivo...
+	avg = avg / (i* (len(abs_mag)//i) ) #true avg	
+	for j in range(len(abs_mag)//i): #scelgo il blocco
 		temp_sum = 0
 		for k in range(i): #mi muovo nel blocco e metto le somme ina una variabile temporanea
-			temp_sum +=  mag[j*i+k] 
+			temp_sum +=  abs_mag[j*i+k] 
 		temp_sum = temp_sum/i #medio la somma
 		block.append(temp_sum)			
 	#calcolo varianza nelle nuove variabili 

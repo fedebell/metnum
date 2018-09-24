@@ -31,7 +31,7 @@ while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di even
 	avg = avg / (i* (len(bc)//i) ) #true avg	
 	for j in range(len(bc)//i): #scelgo il blocco
 		temp_sum = 0
-		for k in range(i): #mi muovo nel blocco e metto le somme ina una variabile temporanea
+		for k in range(i): #mi muovo nel blocco e metto le somme in una variabile temporanea
 			temp_sum +=  bc[j*i+k] 
 		temp_sum = temp_sum/i #medio la somma
 		block.append(temp_sum)			

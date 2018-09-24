@@ -76,8 +76,8 @@ Università di Pisa \\
 \item 3D Ising models
 \item Definition of the surface tension
 \item Cluster algorithms and boundary flip
-\item Notes on the implementation
 \item Estimation of the errors and autocorrelation
+\item Notes on the implementation
 \item Fit of the free energy
 \item Fit of the critical behaviour
 \item Conclusions
@@ -399,14 +399,6 @@ After each update we count if the current configuration has ferromagnetic or ant
 \end{center}
 \end{frame}
 
-\begin{frame}{Notes on the implementation}
-\begin{center}
-
-C++ for the Montecarlo and Jackknife algorithms, Python for data analysis, fits and plots.\\
-\vspace{20pt}
-The hot function of the simulation generates a cluster starting in a given position and exploring the neighbouring links. If a link is chosen to be $\sigma_{\langle x, y \rangle} = 1$ then the adjacent site is included in the cluster and the procedure is repeated. The extra variable $c_x$ is also propagated.
-\end{center}
-\end{frame}
 
 \begin{frame}{Algorithm properties: correlation}
 \begin{center}
@@ -475,7 +467,7 @@ T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
 \begin{center}
 We want to estimate reduced free energies $F$ at given $\beta, L$.
 \[
-	\hat{F}_N = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{\# J=-1}{\# J=1}}{1 - \frac{\# J =-1}{\# J=1}} \right) \right)
+	\hat{F}_N = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{\# J_{-1} + \# J_1}{\# J_1 - \# J_{-1}} \right) \right)
 \]
 
 $N_B$ resamples created via blocked Jackknife.
@@ -486,7 +478,7 @@ $i$-th resample: all blocks except block $i$
 
 We calculate the free energy on the resamples.
 \[
-	\hat{F}_{N-k, i} = = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{\# J=-1 \not\in i}{\# J=1 \not\in i}}{1 - \frac{\# J =-1 \not\in i}{\# J=1 \not\in i}} \right) \right)
+	\hat{F}_{N-k, i}  = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{\# J_{-1, \not\in i} + \# J_{1, \not\in i}}{\# J_{1, \not\in i} - \# J_{-1, \not\in i}} \right) \right)
 \]
 
 \end{center}
@@ -522,6 +514,15 @@ From data: bias $\ll$ statistical uncertainty
 \end{frame}
 
 
+\begin{frame}{Notes on the implementation}
+\begin{center}
+
+C++ for the Montecarlo and Jackknife algorithms, Python for data analysis, fits and plots.\\
+\vspace{20pt}
+The hot function of the simulation generates a cluster starting in a given position and exploring the neighbouring links. If a link is chosen to be $\sigma_{\langle x, y \rangle} = 1$ then the adjacent site is included in the cluster and the procedure is repeated. The extra variable $c_x$ is also propagated.
+\end{center}
+\end{frame}
+
 \begin{frame}
 \begin{center}
 \begin{itemize}
@@ -538,23 +539,30 @@ From data: bias $\ll$ statistical uncertainty
 
 \begin{frame}
 \begin{center}
-We need model to relate $F$ and $L$ at given $\beta$ near $\beta_c$.
-\begin{figure}
-\centering
-\includegraphics[scale=0.30, center]{kink.png}
-\caption{\centering Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases 
-\label{fig:kink}}
-\end{figure}
+\[
+	\sigma = -\lim_{L \rightarrow \infty} \frac{1}{L^2} \log \frac{Z_{+-}}{Z_{++}}
+\]
 
-Near critical point, 3D Ising $\simeq \varphi ^4$. $F$ is related to fluctuations around kink solution.\\
+Quadratic dependence can be improved to better fit $L$ dependence .\\
+\vspace{10pt}
 
+We need a better model to relate $F$ and $L$ at given $\beta$ near $\beta_c$.
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.30, center]{kink.png}
+%\caption{\centering Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases 
+%\label{fig:kink}}
+%\end{figure}
+%
+%Near critical point, 3D Ising $\simeq \varphi ^4$. $F$ is related to fluctuations around kink solution.\\
+%
 \end{center}
 \end{frame}
 
 \begin{frame}{Capillary Wave Model}
 \begin{center}
 \vspace{5pt}
-\textbf{Idea}: instead of doing calculation in $\varphi^4$, focus on the kink interface between the two phases.
+\textbf{Idea}:Focus on the kink interface between the two phases.
 
 \begin{figure}[!htb]
 \centering

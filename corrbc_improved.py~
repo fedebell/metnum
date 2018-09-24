@@ -9,19 +9,42 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("0.22_20_20_60.txt", unpack =True)
+all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.22_15_15_45.txt", unpack =True)
 
-i = 1
 varb = []
 n = []
+
+#scarta dati non termalizzati
+t = len(all_bc)//10
+if t % 2 == 1:
+	print("error!")
+
+if len(all_bc)%2 == 1:
+	print ("error!")
+	 
+bc = numpy.empty(len(all_bc)//2)
+
+i=1
+#i = t
+#creo array solo con cose pari (supersloppy)
+for i in range(len(all_bc)):
+	if i % 2 == 0:
+		bc[i//2] = all_bc[i]
+
+print(len(all_bc))
+print(len(bc))
+
 
 #riscrivo le bc in termini della delta aperiodica
 bc = (-1*bc + 1)/2
 
 totsum = bc.sum()
 
+#refresh
+i = 1
+
 #blocking 
-while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di eventi
+while i < numpy.sqrt(len(bc)): #scorro sui possibli divisori del numero di eventi
 	#creo array i cui elementi sono le medie dei blocchetti desiderati
 	n.append(i) #salvo la dimensione dei blocchi
 	block = []
