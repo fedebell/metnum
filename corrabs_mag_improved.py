@@ -6,7 +6,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.22_15_15_45.txt", unpack =True)
+all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.2275_18_18_54.txt", unpack =True)
 
 varb = []
 n = []
