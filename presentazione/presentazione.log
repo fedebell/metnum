@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.7)  25 SEP 2018 10:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.7)  1 OCT 2018 00:56
 entering extended mode
 **./presentazione.tex
 (presentazione.tex
@@ -1348,7 +1348,7 @@ Package pdftex.def Info: multiple.png used on input line 203.
 ] <link.png, id=95, 626.34pt x 204.765pt>
 File: link.png Graphic file (type png)
  <use link.png>
-Package pdftex.def Info: link.png used on input line 269.
+Package pdftex.def Info: link.png used on input line 271.
 (pdftex.def)             Requested size: 250.53156pt x 81.90454pt.
 
 [11
@@ -1357,7 +1357,7 @@ Package pdftex.def Info: link.png used on input line 269.
 File: esempioCluster.png Graphic file (type png)
 
 <use esempioCluster.png>
-Package pdftex.def Info: esempioCluster.png used on input line 283.
+Package pdftex.def Info: esempioCluster.png used on input line 285.
 (pdftex.def)             Requested size: 166.37865pt x 153.20967pt.
  [12
 
@@ -1365,7 +1365,7 @@ Package pdftex.def Info: esempioCluster.png used on input line 283.
 <wolff.png, id=109, 517.935pt x 242.506pt>
 File: wolff.png Graphic file (type png)
  <use wolff.png>
-Package pdftex.def Info: wolff.png used on input line 301.
+Package pdftex.def Info: wolff.png used on input line 303.
 (pdftex.def)             Requested size: 207.17032pt x 97.00067pt.
  [13
 
@@ -1375,7 +1375,7 @@ Package pdftex.def Info: wolff.png used on input line 301.
 ] <boundaryFlip.png, id=122, 404.51125pt x 481.8pt>
 File: boundaryFlip.png Graphic file (type png)
  <use boundaryFlip.png>
-Package pdftex.def Info: boundaryFlip.png used on input line 334.
+Package pdftex.def Info: boundaryFlip.png used on input line 336.
 (pdftex.def)             Requested size: 202.25513pt x 240.8994pt.
 
 [15
@@ -1386,7 +1386,7 @@ Package pdftex.def Info: boundaryFlip.png used on input line 334.
 File: extra.png Graphic file (type png)
 
 <use extra.png>
-Package pdftex.def Info: extra.png used on input line 366.
+Package pdftex.def Info: extra.png used on input line 368.
 (pdftex.def)             Requested size: 209.28136pt x 241.90315pt.
  [17
 
@@ -1400,10 +1400,10 @@ Package pdftex.def Info: extra.png used on input line 366.
 <correlation.png, id=158, 867.24pt x 574.5465pt>
 File: correlation.png Graphic file (type png)
  <use correlation.png>
-Package pdftex.def Info: correlation.png used on input line 431.
+Package pdftex.def Info: correlation.png used on input line 433.
 (pdftex.def)             Requested size: 303.53854pt x 201.09428pt.
 
-Overfull \vbox (0.98044pt too high) detected at line 431
+Overfull \vbox (0.98044pt too high) detected at line 433
  []
 
 [21
@@ -1425,91 +1425,91 @@ Overfull \vbox (0.98044pt too high) detected at line 431
 ] [29
 
 ]
-<CWM.png, id=210, 659.46375pt x 285.065pt>
-File: CWM.png Graphic file (type png)
- <use CWM.png>
-Package pdftex.def Info: CWM.png used on input line 577.
-(pdftex.def)             Requested size: 263.78082pt x 114.02397pt.
+<kink.png, id=210, 773.89125pt x 470.75874pt>
+File: kink.png Graphic file (type png)
+ <use kink.png>
+Package pdftex.def Info: kink.png used on input line 580.
+(pdftex.def)             Requested size: 232.16916pt x 141.22871pt.
  [30
 
- <./CWM.png>]
-[31
+ <./kink.png>]
+<CWM.png, id=217, 659.46375pt x 285.065pt>
+File: CWM.png Graphic file (type png)
+ <use CWM.png>
+Package pdftex.def Info: CWM.png used on input line 594.
+(pdftex.def)             Requested size: 263.78082pt x 114.02397pt.
+ [31
 
-] <02391.png, id=223, 867.24pt x 433.62pt>
+ <./CWM.png>]
+[32
+
+] <02391.png, id=230, 867.24pt x 433.62pt>
 File: 02391.png Graphic file (type png)
  <use 02391.png>
-Package pdftex.def Info: 02391.png used on input line 603.
+Package pdftex.def Info: 02391.png used on input line 621.
 (pdftex.def)             Requested size: 346.88986pt x 173.44492pt.
- [32
-
- <./02391.png>] <02327.png, id=230, 826.08624pt x 580.1675pt>
-File: 02327.png Graphic file (type png)
- <use 02327.png>
-Package pdftex.def Info: 02327.png used on input line 613.
-(pdftex.def)             Requested size: 330.42863pt x 232.06288pt.
  [33
 
- <./02327.png>] <02275.png, id=237, 825.0825pt x 578.16pt>
-File: 02275.png Graphic file (type png)
- <use 02275.png>
-Package pdftex.def Info: 02275.png used on input line 622.
-(pdftex.def)             Requested size: 330.02715pt x 231.2599pt.
+ <./02391.png>] <02327.png, id=237, 826.08624pt x 580.1675pt>
+File: 02327.png Graphic file (type png)
+ <use 02327.png>
+Package pdftex.def Info: 02327.png used on input line 631.
+(pdftex.def)             Requested size: 330.42863pt x 232.06288pt.
  [34
 
- <./02275.png>] <0225.png, id=244, 834.11626pt x 577.15625pt>
-File: 0225.png Graphic file (type png)
- <use 0225.png>
-Package pdftex.def Info: 0225.png used on input line 632.
-(pdftex.def)             Requested size: 333.6406pt x 230.8584pt.
+ <./02327.png>] <02275.png, id=244, 825.0825pt x 578.16pt>
+File: 02275.png Graphic file (type png)
+ <use 02275.png>
+Package pdftex.def Info: 02275.png used on input line 640.
+(pdftex.def)             Requested size: 330.02715pt x 231.2599pt.
  [35
 
- <./0225.png>] <0224.png, id=251, 813.0375pt x 582.175pt>
-File: 0224.png Graphic file (type png)
- <use 0224.png>
-Package pdftex.def Info: 0224.png used on input line 642.
-(pdftex.def)             Requested size: 325.20924pt x 232.86588pt.
+ <./02275.png>] <0225.png, id=251, 834.11626pt x 577.15625pt>
+File: 0225.png Graphic file (type png)
+ <use 0225.png>
+Package pdftex.def Info: 0225.png used on input line 650.
+(pdftex.def)             Requested size: 333.6406pt x 230.8584pt.
  [36
 
- <./0224.png>]
-<0223.png, id=258, 816.04875pt x 576.1525pt>
-File: 0223.png Graphic file (type png)
- <use 0223.png>
-Package pdftex.def Info: 0223.png used on input line 652.
-(pdftex.def)             Requested size: 326.41371pt x 230.45691pt.
+ <./0225.png>] <0224.png, id=258, 813.0375pt x 582.175pt>
+File: 0224.png Graphic file (type png)
+ <use 0224.png>
+Package pdftex.def Info: 0224.png used on input line 660.
+(pdftex.def)             Requested size: 325.20924pt x 232.86588pt.
  [37
 
- <./0223.png>]
-[38
+ <./0224.png>]
+<0223.png, id=266, 816.04875pt x 576.1525pt>
+File: 0223.png Graphic file (type png)
+ <use 0223.png>
+Package pdftex.def Info: 0223.png used on input line 670.
+(pdftex.def)             Requested size: 326.41371pt x 230.45691pt.
+ [38
 
-] <sbeta.png, id=272, 867.24pt x 433.62pt>
+ <./0223.png>]
+[39
+
+] <sbeta.png, id=279, 867.24pt x 433.62pt>
 File: sbeta.png Graphic file (type png)
  <use sbeta.png>
-Package pdftex.def Info: sbeta.png used on input line 696.
+Package pdftex.def Info: sbeta.png used on input line 714.
 (pdftex.def)             Requested size: 346.88986pt x 173.44492pt.
- [39
+ [40
 
- <./sbeta.png>] [40
+ <./sbeta.png>] [41
 
-] [41
+] [42
 
-] <tableauthors.png, id=292, 466.1415pt x 292.6935pt>
-File: tableauthors.png Graphic file (type png)
+] [43
 
-<use tableauthors.png>
-Package pdftex.def Info: tableauthors.png used on input line 777.
-(pdftex.def)             Requested size: 186.4533pt x 117.07532pt.
- [42
-
- <./tableauthors.png>] [43
+] [44
 
 ]
-Overfull \hbox (4.7819pt too wide) in paragraph at lines 800--800
+Overfull \hbox (4.7819pt too wide) in paragraph at lines 843--843
  [] 
  []
 
-[44
-
-] [45
+[45
 
 ] [46
 
@@ -1529,6 +1529,8 @@ Overfull \hbox (4.7819pt too wide) in paragraph at lines 800--800
 
 ] [54
 
+] [55
+
 ]
 \openout4 = `presentazione.vrb'.
 
@@ -1542,7 +1544,7 @@ Overfull \hbox (19.90523pt too wide) in paragraph at lines 15--15
 []            \T1/cmtt/m/n/12 if(p > 0 and random < p) stack.push(next)[] 
  []
 
-) [55
+) [56
 
 ]
 \tf@nav=\write6
@@ -1554,11 +1556,11 @@ Overfull \hbox (19.90523pt too wide) in paragraph at lines 15--15
 \tf@snm=\write8
 \openout8 = `presentazione.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1008.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1008.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1051.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1051.
  (presentazione.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1008.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1008.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1051.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1051.
 
 Package rerunfilecheck Info: File `presentazione.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
@@ -1568,10 +1570,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 18797 strings out of 493323
- 346417 string characters out of 3139047
- 420541 words of memory out of 3000000
- 21723 multiletter control sequences out of 15000+200000
+ 18803 strings out of 493323
+ 346428 string characters out of 3139047
+ 421564 words of memory out of 3000000
+ 21726 multiletter control sequences out of 15000+200000
  26105 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,15n,73p,809b,678s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1605,9 +1607,9 @@ e1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/
 msbm10.pfb>
-Output written on presentazione.pdf (55 pages, 801338 bytes).
+Output written on presentazione.pdf (56 pages, 764654 bytes).
 PDF statistics:
- 783 PDF objects out of 1000 (max. 8388607)
- 117 named destinations out of 1000 (max. 500000)
+ 793 PDF objects out of 1000 (max. 8388607)
+ 120 named destinations out of 1000 (max. 500000)
  143 words of extra memory for PDF output out of 10000 (max. 10000000)
 

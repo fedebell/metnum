@@ -223,6 +223,8 @@ F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z
 \begin{itemize}
 \item Measure $F_s$ on finite lattice size $L$ at given $\beta$ near $\beta_c$.
 \item Repeat for different $L$, same $\beta$.
+\item Ideally: calculate $\sigma$ from its definition
+\item Spoiler: we will need a better relation to fit at low $L$, $\beta$.
 \item Find a theoretical formula to link $F_s(L)$ and $\sigma$.
 \item Extrapolate $\sigma$ at given $\beta$.
 \item Repeat the above procedure for different $\beta$, finding different $\sigma \left(\beta \right)$.
@@ -451,13 +453,22 @@ T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
 \begin{frame}{Data analysis strategy}
 \begin{center}
 \begin{itemize}
-\item Measure $F_s$ at given $\beta$, $L$ through estimator
-\item Study statistical uncertainty on $F_s$ estimate.
+\item Measure $F_s$ at given $\beta$, $L$ through appropriate estimator.
+
 \[
 	F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right)
 \]
+
+\item Study statistical uncertainty on $F_s$ estimate.
+
 \vspace{10pt}
 \item Get $\sigma\left(\beta\right)$ in thermodynamic limit $L\rightarrow \infty$ from finite size lattice at different $L$.
+
+\[
+	\sigma \left( \beta \right) = \lim_{L \rightarrow \infty} \frac{F_s \left(\beta, L \right)}{L^2}
+\]
+
+\item We will need to find a theoretical model to find a better  relationship between $\sigma\left(\beta \right), L$.
 \end{itemize}
 \vspace{10pt}
 \end{center}
@@ -550,29 +561,35 @@ Quadratic dependence can be improved to better fit $L$ dependence .\\
 \vspace{10pt}
 
 We need a better model to relate $F$ and $L$ at given $\beta$ near $\beta_c$.
-%\begin{figure}
-%\centering
-%\includegraphics[scale=0.30, center]{kink.png}
-%\caption{\centering Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases 
-%\label{fig:kink}}
-%\end{figure}
-%
-%Near critical point, 3D Ising $\simeq \varphi ^4$. $F$ is related to fluctuations around kink solution.\\
-%
+
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\begin{center}
+Consider $\varphi$ average magnetization.
+\begin{figure}
+\centering
+\includegraphics[scale=0.30, center]{kink.png}
+\caption{\centering Semiclassical "kink" solution for average magnetization $\varphi$ between 2 phases 
+\label{fig:kink}}
+\end{figure}
+Near critical point + antiferromagnetic coupling: partition function is dominated by semiclassical kink solution connecting two phases.\\
 \end{center}
 \end{frame}
 
 \begin{frame}
 \begin{center}
 \vspace{5pt}
-\textbf{Idea}:Focus on the kink interface between the two phases.
+\textbf{Idea}: Focus on the kink interface between the two phases.
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[scale=0.4]{CWM.png}
 \caption{\centering Effective 2D description of the interface.}
 \end{figure}
-
+Interface : smooth 2D function (neglecting handles/other features)
 \end{center}
 \end{frame}
 
@@ -583,12 +600,13 @@ Energy proportional to surface area:
 \[
 \mathcal H = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \sqrt{1 + \left(\frac{\partial h}{\partial x}\right)^2 + \left(\frac{\partial h}{\partial y}\right)^2}
 \]\\
+Quartic expansion:
 \[
 	\mathcal H  = \sigma\left(\beta \right) \int _0 ^{L} dx \int _0 ^{L} dy \left( 1 + \frac{1}{2}\left(\nabla{h}\right) ^2 - \frac{1}{8}\left(\left(\nabla{h}\right) ^2\right) ^2 \right)
 \]
-Quartic expansion + 2-Loop calculations:
+From 2-Loop calculations of partition function $Z$:
 \[
-F = C + \sigma L ^2 - \log\left( 1 + \frac{1}{4\sigma L^2}\right)
+F = -\log Z = C + \sigma L ^2 - \log\left( 1 + \frac{1}{4\sigma L^2}\right)
 \]
 \end{center}
 \end{frame}
@@ -764,15 +782,40 @@ $\sigma_0$ VERY dependent on  $\mu$ value.
 
 \begin{frame}{Conclusions}
 \begin{center}
-\begin{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[scale=0.4]{tableauthors.png}
+%\caption{Previous results for $\sigma_0$ in 3D Ising\label{fig:authors}}
+%\end{figure}
+\begin{table}[!htb]
 \centering
-\includegraphics[scale=0.4]{tableauthors.png}
-\caption{Previous results for $\sigma_0$ in 3D Ising\label{fig:authors}}
-\end{figure}
-\begin{itemize}
-\item Our result for $\sigma_0$ agree with other results.
-\item Need for better theoretical understanding of parameters of the theory ($\mu$).
-\end{itemize}
+\scalebox{0.8}{
+\begin{tabular}{ccc}
+\hline
+Year & Author(s) & $\sigma_0$ \\
+\hline
+1982 & Binder & 1.05(5) \\
+1984 & Mon and Jasnow & 1.2(1)\\
+1988 & Mon & 1.58(5)\\
+1992 & Klessinger and Munster & 1.29-1.64\\
+1993 & Berg et al. & 1.52(5)\\
+1993 & Ito & 1.42(4)\\
+1993 & Hasenbusch and Pinn & 1.22-1.49\\
+1993 & Hasenbusch & 1.5(1)\\
+1993 & Gausterer et al. & 1.92(15)\\
+1994 & Caselle et al. & 1.32-1.55\\
+1996 & Zinn and Fisher & 1.50(1)\\
+1997 & Hasenbusch and Pinn & 1.55(5)\\
+\hline
+\end{tabular}
+}
+\caption{Previous results for $\sigma_0$\label{tab:results}}
+\end{table}
+
+Our result for $\sigma_0$ agree with other results.\\
+
+Need for better theoretical understanding of parameters of the theory ($\mu$).
+
 \end{center}
 \end{frame}
 
