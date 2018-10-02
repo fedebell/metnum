@@ -456,7 +456,7 @@ T $\simeq 5-10\%$ of total events passes the test for $l \ge 3$
 \item Measure $F_s$ at given $\beta$, $L$ through appropriate estimator.
 
 \[
-	F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{1 + \frac{Z_{+-}}{Z_{++}}}{1 - \frac{Z_{+-}}{Z_{++}}} \right) \right)
+	F_s = \ln \left( T \right) - \ln \left( \frac{1}{2} \ln \left( \frac{\langle \delta_{J = +1} \rangle + \langle \delta_{J = -1} \rangle}{\langle \delta_{J = +1} \rangle - \langle \delta_{J = -1} \rangle} \right) \right)
 \]
 
 \item Study statistical uncertainty on $F_s$ estimate.
@@ -527,17 +527,16 @@ From data: bias $\ll$ statistical uncertainty
 
 \begin{frame}{Notes on the implementation}
 \begin{center}
-
-C++ for the Montecarlo and Jackknife algorithms, Python for data analysis, fits and plots.\\
-\vspace{20pt}
-The hot function of the simulation generates a cluster starting in a given position and exploring the neighbouring links. If a link is chosen to be $\sigma_{\langle x, y \rangle} = 1$ then the adjacent site is included in the cluster and the procedure is repeated. The extra variable $c_x$ is also propagated.
-\end{center}
-\end{frame}
-
-\begin{frame}
-\begin{center}
 \begin{itemize}
+
+\item C++ for the Montecarlo and Jackknife algorithms, Python for data analysis, fits and plots.\\
+\vspace{10pt}
+%The hot function of the simulation generates a cluster starting in a given position and exploring the neighbouring links. If a link is chosen to be $\sigma_{\langle x, y \rangle} = 1$ then the adjacent site is included in the cluster and the procedure is repeated. The extra variable $c_x$ is also propagated.
+
+
 \item The simulations were executed with $N = 10^6$ steps of the Markov chain.\\
+\vspace{10pt}
+\item Simulations for $L$ in 4-30, $\beta$ in 0.223-0.2391.\\
 \vspace{10pt}
 \item The first $10\%$ of the Markov chain is ignored to avoid non-termalized configurations.\\
 \vspace{10pt}
@@ -554,7 +553,7 @@ We have $F$ estimates with errors.\\
 \vspace{10pt}
 From $\sigma$ definition:
 \[
-	\sigma = \lim_{L \rightarrow \infty} \frac{F_s}{L^2}
+	\sigma\left(\beta \right) = \lim_{L \rightarrow \infty} \frac{F_s\left(L, \beta \right)}{L^2}
 \]
 
 Quadratic dependence can be improved to better fit $L$ dependence.\\
@@ -608,6 +607,7 @@ From 2-Loop calculations of partition function $Z$:
 \[
 F = -\log Z = C + \sigma L ^2 - \log\left( 1 + \frac{1}{4\sigma L^2}\right)
 \]
+For large $L$ it reduces to old definition!
 \end{center}
 \end{frame}
 
