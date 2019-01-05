@@ -2,8 +2,9 @@
 
 #include <iostream>
 #include <vector>
-#include <fstream>
 #include <random>
+#include <fstream>
+#include <sstream>
 #include <stack>
 #include <unistd.h>
 #include <signal.h>
@@ -11,24 +12,17 @@
 #include <cstring>
 #include <cmath>
 #include <sys/prctl.h>
+#include <iomanip>
+#include <limits>
 
 using namespace std;
 
 //Inserire il numero di iterazioni
 #define N 1000000
 //Percentuale iniziale rimossa dalla catena di Markov perché si considera termalizzazione.
-#define frac 5
+#define frac 10
 //Variabili che controllano il jackknife
-#define start 10000
-#define lenght 30
-#define step 30
-
-int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
-int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
-void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
-void hotStart(int*** latt, int l1, int l2 , int t);
-void coldStart(int*** latt, int l1, int l2, int t, int spin);
-double jackknife(int* boundary, int size, int* blockDimentions, int len, double t);
+#define lenght 40
 
 typedef struct {
 	int c[3];
@@ -37,8 +31,16 @@ typedef struct {
 } site;
 
 typedef struct {
-	int c[3];
-} siteS;
+	double value;
+	double error;
+} F_mod;
+
+int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t, long double beta, int i, int j, int k, uniform_real_distribution<long double>*  distribution);
+int surfaceCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_real_distribution<long double>*  distribution);
+void singleCluster(int*** latt,  int*** cluster, int boundary, int l1, int l2, int t, long double beta, uniform_int_distribution<int>* distr_l1, uniform_int_distribution<int>* distr_l2, uniform_int_distribution<int>* distr_t, uniform_real_distribution<long double>*  distribution);
+void hotStart(int*** latt, int l1, int l2 , int t);
+void coldStart(int*** latt, int l1, int l2, int t, int spin);
+F_mod jackknife(int* boundary, int size, int* blockDimentions, int len, int t);
 
 
 random_device rd;
@@ -72,11 +74,14 @@ int main(int argc, char *argv[]) {
 	
 	for (int i = 0; i < Beta.size()*L.size(); i++) pids[i] = 0; 
 	
-	int blockDimentions[lenght] = {0};
-	for(int i = 0; i < lenght; i++) blockDimentions[i] = start+i*step;
+	//int blockDimentions[lenght] = {30, 32, 36, 40, 45, 48, 50, 60, 72, 75, 80, 90, 96, 100, 120, 125, 144, 150, 160, 180, 200, 225, 240, 250, 288, 300, 360, 375, 400, 450, 480, 500, 600, 625, 720, 750, 800, 900, 1000, 1125, 1200, 1250, 1440, 1500, 1800, 1875, 2000, 2250, 2400, 2500, 3000, 3125, 3600, 3750, 4000, 4500, 5000, 5625, 6000, 6250, 7200, 7500, 9000, 9375, 10000};
+	
+	int blockDimentions[lenght] = {300, 360, 375, 400, 450, 480, 500, 600, 625, 720, 750, 800, 900, 1000, 1125, 1200, 1250, 1440, 1500, 1800, 1875, 2000, 2250, 2400, 2500, 3000, 3125, 3600, 3750, 4000, 4500, 5000, 5625, 6000, 6250, 7200, 7500, 9000, 9375, 10000};
 	
 	int boundary = 1;
 	int measure[N-(N/100)*frac] = {0}; 
+	
+	F_mod result = {0.0, 0.0};
 	
 	if(parall) cout << "Per interrompere la simulazione digitare 1 (più invio). Al termine della simulazione per terminare il programma digitare 0 (più invio)." << endl;
 			
@@ -112,8 +117,6 @@ int main(int argc, char *argv[]) {
 				return -1;
 			}	
 			
-			fstream file;
-			file.open("data.txt");
 			
 			//Una di queste distribuzioni è inutile
   			uniform_int_distribution<int> distr_l1(0,l1-1);
@@ -142,66 +145,39 @@ int main(int argc, char *argv[]) {
 						
 			//Inserire la condizione di partenza
 			hotStart(latt, l1, l2, t);
-				
-			int per = 0; 
-			int aper = 0;
-			
-			int tot_mag = 0;
-			int abs_tot_mag = 0;
-			long double mag = 0.0;
-			long double abs_mag = 0.0;
 			
 			for(int rep = 0; rep < N; rep++) {
-			
-				tot_mag = 0;
-				abs_tot_mag = 0;
-				mag = 0.0;
-				abs_mag = 0.0;
 				
 				//if(rep % 10000 == 0) cout << "beta = " << beta << " l = " << l1 << " rep = " << rep << endl; 
 										
 				if(rep % 2 == 0)singleCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distr_t, &distribution);
 				else boundary = surfaceCluster(latt, cluster, boundary, l1, l2, t, beta, &distr_l1, &distr_l2, &distribution);
 
-				if(rep >= (N/100)*frac) {
-					
-					if(boundary == 1) per += 1;
-					else aper += 1;
-
+				if(rep >= (N/100)*frac)
 					measure[rep-(N/100)*frac] = boundary;
-				}
-				
-				for(int a = 0 ; a < l1 ; a++){
-					for(int b = 0 ; b < l2 ; b++){
-						for(int c = 0 ; c < t ; c++){
-							tot_mag += latt[a][b][c];
-						}
-					}
-				}
-				
-				abs_tot_mag = abs(tot_mag);
-				mag = (double)tot_mag/(l1*l2*t);
-				abs_mag = (double)abs_tot_mag/(l1*l2*t);
-				file << mag << "\t" << abs_mag << "\t" << boundary << endl;
 			}
 			
-			double Aper = double(aper);
-			double Per = double(per);
-			double td = double(t);
 					
-			double F_mod = log(td) - log( 0.5 * log((1.0+ Aper/Per)/(1.0 - Aper/Per)));	
-			
-			//Jacknife
-			double error = 0.0;
-			error = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, td);
+			result = jackknife(measure, N-(N/100)*frac, blockDimentions, lenght, t);
 					
 			//int fine = (clock() - init)/CLOCKS_PER_SEC;
 					
 			/*cout << "********************************************************************************************" << endl;
 			cout << "l1 = " << l1 << "\t" "l2 = " << l2 << "\t" << "t = " << t << "\t"  << "beta = " << beta << "\t" << " s"  << endl;
 			cout  << "Aper/Tot = " << Aper/(N) << "\t" << "Aper/Per = " << Aper/Per << "\t" << "F_s = " << -log(Aper) + log(Per) + log(td) << "\t" << "F_si = " << F_mod << "+/-" << error << endl;*/
+			
+			cout << beta << "\t" << l1 << "\t" << result.value << setprecision(10) << "\t" << result.error << setprecision(10) << endl << flush;
+			
+			//per ogni condizione data scrivo nuovo file il cui nome sarà nel formato beta_l1_l2_t
+			ofstream file;
+			ostringstream beta_str, l1_str;
+					
+			beta_str << beta;
+			l1_str << l1;
 
-			cout << beta << "\t" << l1 << "\t" << F_mod << "\t" << error << endl << flush;
+			file.open ("data" + beta_str.str() + ":" + l1_str.str() + ".txt");
+			
+			file << beta << "\t" << l1 << "\t" << result.value << setprecision(10) << "\t" << result.error << setprecision(10) << endl << flush;
 				
 			for(int a = 0 ; a < l1 ; a++) {
 				for(int b = 0; b < l2; b++) {
@@ -219,7 +195,7 @@ int main(int argc, char *argv[]) {
 			}
 			free(cluster);
 			
-			fclose(file);
+			file.close();
 			
 			if(parall) return 0;
 		}
@@ -255,26 +231,28 @@ int main(int argc, char *argv[]) {
 }
 
 
-double jackknife(int* boundary, int size, int* blockDimentions, int len, double t) {
+F_mod jackknife(int* boundary, int size, int* blockDimentions, int len, int t) {
 
-	int avgP = 0;
-	int avgAP = 0;
-	double davgP = 0.0;
-	double davgAP = 0.0;
+	int avgP = 0, avgAP = 0, Nb = 0;
 	
-	double media = 0.0;
-	double sum = 0.0;
-	int Nb = 0;
-	double F_mod = 0.0;
+	double media = 0.0, sum = 0.0, F_biased = 0.0;
+	
+	double* F_unbiased = (double*) malloc (len * sizeof(double));
 
 	double* block = 0;
 	double* vars = (double*) malloc (len * sizeof(double));
 	
-	int i = 0;
-	int j = 0;
-	int k = 0;
-	int count = 0;
+	F_mod finalValue = {0.0, 0.0};
 	
+	int i = 0, j = 0, k = 0, count = 0;
+	
+	for(i = 0; i < size; i++) {
+		if(boundary[i] == 1) avgP += 1;
+		else avgAP += 1;
+	}
+	
+	F_biased = log((double) t) - log( 0.5 * log( (1.0 + ( (double) avgAP) / ( (double) avgP )) / (1.0 - ( (double) avgAP) / ( (double) avgP ) ) ) ) ;
+	 
 	for(i = 0; i < len; i++) {
 	
 		Nb = size/blockDimentions[i];
@@ -297,30 +275,41 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 			}
 			//cout << "Periodic average =" << avgP << endl;
 			//cout << "AntiPeriodic average = " << avgAP << endl;
-			davgP = double(avgP);
-			davgAP = double(avgAP);
-			F_mod = t - log( 0.5 * log( (1.0 + davgAP/davgP) / (1.0 - davgAP/davgP) ));
+
+			block[j] = log((double) t) - log( 0.5 * log( ( 1.0 + ( (double) avgAP) / ( (double) avgP )) / (1.0 - ( (double) avgAP) / ( (double) avgP )) ) );
+			//cout << ( (double) avgAP)/ ( (double) avgP )) )  << endl;
 			
 			//cout << "F_mod = " << F_mod << endl;
 			
-			block[j] = F_mod;
+			
 		}
+		
+		
 		
 		//Calcolo la varianza
 		
 		media = 0.0;
-		for(j = 0; j < Nb; j++) media += block[j];	
-		media /= Nb;
+		for(j = 0; j < Nb; j++) {
+			media += block[j];
+			//cout << block[i] << endl;
+		}
 		
+		//FIXME: Qui metterci lo stimatore unbiased
+		//F_unbiased[i] = Nb * F_biased - ((( (double) Nb - 1.0) * (double) blockDimentions[i])/( (double) Nb * (double) blockDimentions[i])) * media;
+			
+		media /= (double) Nb;
 		
+		F_unbiased[i] = (Nb) * F_biased - ( Nb - 1) * media;  
 		
 		//cout << "Media = " << media;
 		
 		sum = 0.0;
 		for(j = 0; j < Nb; j++) sum += (block[j] - media)*(block[j] - media);
-		sum /= (double(Nb) - 1.0)/double(Nb);
+		sum /= (((double) Nb) - 1.0)/((double) Nb);
 		
-		vars[i] = sum;
+		vars[i] = sqrt(sum);
+		
+		//if((i == 1) || (i == 20)) cout << Nb << "\t" << F_unbiased[i] << "\t" << F_biased << "\t" << media << "\t" << vars[i] << endl;
 
 		free(block);
 	}
@@ -334,9 +323,26 @@ double jackknife(int* boundary, int size, int* blockDimentions, int len, double 
 	}
 	media /= double(len);
 	
+	finalValue.error = media;
+	
+	//Eseguo la media di tutti i valori unbiased
+	
+	
+	media = 0.0;
+	for(int i = 0; i < len; i++) {
+		media += F_unbiased[i];
+		//cout << vars[i] << endl;
+	}
+	media /= double(len);
+	
+	//Eseguo la media di tutti i valori unbiased
+	
+	finalValue.value = media;
+	
+	free(F_unbiased);
 	free(vars);
 	
-	return sqrt(media);
+	return finalValue;
 }
 	
 	
@@ -402,7 +408,6 @@ int clusterize(int*** latt, int*** cluster, int boundary, int l1, int l2, int t,
 					if(next.c[d] == size[d]) { next.c[d] = 0; if(d == 2) next.cross = 1;}
 					else if(next.c[d] == -1) { next.c[d] = size[d] - 1; if(d == 2) next.cross = 1;}
 					
-					//Conviene o no togliere questo if... secondo me no.
 					if(cluster[next.c[0]][next.c[1]][next.c[2]] == 0) {
 						if( (((next.cross == 1) ? boundary : 1) * latt[current.c[0]][current.c[1]][current.c[2]]*latt[next.c[0]][next.c[1]][next.c[2]]) == 1) {
 							p = (1.0 - exp(-2 * beta));

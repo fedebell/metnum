@@ -9,7 +9,7 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("0.22_20_20_60.txt", unpack =True)
+mag, abs_mag, bc = pylab.loadtxt("0.223_5_5_15.txt", unpack =True)
 
 i = 1
 varb = []
@@ -31,7 +31,7 @@ while i < numpy.sqrt(len(bc)): #scorro sui posssibli divisori del numero di even
 	avg = avg / (i* (len(bc)//i) ) #true avg	
 	for j in range(len(bc)//i): #scelgo il blocco
 		temp_sum = 0
-		for k in range(i): #mi muovo nel blocco e metto le somme ina una variabile temporanea
+		for k in range(i): #mi muovo nel blocco e metto le somme in una variabile temporanea
 			temp_sum +=  bc[j*i+k] 
 		temp_sum = temp_sum/i #medio la somma
 		block.append(temp_sum)			

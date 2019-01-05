@@ -6,16 +6,29 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-mag, abs_mag, bc = pylab.loadtxt("..//miscData//0.2391_10_10_30.txt", unpack =True)
+all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.2275_18_18_54.txt", unpack =True)
 
-i = 1
 varb = []
 n = []
 
+if len(all_abs_mag) % 2 == 1:
+	print ("error!")
+	 
+abs_mag = numpy.empty(len(all_abs_mag)//2)
+
+
+#creo array solo con cose pari (supersloppy)
+for i in range(len(all_mag)):
+	if i % 2 == 0:
+		abs_mag[i//2] = all_abs_mag[i]
+
+
 totsum = abs_mag.sum()
 
+#refresh: se non parte da 1 fa casino a dividere in blocchi da 0
+i = 1
 #blocking 
-while i < numpy.sqrt(len(abs_mag)): #scorro sui posssibli divisori del numero di eventi
+while i < numpy.sqrt(len(abs_mag)): #scorro sui possibli divisori del numero di eventi
 	#creo array i cui elementi sono le medie dei blocchetti desiderati
 	n.append(i) #salvo la dimensione dei blocchi
 	block = []

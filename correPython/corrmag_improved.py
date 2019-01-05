@@ -6,21 +6,26 @@ import math
 import scipy.stats
 import matplotlib.pyplot as plt
 
-all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.22_20_20_60.txt", unpack =True)
+all_mag, all_abs_mag, all_bc = pylab.loadtxt("miscData//0.2275_18_18_54.txt", unpack =True)
 
 varb = []
 n = []
 
-if len(all_abs_mag) % 2 == 1:
+if len(all_mag) % 2 == 1:
 	print ("error!")
-	 
-abs_mag = numpy.empty(len(all_abs_mag)//2)
+
+#scarta dati non termalizzati
+t = len(all_bc)//10
+if t % 2 == 1:
+	print("error!")
+
+mag = numpy.empty(len(all_mag)//2)
 
 
 #creo array solo con cose pari (supersloppy)
 for i in range(len(all_mag)):
 	if i % 2 == 0:
-		abs_mag[i//2] = all_abs_mag[i]
+		mag[(i)//2] = all_mag[i]
 
 
 totsum = mag.sum()
@@ -29,7 +34,7 @@ totsum = mag.sum()
 i = 1
 
 #blocking 
-while i < numpy.sqrt(len(mag)): #scorro sui posssibli divisori del numero di eventi
+while i < 10 * numpy.sqrt(len(mag)): #scorro sui posssibli divisori del numero di eventi
 	#creo array i cui elementi sono le medie dei blocchetti desiderati
 	n.append(i) #salvo la dimensione dei blocchi
 	block = []
